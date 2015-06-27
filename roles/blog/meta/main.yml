@@ -1,0 +1,7 @@
+---
+dependencies:
+  - apache
+  - git
+  - mysql
+  - php-fpm
+  - squid

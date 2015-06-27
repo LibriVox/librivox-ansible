@@ -1,0 +1,12 @@
+# LV fine tuning
+
+[mysqld]
+
+table_open_cache = 750
+join_buffer_size = 256K
+tmp_table_size = 32M
+max_heap_table_size = 32M
+innodb_buffer_pool_size = {{ innodb_buffer_pool_size }}
+innodb_file_per_table
+innodb_log_file_size = 256M
+innodb_flush_log_at_trx_commit = 2

@@ -1,0 +1,16 @@
+---
+- name: tls directory
+  file: path=/librivox/tls state=directory recurse=true
+
+- name: Private key
+  copy:
+    content: '{{ ssl_private_key }}'
+    dest: /librivox/tls/star.librivox.org.key
+
+- name: LV certificate
+  copy:
+    src: star.librivox.org.cert
+    dest: /librivox/tls/star.librivox.org.cert
+
+- name: CA certificate
+  copy: src=AlphaSSL-ca.cert dest=/librivox/tls/AlphaSSL-ca.cert

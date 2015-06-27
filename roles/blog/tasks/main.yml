@@ -1,0 +1,72 @@
+---
+- name: Generate password
+  local_action: command makepasswd
+  register: blog_db_password
+
+- name: Database user
+  mysql_user:
+    name: librivox_blog
+    password: "{{ blog_db_password.stdout }}"
+    priv: librivox_blog.*:ALL
+    host: localhost
+    state: present
+
+- name: DocumentRoot
+  file: path=/librivox/www/librivox.org state=directory
+
+- name: Download WordPress
+  get_url:
+    url: https://wordpress.org/latest.tar.gz
+    dest: /tmp/wordpress.tar.gz
+
+- name: Extract WordPress
+  unarchive:
+    src: /tmp/wordpress.tar.gz
+    dest: /librivox/www/librivox.org
+    copy: false
+
+- name: LibriVox theme from git
+  git:
+    repo: https://github.com/LibriVox/librivox-wordpress-theme.git
+    dest: /librivox/www/librivox.org/wordpress/wp-content/themes/librivox
+
+- name: WP Salt
+  local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
+  register: "wp_salt"
+ 
+- name: wp-config.php
+  template:
+    src: wp-config.php
+    dest: /librivox/www/librivox.org/wordpress/wp-config.php
+
+- name: Install unzip
+  apt: name=unzip state=latest
+
+- name: Download ACF
+  get_url:
+    url: https://downloads.wordpress.org/plugin/advanced-custom-fields.zip
+    dest: /root/advanced-custom-fields.zip
+
+- name: Install ACF
+  unarchive:
+    src: /root/advanced-custom-fields.zip
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    copy: false
+
+- name: Install acf-repeater
+  unarchive:
+    src: acf-repeater.tar.bz2
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+
+- name: Apache config file
+  template:
+    src: librivox.org.conf
+    dest: /etc/apache2/sites-available/librivox.org.conf
+  notify: Restart Apache
+
+- name: Enable site
+  file:
+    src: /etc/apache2/sites-available/librivox.org.conf
+    dest: /etc/apache2/sites-enabled/librivox.org.conf
+    state: link
+  notify: Restart Apache

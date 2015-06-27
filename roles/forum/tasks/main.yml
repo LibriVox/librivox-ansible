@@ -1,0 +1,42 @@
+---
+- name: php5-memcache
+  apt: name=php5-memcache state=latest
+
+- name: Generate password
+  local_action: command makepasswd
+  register: forum_db_password
+
+- name: Database user
+  mysql_user:
+    name: librivox_forum
+    password: "{{ forum_db_password.stdout }}"
+    priv: librivox_forum.*:ALL
+    host: localhost
+    state: present
+
+- name: Git checkout
+  git:
+    repo: https://github.com/LibriVox/librivox-phpbb.git
+    dest: /librivox/www/forum.librivox.org
+
+- name: mod_ssl
+  apache2_module: name=ssl state=present
+  notify: Restart Apache
+
+- name: phpBB config file
+  template:
+    src: config.php
+    dest: /librivox/www/forum.librivox.org/phpBB/config.php
+
+- name: Apache config file
+  template:
+    src: forum.librivox.org.conf
+    dest: /etc/apache2/sites-available/forum.librivox.org.conf
+  notify: Restart Apache
+
+- name: Enable site
+  file:
+    src: /etc/apache2/sites-available/forum.librivox.org.conf
+    dest: /etc/apache2/sites-enabled/forum.librivox.org.conf
+    state: link
+  notify: Restart Apache

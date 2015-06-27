@@ -1,0 +1,16 @@
+---
+- name: Install
+  apt: name={{ item }} state=latest
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: Configuration file
+  template: src=librivox.cnf dest=/etc/mysql/conf.d/librivox.cnf
+  notify:
+  - Stop MySQL
+  - Remove ib_logfiles
+  - Start MySQL
+
+- name: Enabled and started
+  service: name=mysql enabled=true state=started

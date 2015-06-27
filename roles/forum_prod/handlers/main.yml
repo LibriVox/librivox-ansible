@@ -1,0 +1,9 @@
+---
+- name: Upload forum database
+  copy: src=librivox_forum.sql.bz2 dest=/root/librivox_forum.sql.bz2
+
+- name: Import forum database
+  mysql_db: name=librivox_forum state=import target=/root/librivox_forum.sql.bz2
+
+- name: Show DB update result
+  debug: msg='{{ database_update.stdout }}'

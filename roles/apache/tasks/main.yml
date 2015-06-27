@@ -1,0 +1,23 @@
+---
+- name: Install
+  apt: name=apache2 state=latest
+
+- name: Ports configuration
+  template: src=ports.conf dest=/etc/apache2/ports.conf
+  notify: Restart Apache
+
+- name: Allow /librivox/www configuration file
+  copy:
+    src: allow-librivox-www.conf
+    dest: /etc/apache2/conf-available/allow-librivox-www.conf
+  notify: Restart Apache
+
+- name: Enable allow /librivox/www configuration
+  file:
+    src: /etc/apache2/conf-available/allow-librivox-www.conf
+    dest: /etc/apache2/conf-enabled/allow-librivox-www.conf
+    state: link
+  notify: Restart Apache
+
+- name: Enabled and started
+  service: name=apache2 enabled=true state=started

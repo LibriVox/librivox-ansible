@@ -1,0 +1,59 @@
+---
+- name: Generate password
+  local_action: command makepasswd
+  register: catalog_db_password
+
+- name: Database user
+  mysql_user:
+    name: catalog
+    password: "{{ catalog_db_password.stdout }}"
+    priv: librivox_catalog.*:ALL
+    host: localhost
+    state: present
+
+- name: DocumentRoot
+  file: path=/librivox/www/catalog.librivox.org state=directory recurse=true
+
+- name: Git checkout
+  git:
+    repo: https://github.com/LibriVox/librivox-catalog.git
+    dest: /librivox/www/catalog.librivox.org
+
+- name: Symlinks
+  file:
+    src: /librivox/shared/{{ item }}
+    dest: /librivox/www/catalog.librivox.org/public_html/{{ item }}
+    state: link
+  with_items:
+    - librivox-validator-books
+    - uploads
+
+- name: CodeIgniter main config file
+  template:
+    src: config.php
+    dest: /librivox/www/catalog.librivox.org/application/config/config.php
+
+- name: Database config file
+  template:
+    src: database.php
+    dest: /librivox/www/catalog.librivox.org/application/config/database.php
+
+- name: Install mp3gain
+  apt: name=mp3gain state=latest
+
+- name: mod_rewrite
+  apache2_module: name=rewrite state=present
+  notify: Restart Apache
+
+- name: Apache config file
+  copy:
+    src: catalog.librivox.org.conf
+    dest: /etc/apache2/sites-available/catalog.librivox.org.conf
+  notify: Restart Apache
+
+- name: Enable site
+  file:
+    src: /etc/apache2/sites-available/catalog.librivox.org.conf
+    dest: /etc/apache2/sites-enabled/catalog.librivox.org.conf
+    state: link
+  notify: Restart Apache

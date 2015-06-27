@@ -1,0 +1,18 @@
+---
+- name: Install
+  apt: name={{ item }} state=latest
+  with_items:
+    - php5-fpm
+    - php5-mysql
+    - php5-curl
+
+- name: Pool configuration file
+  copy: src=www.conf dest=/etc/php5/fpm/pool.d/www.conf
+  notify: restart php-fpm
+
+- name: Enabled and started
+  service: name=php5-fpm enabled=true state=started
+
+- name: mod_proxy_fcgi
+  apache2_module: name=proxy_fcgi state=present
+  notify: Restart Apache

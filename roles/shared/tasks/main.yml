@@ -1,0 +1,13 @@
+---
+- name: shared directory
+  file: path=/librivox/shared state=directory
+
+- name: Books and uploads directories
+  file:
+    path: /librivox/shared/{{ item }}
+    state: directory
+    owner: www-data
+    group: www-data
+  with_items:
+    - librivox-validator-books
+    - uploads

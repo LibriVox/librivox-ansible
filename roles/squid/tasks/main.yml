@@ -1,0 +1,20 @@
+---
+- name: Squid-ssl PPA
+  apt_repository:
+    repo: ppa:notartom/squid-ssl
+    update_cache: yes
+
+- name: Install
+  apt: name=squid3 state=latest
+
+- name: Default backend URLs
+  copy:
+    src: default_backend_urls.list
+    dest: /etc/squid3/default_backend_urls.list
+
+- name: Configuration file
+  template: src=squid.conf dest=/etc/squid3/squid.conf
+  notify: restart squid
+
+- name: Enabled and started
+  service: name=squid3 state=started enabled=true
