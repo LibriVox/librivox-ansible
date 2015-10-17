@@ -5,12 +5,12 @@
 - name: Private key
   copy:
     content: '{{ ssl_private_key }}'
-    dest: /librivox/tls/star.librivox.org.key
+    dest: /librivox/tls/STAR_librivox_org.key
 
 - name: LV certificate
   copy:
-    src: star.librivox.org.cert
-    dest: /librivox/tls/star.librivox.org.cert
+    src: STAR_librivox_org.crt
+    dest: /librivox/tls/STAR_librivox_org.crt
 
 - name: CA certificate
-  copy: src=AlphaSSL-ca.cert dest=/librivox/tls/AlphaSSL-ca.cert
+  copy: src=STAR_librivox_org.ca-bundle dest=/librivox/tls/STAR_librivox_org.ca-bundle

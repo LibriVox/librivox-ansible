@@ -6,6 +6,20 @@
   template: src=ports.conf dest=/etc/apache2/ports.conf
   notify: Restart Apache
 
+- name: SSL cipher suite
+  lineinfile:
+    dest: /etc/apache2/mods-enabled/ssl.conf
+    regexp: '^(\s*)SSLCipherSuite'
+    line: '\1SSLCipherSuite HIGH'
+    backrefs: yes
+
+- name: SSL protocol
+  lineinfile:
+    dest: /etc/apache2/mods-enabled/ssl.conf
+    regexp: '^(\s*)SSLProtocol'
+    line: '\1SSLProtocol all -SSLv2 -SSLv3'
+    backrefs: yes
+
 - name: Allow /librivox/www configuration file
   copy:
     src: allow-librivox-www.conf
