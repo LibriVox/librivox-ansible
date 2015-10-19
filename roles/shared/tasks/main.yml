@@ -2,7 +2,14 @@
 - name: shared directory
   file: path=/librivox/shared state=directory
 
-- name: Books and uploads directories
+- name: Top-level uploads directory
+  file:
+    path: /librivox/shared/uploads
+    state: directory
+    owner: root
+    group: root
+
+- name: uploads and librivox-validator-books directories
   file:
     path: /librivox/shared/{{ item }}
     state: directory
@@ -10,4 +17,4 @@
     group: www-data
   with_items:
     - librivox-validator-books
-    - uploads
+    - uploads/uploads
