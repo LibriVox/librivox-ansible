@@ -2,10 +2,9 @@
 - name: Squid-ssl PPA
   apt_repository:
     repo: ppa:notartom/squid-ssl
-    update_cache: yes
 
 - name: Install
-  apt: name=squid3 state=latest
+  apt: name=squid3 state=latest update_cache=yes
 
 - name: Default backend URLs
   copy:
