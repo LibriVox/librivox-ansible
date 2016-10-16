@@ -1,6 +1,6 @@
 ---
-- name: php5-memcache
-  apt: name=php5-memcache state=latest
+- name: php-memcache
+  apt: name=php-memcache state=latest
 
 - name: Generate password
   local_action: command makepasswd
