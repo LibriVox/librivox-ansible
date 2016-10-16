@@ -39,7 +39,8 @@
     dest: /librivox/www/catalog.librivox.org/application/config/database.php
 
 - name: Install mp3gain
-  apt: name=mp3gain state=latest
+  # mp3gain isn't available from the Xenial repos, download the Trusty .deb directly
+  apt: deb=http://mirrors.kernel.org/ubuntu/pool/universe/m/mp3gain/mp3gain_1.5.2-r2-6_amd64.deb
 
 - name: mod_rewrite
   apache2_module: name=rewrite state=present
