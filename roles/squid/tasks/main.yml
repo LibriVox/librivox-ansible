@@ -4,16 +4,16 @@
     repo: ppa:notartom/squid-ssl
 
 - name: Install
-  apt: name=squid3 state=latest update_cache=yes
+  apt: name=squid state=latest update_cache=yes
 
 - name: Default backend URLs
   copy:
     src: default_backend_urls.list
-    dest: /etc/squid3/default_backend_urls.list
+    dest: /etc/squid/default_backend_urls.list
 
 - name: Configuration file
-  template: src=squid.conf dest=/etc/squid3/squid.conf
+  template: src=squid.conf dest=/etc/squid/squid.conf
   notify: restart squid
 
 - name: Enabled and started
-  service: name=squid3 state=started enabled=true
+  service: name=squid state=started enabled=true
