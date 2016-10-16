@@ -6,6 +6,9 @@
   template: src=ports.conf dest=/etc/apache2/ports.conf
   notify: Restart Apache
 
+- name: Enable SSL module
+  apache2_module: name=ssl state=present 
+
 - name: SSL cipher suite
   lineinfile:
     dest: /etc/apache2/mods-enabled/ssl.conf
