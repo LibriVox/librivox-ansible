@@ -18,3 +18,8 @@
   with_items:
     - librivox-validator-books
     - uploads/uploads
+
+- name: Uploads robots.txt file
+  copy:
+    src: robots.txt
+    dest: /librivox/shared/uploads/uploads/robots.txt
