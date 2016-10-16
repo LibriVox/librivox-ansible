@@ -27,7 +27,7 @@
 - name: phpBB config file
   template:
     src: config.php
-    dest: /librivox/www/forum.librivox.org/phpBB/config.php
+    dest: /librivox/www/forum.librivox.org/config.php
 
 - name: Apache config file
   template:
