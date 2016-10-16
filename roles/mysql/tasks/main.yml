@@ -2,7 +2,7 @@
 - name: Install
   apt: name={{ item }} state=latest
   with_items:
-    - mysql-server
+    - mariadb-server
     - python-mysqldb
 
 - name: Configuration file
