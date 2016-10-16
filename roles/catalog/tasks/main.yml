@@ -18,6 +18,7 @@
   git:
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/catalog.librivox.org
+    force: yes
 
 - name: Symlinks
   file:

@@ -18,6 +18,7 @@
   git:
     repo: https://github.com/LibriVox/librivox-phpbb.git
     dest: /librivox/www/forum.librivox.org
+    force: yes
 
 - name: mod_ssl
   apache2_module: name=ssl state=present
