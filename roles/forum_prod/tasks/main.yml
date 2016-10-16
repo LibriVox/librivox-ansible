@@ -4,14 +4,3 @@
   notify:
     - Upload forum database
     - Import forum database
-
-- name: Install links
-  apt: name=links state=latest
-
-- name: Upgrade database
-  command: links -dump https://{{ forum_wiki_ip }}/install/database_update.php
-  register: database_update
-  notify: Show DB update result
-
-- name: Remove install directory
-  file: name=/librivox/www/forum.librivox.org/phpBB/install state=absent
