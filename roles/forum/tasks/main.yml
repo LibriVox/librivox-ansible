@@ -3,7 +3,7 @@
   apt: name=php-memcache state=latest
 
 - name: Generate password
-  local_action: command makepasswd
+  local_action: command makepasswd -m 32
   register: forum_db_password
 
 - name: Database user

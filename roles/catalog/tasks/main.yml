@@ -1,6 +1,6 @@
 ---
 - name: Generate password
-  local_action: command makepasswd
+  local_action: command makepasswd -m 32
   register: catalog_db_password
 
 - name: Database user
