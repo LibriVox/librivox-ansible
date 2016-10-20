@@ -6,7 +6,7 @@
     - python-mysqldb
 
 - name: Configuration file
-  template: src=librivox.cnf dest=/etc/mysql/conf.d/librivox.cnf
+  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/100-librivox.cnf
   notify:
   - Stop MySQL
   - Remove ib_logfiles
