@@ -6,5 +6,6 @@
     - blog_prod
     - catalog_prod
     - forum_prod
+    - wiki_prod
   handlers:
     - include: handlers/handlers.yml

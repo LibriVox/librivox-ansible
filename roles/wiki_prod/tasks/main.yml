@@ -1,0 +1,109 @@
+---
+- name: Generate DB password
+  local_action: command makepasswd -m 32
+  register: mediawiki_db_password
+
+- name: Ondrej's PPA
+  apt_repository:
+    repo: ppa:ondrej/php
+
+- name: Install mediawiki dependencies
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - php-mbstring
+    - php-xml
+    - php-intl
+    - php-apcu
+    - imagemagick
+
+- name: Install sphinx
+  # The package in the Ubuntu repositories doesn't include sphinxsearch.api
+  apt: deb=http://sphinxsearch.com/files/sphinxsearch_2.2.11-release-1~xenial_amd64.deb
+
+- name: Sphinx configuration file
+  template:
+    src: sphinx.conf
+    dest: /etc/sphinxsearch/sphinx.conf
+  notify: Restart sphinx
+
+- name: Database user
+  mysql_user:
+    name: mediawiki
+    password: "{{ mediawiki_db_password.stdout }}"
+    priv: librivox_mediawiki.*:ALL
+    host: localhost
+    state: present
+
+- name: Create database
+  mysql_db: name=librivox_mediawiki state=present
+  notify:
+    - Upload mediawiki database
+    - Import mediawiki database
+
+- name: Download mediawiki
+  get_url:
+    url: https://releases.wikimedia.org/mediawiki/1.27/mediawiki-1.27.1.tar.gz
+    dest: /tmp/mediawiki.tar.gz
+
+- name: Extract mediawiki
+  unarchive:
+    src: /tmp/mediawiki.tar.gz
+    dest: /librivox/www
+    copy: false
+
+- name: DocumentRoot
+  file:
+    src: /librivox/www/mediawiki-1.27.1
+    dest: /librivox/www/wiki.librivox.org
+    state: link
+
+- name: Generate secret key
+  local_action: command makepasswd -m 64
+  register: mediawiki_secret_key
+
+- name: Local settings config file
+  template:
+    src: LocalSettings.php
+    dest: /librivox/www/wiki.librivox.org/LocalSettings.php
+
+- name: Download sphinxsearch extension
+  get_url:
+    url: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch/archive/master.tar.gz
+    dest: /tmp/sphinxsearch-extension.tar.gz
+
+- name: Extract sphinxsearch extension
+  unarchive:
+    src: /tmp/sphinxsearch-extension.tar.gz
+    dest: /librivox/www/wiki.librivox.org/extensions
+    copy: false
+
+- name: Sphinxsearch extension symlink
+  file:
+    src: /librivox/www/wiki.librivox.org/extensions/mediawiki-extensions-SphinxSearch-master
+    dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
+    state: link
+
+- name: sphinxsearch.api symlink
+  file:
+    src: /usr/share/sphinxsearch/api/sphinxapi.php
+    dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
+    state: link
+
+- name: Sphinx enabled and started
+  service: name=sphinxsearch state=started enabled=true
+
+- name: Run index
+  command: indexer --all --rotate
+
+- name: Apache config file
+  template:
+    src: wiki.librivox.org.conf
+    dest: /etc/apache2/sites-available/wiki.librivox.org.conf
+  notify: Restart Apache
+
+- name: Enable site
+  file:
+    src: /etc/apache2/sites-available/wiki.librivox.org.conf
+    dest: /etc/apache2/sites-enabled/wiki.librivox.org.conf
+    state: link
+  notify: Restart Apache

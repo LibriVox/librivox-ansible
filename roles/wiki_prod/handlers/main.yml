@@ -1,0 +1,14 @@
+---
+- name: Upload mediawiki database
+  copy:
+    src: librivox_mediawiki.sql.bz2
+    dest: /root/librivox_mediawiki.sql.bz2
+
+- name: Import mediawiki database
+  mysql_db:
+    name: librivox_mediawiki
+    state: import
+    target: /root/librivox_mediawiki.sql.bz2
+
+- name: Restart sphinx
+  service: name=sphinxsearch state=restarted
