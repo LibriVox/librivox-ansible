@@ -45,11 +45,11 @@
 - name: Download ACF
   get_url:
     url: https://downloads.wordpress.org/plugin/advanced-custom-fields.zip
-    dest: /root/advanced-custom-fields.zip
+    dest: /tmp/advanced-custom-fields.zip
 
 - name: Install ACF
   unarchive:
-    src: /root/advanced-custom-fields.zip
+    src: /tmp/advanced-custom-fields.zip
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     copy: false
 

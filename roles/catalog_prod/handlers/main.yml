@@ -2,10 +2,10 @@
 - name: Upload catalog database
   copy:
     src: librivox_catalog.sql.bz2
-    dest: /root/librivox_catalog.sql.bz2
+    dest: /tmp/librivox_catalog.sql.bz2
 
 - name: Import catalog database
   mysql_db:
     name: librivox_catalog
     state: import
-    target: /root/librivox_catalog.sql.bz2
+    target: /tmp/librivox_catalog.sql.bz2
