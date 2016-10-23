@@ -89,9 +89,6 @@
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
     state: link
 
-- name: Sphinx enabled and started
-  service: name=sphinxsearch state=started enabled=true
-
 - name: Run index
   command: indexer --all --rotate
 

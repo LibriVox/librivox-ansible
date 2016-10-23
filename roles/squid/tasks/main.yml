@@ -14,6 +14,3 @@
 - name: Configuration file
   template: src=squid.conf dest=/etc/squid/squid.conf
   notify: restart squid
-
-- name: Enabled and started
-  service: name=squid state=started enabled=true

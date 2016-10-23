@@ -11,6 +11,3 @@
   - Stop MySQL
   - Remove ib_logfiles
   - Start MySQL
-
-- name: Enabled and started
-  service: name=mysql enabled=true state=started

@@ -38,6 +38,3 @@
     dest: /etc/apache2/conf-enabled/allow-librivox-www.conf
     state: link
   notify: Restart Apache
-
-- name: Enabled and started
-  service: name=apache2 enabled=true state=started
