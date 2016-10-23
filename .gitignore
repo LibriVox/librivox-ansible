@@ -1,3 +1,4 @@
 vault-password
 *.sql.bz2
+*.tar
 site.retry
