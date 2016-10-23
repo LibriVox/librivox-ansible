@@ -8,6 +8,7 @@
 
 - name: Enable SSL module
   apache2_module: name=ssl state=present 
+  notify: Restart Apache
 
 - name: SSL cipher suite
   lineinfile:
@@ -15,6 +16,7 @@
     regexp: '^(\s*)SSLCipherSuite'
     line: '\1SSLCipherSuite HIGH'
     backrefs: yes
+  notify: Restart Apache
 
 - name: SSL protocol
   lineinfile:
@@ -22,6 +24,7 @@
     regexp: '^(\s*)SSLProtocol'
     line: '\1SSLProtocol all -SSLv2 -SSLv3'
     backrefs: yes
+  notify: Restart Apache
 
 - name: Allow /librivox/www configuration file
   copy:
