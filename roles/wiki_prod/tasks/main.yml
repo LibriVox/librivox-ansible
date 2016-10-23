@@ -1,6 +1,6 @@
 ---
 - name: Generate DB password
-  local_action: command makepasswd -m 32
+  local_action: command pwgen -y 32 1
   register: mediawiki_db_password
 
 - name: Ondrej's PPA
@@ -58,7 +58,7 @@
     state: link
 
 - name: Generate secret key
-  local_action: command makepasswd -m 64
+  local_action: command pwgen -y 64 1
   register: mediawiki_secret_key
 
 - name: Local settings config file
