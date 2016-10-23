@@ -9,6 +9,11 @@
     name: librivox_mediawiki
     state: import
     target: /root/librivox_mediawiki.sql.bz2
+  notify: Run indexer
+
+- name: Run indexer
+  command: indexer --all --rotate
+  notify: Restart sphinx
 
 - name: Restart sphinx
   service: name=sphinxsearch state=restarted

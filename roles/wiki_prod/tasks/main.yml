@@ -24,7 +24,9 @@
   template:
     src: sphinx.conf
     dest: /etc/sphinxsearch/sphinx.conf
-  notify: Restart sphinx
+  notify: Run indexer
+  # In case the indexer has never run, we need to call it first to build
+  # sphinx's database. The indexer task will then notify restart sphinx.
 
 - name: Database user
   mysql_user:
@@ -88,9 +90,6 @@
     src: /usr/share/sphinxsearch/api/sphinxapi.php
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
     state: link
-
-- name: Run index
-  command: indexer --all --rotate
 
 - name: Apache config file
   template:
