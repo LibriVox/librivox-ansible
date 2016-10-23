@@ -59,6 +59,11 @@
     dest: /librivox/www/wiki.librivox.org
     state: link
 
+- name: Images
+  unarchive:
+    src: images.tar
+    dest: /librivox/www/wiki.librivox.org
+
 - name: Generate secret key
   local_action: command pwgen 64 1
   register: mediawiki_secret_key
