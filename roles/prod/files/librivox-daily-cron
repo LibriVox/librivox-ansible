@@ -1,0 +1,12 @@
+#!/bin/sh
+
+INDEX_PHP=/librivox/www/catalog.librivox.org/librivox/public_html/index.php
+
+php $INDEX_PHP cron project_status_stats author
+php $INDEX_PHP cron project_status_stats genre
+php $INDEX_PHP cron project_status_stats language
+php $INDEX_PHP cron Search_table_update search_table
+php $INDEX_PHP cron statistics stats
+php $INDEX_PHP cron delete_frozen_files index
+
+indexer --all --rotate

@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: localdev
   vars_files:
     - secrets.yml
   remote_user: root
@@ -7,5 +7,17 @@
     - catalog_prod
     - forum_prod
     - wiki_prod
+  handlers:
+    - include: handlers/handlers.yml
+- hosts: staging
+  vars_files:
+    - secrets.yml
+  remote_user: root
+  roles:
+    - blog_prod
+    - catalog_prod
+    - forum_prod
+    - wiki_prod
+    - prod
   handlers:
     - include: handlers/handlers.yml
