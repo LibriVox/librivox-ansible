@@ -1,2 +1,3 @@
 catalog_blog_ip: 208.70.31.68
-innodb_buffer_pool_size: 256M
+forum_wiki_ip: 208.70.31.72
+innodb_buffer_pool_size: 4G
