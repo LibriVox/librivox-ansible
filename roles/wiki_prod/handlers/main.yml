@@ -9,7 +9,9 @@
     name: librivox_mediawiki
     state: import
     target: /tmp/librivox_mediawiki.sql.bz2
-  notify: Run indexer
+  notify:
+    - Run indexer
+    - Update db schema
 
 - name: Run indexer
   command: indexer --all --rotate
@@ -17,3 +19,8 @@
 
 - name: Restart sphinx
   service: name=sphinxsearch state=restarted
+
+- name: Update db schema
+  command: php update.php
+  args:
+    chdir: /librivox/www/wiki.librivox.org/maintenance

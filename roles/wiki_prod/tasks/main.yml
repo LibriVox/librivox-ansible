@@ -52,6 +52,9 @@
     src: /tmp/mediawiki.tar.gz
     dest: /librivox/www
     copy: false
+  notify: Update db schema
+  # If the extract task changed something, it probably means a new mediawiki
+  # version, so we should run the db schema update script.
 
 - name: DocumentRoot
   file:
