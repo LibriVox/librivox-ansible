@@ -4,3 +4,8 @@
   notify:
     - Upload forum database
     - Import forum database
+
+- name: Upload images.tar
+  unarchive:
+    src: images.tar
+    dest: /librivox/www/forum.librivox.org
