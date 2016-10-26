@@ -15,6 +15,7 @@
     - php-intl
     - php-apcu
     - imagemagick
+    - memcached
 
 - name: Install sphinx
   # The package in the Ubuntu repositories doesn't include sphinxsearch.api
