@@ -4,6 +4,3 @@
 
 - name: Import forum database
   mysql_db: name=librivox_forum state=import target=/tmp/librivox_forum.sql.bz2
-
-- name: Show DB update result
-  debug: msg='{{ database_update.stdout }}'
