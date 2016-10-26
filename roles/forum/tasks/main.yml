@@ -20,6 +20,11 @@
     dest: /librivox/www/forum.librivox.org
     force: yes
 
+- name: Run composer
+  command: php ../composer.phar update --no-dev
+  args:
+    chdir: /librivox/www/forum.librivox.org/phpBB
+
 - name: mod_ssl
   apache2_module: name=ssl state=present
   notify: Restart Apache
