@@ -10,10 +10,10 @@
 - name: Install mediawiki dependencies
   apt: name={{ item }} state=latest update_cache=yes
   with_items:
-    - php-mbstring
-    - php-xml
-    - php-intl
-    - php-apcu
+    - php5.6-mbstring
+    - php5.6-xml
+    - php5.6-intl
+    - php5.6-apcu
     - imagemagick
     - memcached
 

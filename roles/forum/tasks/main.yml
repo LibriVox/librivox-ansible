@@ -1,6 +1,6 @@
 ---
 - name: php-memcache
-  apt: name=php-memcache state=latest
+  apt: name=php5.6-memcache state=latest
 
 - name: Generate password
   local_action: command pwgen 32 1
@@ -19,11 +19,6 @@
     repo: https://github.com/LibriVox/librivox-phpbb.git
     dest: /librivox/www/forum.librivox.org
     force: yes
-
-- name: Run composer
-  command: php ../composer.phar update --no-dev
-  args:
-    chdir: /librivox/www/forum.librivox.org/phpBB
 
 - name: mod_ssl
   apache2_module: name=ssl state=present
