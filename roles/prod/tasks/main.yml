@@ -47,7 +47,5 @@
     block: |
       Match User jo,ruth
           ChrootDirectory /librivox/shared
-          ForceCommand internal-sftp
       Match User mc
           ChrootDirectory /librivox/shared/uploads
-          ForceCommand internal-sftp
