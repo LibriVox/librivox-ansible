@@ -15,6 +15,7 @@
     state: directory
     owner: www-data
     group: www-data
+    mode: 0777
   with_items:
     - librivox-validator-books
     - uploads/uploads
