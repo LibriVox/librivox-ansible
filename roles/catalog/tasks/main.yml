@@ -20,14 +20,17 @@
     dest: /librivox/www/catalog.librivox.org
     force: yes
 
-- name: Symlinks
+- name: uploads symlinks
   file:
-    src: /librivox/shared/{{ item }}
-    dest: /librivox/www/catalog.librivox.org/public_html/{{ item }}
+    src: /librivox/shared/uploads/uploads
+    dest: /librivox/www/catalog.librivox.org/public_html/uploads
     state: link
-  with_items:
-    - librivox-validator-books
-    - uploads
+
+- name: librivox-validator-books symlinks
+  file:
+    src: /librivox/shared/librivox-validator-books
+    dest: /librivox/www/catalog.librivox.org/public_html/librivox-validator-books
+    state: link
 
 - name: CodeIgniter main config file
   template:
