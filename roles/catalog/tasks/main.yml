@@ -7,7 +7,7 @@
   mysql_user:
     name: catalog
     password: "{{ catalog_db_password.stdout }}"
-    priv: librivox_catalog.*:ALL
+    priv: librivox_catalog.*:ALL/librivox_forum.*:ALL
     host: localhost
     state: present
 
