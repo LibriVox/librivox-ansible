@@ -1,0 +1,10 @@
+---
+- name: forum_wiki_uploads hosts entry
+  lineinfile:
+    dest: /etc/hosts
+    line: '{{ forum_wiki_uploads_ip }} forum.librivox.org wiki.librivox.org uploads.librivox.org'
+
+- name: catalog_blog hosts entry
+  lineinfile:
+    dest: /etc/hosts
+    line: '{{ catalog_blog_ip }} librivox.org'

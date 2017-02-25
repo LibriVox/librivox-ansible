@@ -19,5 +19,6 @@
     - forum_prod
     - wiki_prod
     - prod
+    - staging
   handlers:
     - include: handlers/handlers.yml
