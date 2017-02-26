@@ -32,15 +32,14 @@
     dest: /librivox/www/catalog.librivox.org/public_html/librivox-validator-books
     state: link
 
-- name: CodeIgniter main config file
+- name: Config files
   template:
-    src: config.php
-    dest: /librivox/www/catalog.librivox.org/application/config/config.php
-
-- name: Database config file
-  template:
-    src: database.php
-    dest: /librivox/www/catalog.librivox.org/application/config/database.php
+    src: "{{ item }}.php"
+    dest: "/librivox/www/catalog.librivox.org/application/config/{{ item }}.php"
+  with_items:
+    - config
+    - database
+    - iarchive_uploader
 
 - name: Install mp3gain
   # mp3gain isn't available from the Xenial repos, download the Trusty .deb directly
