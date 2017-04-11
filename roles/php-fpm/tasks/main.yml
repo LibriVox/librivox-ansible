@@ -1,6 +1,6 @@
 ---
 - name: Install
-  apt: name={{ item }} state=latest
+  apt: name={{ item }} state=latest update_cache=yes
   with_items:
     - php5.6-fpm
     - php5.6-mysql

@@ -5,4 +5,4 @@ dependencies:
   - mysql
   - php-fpm
   - shared
-  - squid
+  - blog

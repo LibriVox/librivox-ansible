@@ -60,13 +60,13 @@
 
 - name: Apache config file
   template:
-    src: librivox.org.conf
-    dest: /etc/apache2/sites-available/librivox.org.conf
+    src: wordpress.conf
+    dest: /etc/apache2/sites-available/wordpress.conf
   notify: Restart Apache
 
 - name: Enable site
   file:
-    src: /etc/apache2/sites-available/librivox.org.conf
-    dest: /etc/apache2/sites-enabled/librivox.org.conf
+    src: /etc/apache2/sites-available/wordpress.conf
+    dest: /etc/apache2/sites-enabled/wordpress.conf
     state: link
   notify: Restart Apache

@@ -4,4 +4,3 @@ dependencies:
   - git
   - mysql
   - php-fpm
-  - squid
