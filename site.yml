@@ -1,6 +1,7 @@
 - hosts: localdev
   vars_files:
     - secrets.yml
+    - versions.yml
   remote_user: root
   roles:
     - blog_prod
@@ -12,6 +13,7 @@
 - hosts: staging
   vars_files:
     - secrets.yml
+    - versions.yml
   remote_user: root
   roles:
     - blog_prod

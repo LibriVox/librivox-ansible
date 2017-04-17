@@ -19,7 +19,8 @@
 
 - name: Install sphinx
   # The package in the Ubuntu repositories doesn't include sphinxsearch.api
-  apt: deb=http://sphinxsearch.com/files/sphinxsearch_2.2.11-release-1~xenial_amd64.deb
+  apt:
+    deb: "http://sphinxsearch.com/files/sphinxsearch_{{ sphinx_version }}~xenial_amd64.deb"
 
 - name: Sphinx configuration file
   template:
@@ -45,7 +46,7 @@
 
 - name: Download mediawiki
   get_url:
-    url: https://releases.wikimedia.org/mediawiki/1.27/mediawiki-1.27.1.tar.gz
+    url: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
     dest: /tmp/mediawiki.tar.gz
 
 - name: Extract mediawiki
