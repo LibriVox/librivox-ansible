@@ -53,6 +53,17 @@
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     copy: false
 
+- name: Download Jetpack
+  get_url:
+    url: https://downloads.wordpress.org/plugin/jetpack.4.8.2.zip
+    dest: /tmp/jetpack.zip
+
+- name: Install Jetpack
+  unarchive:
+    src: /tmp/jetpack.zip
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    copy: false
+
 - name: Install acf-repeater
   unarchive:
     src: acf-repeater.tar.bz2
