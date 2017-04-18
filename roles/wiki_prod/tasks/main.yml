@@ -48,6 +48,7 @@
   get_url:
     url: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
     dest: /tmp/mediawiki.tar.gz
+    force: yes
 
 - name: Extract mediawiki
   unarchive:
@@ -82,6 +83,7 @@
   get_url:
     url: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch/archive/master.tar.gz
     dest: /tmp/sphinxsearch-extension.tar.gz
+    force: yes
 
 - name: Extract sphinxsearch extension
   unarchive:

@@ -18,6 +18,7 @@
   get_url:
     url: "https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz"
     dest: /tmp/wordpress.tar.gz
+    force: yes
 
 - name: Extract WordPress
   unarchive:
@@ -46,6 +47,7 @@
   get_url:
     url: "https://downloads.wordpress.org/plugin/advanced-custom-fields.{{ acf_version }}.zip"
     dest: /tmp/advanced-custom-fields.zip
+    force: yes
 
 - name: Install ACF
   unarchive:
@@ -57,6 +59,7 @@
   get_url:
     url: "https://downloads.wordpress.org/plugin/jetpack.{{ jetpack_version }}.zip"
     dest: /tmp/jetpack.zip
+    force: yes
 
 - name: Install Jetpack
   unarchive:
