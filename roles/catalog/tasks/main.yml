@@ -20,18 +20,6 @@
     dest: /librivox/www/catalog.librivox.org
     force: yes
 
-- name: uploads symlinks
-  file:
-    src: /librivox/shared/uploads/uploads
-    dest: /librivox/www/catalog.librivox.org/public_html/uploads
-    state: link
-
-- name: librivox-validator-books symlinks
-  file:
-    src: /librivox/shared/librivox-validator-books
-    dest: /librivox/www/catalog.librivox.org/public_html/librivox-validator-books
-    state: link
-
 - name: Config files
   template:
     src: "{{ item }}.php"
@@ -78,18 +66,5 @@
   file:
     src: /etc/apache2/sites-available/librivox.org.conf
     dest: /etc/apache2/sites-enabled/librivox.org.conf
-    state: link
-  notify: Restart Apache
-
-- name: Uploads Apache config file
-  template:
-    src: uploads.librivox.org.conf
-    dest: /etc/apache2/sites-available/uploads.librivox.org.conf
-  notify: Restart Apache
-
-- name: Enable uploads
-  file:
-    src: /etc/apache2/sites-available/uploads.librivox.org.conf
-    dest: /etc/apache2/sites-enabled/uploads.librivox.org.conf
     state: link
   notify: Restart Apache
