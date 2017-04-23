@@ -1,4 +1,6 @@
 vault-password
 *.sql.bz2
 *.tar
+*.tar.bz2
+!acf-repeater.tar.bz2
 site.retry
