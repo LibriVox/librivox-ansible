@@ -1,6 +1,0 @@
----
-- name: Upload blog database
-  copy: src=librivox_blog.sql.bz2 dest=/tmp/librivox_blog.sql.bz2
-
-- name: Import blog database
-  mysql_db: name=librivox_blog state=import target=/tmp/librivox_blog.sql.bz2

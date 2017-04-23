@@ -1,5 +1,11 @@
 ---
-- name: Create database
+- name: Create catalog database
+  mysql_db: name=librivox_catalog state=present
+  notify:
+    - Upload catalog database
+    - Import catalog database
+
+- name: Create blog database
   mysql_db: name=librivox_blog state=present
   notify:
     - Upload blog database

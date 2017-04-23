@@ -1,18 +1,62 @@
 ---
-- name: Generate password
+# Common stuff
+
+- name: DocumentRoot
+  file: path=/librivox/www/librivox.org state=directory recurse=true
+
+- name: mod_rewrite
+  apache2_module: name=rewrite state=present
+  notify: Restart Apache
+
+# Catalog stuff
+
+- name: Generate catalog password
+  local_action: command pwgen 32 1
+  register: catalog_db_password
+
+- name: Catalog database user
+  mysql_user:
+    name: catalog
+    password: "{{ catalog_db_password.stdout }}"
+    priv: librivox_catalog.*:ALL/librivox_forum.*:ALL
+    host: localhost
+    state: present
+
+- name: Git checkout
+  git:
+    repo: https://github.com/LibriVox/librivox-catalog.git
+    dest: /librivox/www/librivox.org/catalog
+    force: yes
+
+- name: Config files
+  template:
+    src: "{{ item }}.php"
+    dest: "/librivox/www/librivox.org/catalog/application/config/{{ item }}.php"
+  with_items:
+    - config
+    - database
+    - iarchive_uploader
+
+- name: PPA for mp3gain
+  apt_repository:
+    repo: ppa:flexiondotorg/audio
+
+- name: install mp3gain
+  apt: name=mp3gain state=latest update_cache=yes
+
+# WordPress stuff
+
+- name: Generate WordPress password
   local_action: command pwgen 32 1
   register: blog_db_password
 
-- name: Database user
+- name: WordPress database user
   mysql_user:
     name: librivox_blog
     password: "{{ blog_db_password.stdout }}"
     priv: librivox_blog.*:ALL
     host: localhost
     state: present
-
-- name: DocumentRoot
-  file: path=/librivox/www/librivox.org state=directory
 
 - name: Download WordPress
   get_url:
@@ -72,15 +116,17 @@
     src: acf-repeater.tar.bz2
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
 
-- name: Apache config file
+# Enable both as a single Apache site
+
+- name: librivox.org config file
   template:
-    src: wordpress.conf
-    dest: /etc/apache2/sites-available/wordpress.conf
+    src: librivox.org.conf
+    dest: /etc/apache2/sites-available/librivox.org.conf
   notify: Restart Apache
 
 - name: Enable site
   file:
-    src: /etc/apache2/sites-available/wordpress.conf
-    dest: /etc/apache2/sites-enabled/wordpress.conf
+    src: /etc/apache2/sites-available/librivox.org.conf
+    dest: /etc/apache2/sites-enabled/librivox.org.conf
     state: link
   notify: Restart Apache

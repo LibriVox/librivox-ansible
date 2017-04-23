@@ -4,8 +4,7 @@
     - versions.yml
   remote_user: root
   roles:
-    - blog_prod
-    - catalog_prod
+    - main_prod
     - forum_prod
     - wiki_prod
   handlers:
@@ -16,8 +15,7 @@
     - versions.yml
   remote_user: root
   roles:
-    - blog_prod
-    - catalog_prod
+    - main_prod
     - forum_prod
     - wiki_prod
     - prod

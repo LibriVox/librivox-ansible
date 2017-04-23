@@ -1,8 +1,0 @@
----
-dependencies:
-  - apache
-  - git
-  - mysql
-  - php-fpm
-  - shared
-  - blog
