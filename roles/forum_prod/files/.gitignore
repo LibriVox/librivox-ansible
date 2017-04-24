@@ -1,4 +1,0 @@
-# This directory is used to store database dumps, which for obvious reasons are
-# excluded from version control
-
-!.gitignore

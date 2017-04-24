@@ -6,6 +6,12 @@
   local_action: command pwgen 32 1
   register: forum_db_password
 
+- name: Create database
+  mysql_db: name=librivox_forum state=present
+  notify:
+    - Upload forum database
+    - Import forum database
+
 - name: Database user
   mysql_user:
     name: librivox_forum
@@ -28,6 +34,11 @@
   template:
     src: config.php
     dest: /librivox/www/forum.librivox.org/config.php
+
+- name: Upload images.tar
+  unarchive:
+    src: images.tar
+    dest: /librivox/www/forum.librivox.org
 
 - name: Apache config file
   template:
