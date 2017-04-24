@@ -10,6 +10,12 @@
 
 # Catalog stuff
 
+- name: Create catalog database
+  mysql_db: name=librivox_catalog state=present
+  notify:
+    - Upload catalog database
+    - Import catalog database
+
 - name: Generate catalog password
   local_action: command pwgen 32 1
   register: catalog_db_password
@@ -45,6 +51,12 @@
   apt: name=mp3gain state=latest update_cache=yes
 
 # WordPress stuff
+
+- name: Create blog database
+  mysql_db: name=librivox_blog state=present
+  notify:
+    - Upload blog database
+    - Import blog database
 
 - name: Generate WordPress password
   local_action: command pwgen 32 1
@@ -115,6 +127,11 @@
   unarchive:
     src: acf-repeater.tar.bz2
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+
+- name: Extract uploads.tar.bz2
+  unarchive:
+   src: uploads.tar.bz2
+   dest: /librivox/www/librivox.org/wordpress/wp-content
 
 # Enable both as a single Apache site
 
