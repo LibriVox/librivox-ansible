@@ -1,13 +1,13 @@
 ---
 - name: Install
-  apt: name=apache2 state=latest
+  apt: name=apache2 state=latest become=true
 
 - name: Ports configuration
-  template: src=ports.conf dest=/etc/apache2/ports.conf
+  template: src=ports.conf dest=/etc/apache2/ports.conf become=true
   notify: Restart Apache
 
 - name: Enable SSL module
-  apache2_module: name=ssl state=present 
+  apache2_module: name=ssl state=present become=true
   notify: Restart Apache
 
 - name: SSL cipher suite
@@ -16,6 +16,7 @@
     regexp: '^(\s*)SSLCipherSuite'
     line: '\1SSLCipherSuite HIGH'
     backrefs: yes
+    become: true
   notify: Restart Apache
 
 - name: SSL protocol
@@ -24,12 +25,14 @@
     regexp: '^(\s*)SSLProtocol'
     line: '\1SSLProtocol all -SSLv2 -SSLv3'
     backrefs: yes
+    become: true
   notify: Restart Apache
 
 - name: Allow /librivox/www configuration file
   copy:
     src: allow-librivox-www.conf
     dest: /etc/apache2/conf-available/allow-librivox-www.conf
+    become: true
   notify: Restart Apache
 
 - name: Enable allow /librivox/www configuration
@@ -37,4 +40,5 @@
     src: /etc/apache2/conf-available/allow-librivox-www.conf
     dest: /etc/apache2/conf-enabled/allow-librivox-www.conf
     state: link
+    become: true
   notify: Restart Apache

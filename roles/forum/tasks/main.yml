@@ -1,13 +1,13 @@
 ---
 - name: php-memcache
-  apt: name=php5.6-memcache state=latest
+  apt: name=php5.6-memcache state=latest become=true
 
 - name: Generate password
   local_action: command pwgen 32 1
   register: forum_db_password
 
 - name: Create database
-  mysql_db: name=librivox_forum state=present
+  mysql_db: name=librivox_forum state=present become=true
   notify:
     - Upload forum database
     - Import forum database
@@ -19,6 +19,7 @@
     priv: librivox_forum.*:ALL
     host: localhost
     state: present
+    become: true
 
 - name: Git checkout
   git:
@@ -44,6 +45,7 @@
   template:
     src: forum.librivox.org.conf
     dest: /etc/apache2/sites-available/forum.librivox.org.conf
+    become: true
   notify: Restart Apache
 
 - name: Enable site
@@ -51,4 +53,5 @@
     src: /etc/apache2/sites-available/forum.librivox.org.conf
     dest: /etc/apache2/sites-enabled/forum.librivox.org.conf
     state: link
+    become: true
   notify: Restart Apache

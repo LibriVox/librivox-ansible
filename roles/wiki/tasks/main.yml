@@ -6,9 +6,10 @@
 - name: Ondrej's PPA
   apt_repository:
     repo: ppa:ondrej/php
+    become: true
 
 - name: Install mediawiki dependencies
-  apt: name={{ item }} state=latest update_cache=yes
+  apt: name={{ item }} state=latest update_cache=yes become=true
   with_items:
     - php5.6-mbstring
     - php5.6-xml
@@ -21,11 +22,13 @@
   # The package in the Ubuntu repositories doesn't include sphinxsearch.api
   apt:
     deb: "http://sphinxsearch.com/files/sphinxsearch_{{ sphinx_version }}~xenial_amd64.deb"
+    become: true
 
 - name: Sphinx configuration file
   template:
     src: sphinx.conf
     dest: /etc/sphinxsearch/sphinx.conf
+    become: true
   notify: Run indexer
   # In case the indexer has never run, we need to call it first to build
   # sphinx's database. The indexer task will then notify restart sphinx.
@@ -37,9 +40,10 @@
     priv: librivox_mediawiki.*:ALL
     host: localhost
     state: present
+    become: true
 
 - name: Create database
-  mysql_db: name=librivox_mediawiki state=present
+  mysql_db: name=librivox_mediawiki state=present become=true
   notify:
     - Upload mediawiki database
     - Import mediawiki database
@@ -102,11 +106,13 @@
     src: /usr/share/sphinxsearch/api/sphinxapi.php
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
     state: link
+    become: true
 
 - name: Apache config file
   template:
     src: wiki.librivox.org.conf
     dest: /etc/apache2/sites-available/wiki.librivox.org.conf
+    become: true
   notify: Restart Apache
 
 - name: Enable site
@@ -114,4 +120,5 @@
     src: /etc/apache2/sites-available/wiki.librivox.org.conf
     dest: /etc/apache2/sites-enabled/wiki.librivox.org.conf
     state: link
+    become: true
   notify: Restart Apache

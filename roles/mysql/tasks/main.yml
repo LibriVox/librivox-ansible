@@ -1,12 +1,12 @@
 ---
 - name: Install
-  apt: name={{ item }} state=latest
+  apt: name={{ item }} state=latest become=true
   with_items:
     - mariadb-server
     - python-mysqldb
 
 - name: Configuration file
-  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/100-librivox.cnf
+  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/100-librivox.cnf become=true
   notify:
   - Stop MySQL
   - Remove ib_logfiles

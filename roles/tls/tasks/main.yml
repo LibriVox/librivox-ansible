@@ -6,6 +6,9 @@
   copy:
     content: '{{ ssl_private_key }}'
     dest: /librivox/tls/STAR_librivox_org.key
+    owner: root
+    mode: 0600
+    become: true
 
 - name: LV certificate
   copy:

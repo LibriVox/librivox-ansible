@@ -2,7 +2,7 @@
   vars_files:
     - secrets.yml
     - versions.yml
-  remote_user: root
+  remote_user: lvadmin
   roles:
     - main_prod
     - forum_prod
@@ -13,7 +13,7 @@
   vars_files:
     - secrets.yml
     - versions.yml
-  remote_user: root
+  remote_user: lvadmin
   roles:
     - main_prod
     - forum_prod

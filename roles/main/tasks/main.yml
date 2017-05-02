@@ -5,13 +5,13 @@
   file: path=/librivox/www/librivox.org state=directory recurse=true
 
 - name: mod_rewrite
-  apache2_module: name=rewrite state=present
+  apache2_module: name=rewrite state=present become=true
   notify: Restart Apache
 
 # Catalog stuff
 
 - name: Create catalog database
-  mysql_db: name=librivox_catalog state=present
+  mysql_db: name=librivox_catalog state=present become=true
   notify:
     - Upload catalog database
     - Import catalog database
@@ -27,6 +27,7 @@
     priv: librivox_catalog.*:ALL/librivox_forum.*:ALL
     host: localhost
     state: present
+    become: true
 
 - name: Git checkout
   git:
@@ -46,14 +47,16 @@
 - name: PPA for mp3gain
   apt_repository:
     repo: ppa:flexiondotorg/audio
+    become: true
 
 - name: install mp3gain
-  apt: name=mp3gain state=latest update_cache=yes
+  apt: name=mp3gain state=latest update_cache=yes become=true
 
 # WordPress stuff
 
 - name: Create blog database
   mysql_db: name=librivox_blog state=present
+  become: true
   notify:
     - Upload blog database
     - Import blog database
@@ -69,6 +72,7 @@
     priv: librivox_blog.*:ALL
     host: localhost
     state: present
+    become: true
 
 - name: Download WordPress
   get_url:
@@ -97,7 +101,7 @@
     dest: /librivox/www/librivox.org/wordpress/wp-config.php
 
 - name: Install unzip
-  apt: name=unzip state=latest
+  apt: name=unzip state=latest become=true
 
 - name: Download ACF
   get_url:
@@ -134,6 +138,7 @@
   template:
     src: librivox.org.conf
     dest: /etc/apache2/sites-available/librivox.org.conf
+    become: true
   notify: Restart Apache
 
 - name: Enable site
@@ -141,4 +146,5 @@
     src: /etc/apache2/sites-available/librivox.org.conf
     dest: /etc/apache2/sites-enabled/librivox.org.conf
     state: link
+    become: true
   notify: Restart Apache

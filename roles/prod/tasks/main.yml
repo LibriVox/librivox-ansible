@@ -4,33 +4,41 @@
     src: librivox-daily-cron
     dest: /usr/local/bin/librivox-daily-cron
     mode: 0755
+    become=true
 
 - name: Librivox daily cron
   cron:
     name: librivox daily cron
     special_time: daily
     job: /usr/local/bin/librivox-daily-cron
+    become: true
 
 - name: User kara
   user:
     name: kara
+    group: lvadmin
     password: "{{ kara_password }}"
     shell: /bin/bash
     createhome: yes
+    become: true
 
 - name: User mc
   user:
     name: mc
+    group: lvadmin
     password: "{{ mc_password }}"
     shell: /usr/sbin/nologin
     home: /librivox/shared/uploads
+    become: true
 
 - name: Users ruth and jo
   user:
     name: "{{ item.username }}"
+    group: lvadmin
     password: "{{ item.password }}"
     shell: /usr/sbin/nologin
     home: /librivox/shared
+    become: true
   with_items:
     - { username: ruth, password: "{{ ruth_password }}" }
     - { username: jo, password: "{{ jo_password }}" }
@@ -40,6 +48,7 @@
     dest: /etc/ssh/sshd_config
     regexp: '^Subsystem sftp'
     line: 'Subsystem sftp internal-sftp'
+    become: true
 
 - name: sshd_config Match paras
   blockinfile:
@@ -49,3 +58,4 @@
           ChrootDirectory /librivox/shared
       Match User mc
           ChrootDirectory /librivox/shared/uploads
+    become: true

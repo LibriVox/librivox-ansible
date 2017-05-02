@@ -3,8 +3,10 @@
   lineinfile:
     dest: /etc/hosts
     line: '{{ forum_wiki_ip }} forum.librivox.org wiki.librivox.org'
+    become: true
 
 - name: catalog_blog hosts entry
   lineinfile:
     dest: /etc/hosts
     line: '{{ catalog_blog_ip }} librivox.org'
+    become: true

@@ -1,3 +1,3 @@
 ---
 - name: Install
-  apt: name=git state=latest
+  apt: name=git state=latest become=true

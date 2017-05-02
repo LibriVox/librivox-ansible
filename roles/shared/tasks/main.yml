@@ -1,4 +1,7 @@
 ---
+- name: /librivox directory
+  file: path=/librivox owner=lvadmin become=true
+
 - name: shared directory
   file: path=/librivox/shared state=directory
 
@@ -8,14 +11,15 @@
     state: directory
     owner: root
     group: root
+    become: true
 
 - name: uploads and librivox-validator-books directories
   file:
     path: /librivox/shared/{{ item }}
     state: directory
     owner: www-data
-    group: www-data
-    mode: 0777
+    group: lvadmin
+    mode: 0775
   with_items:
     - librivox-validator-books
     - uploads/uploads
