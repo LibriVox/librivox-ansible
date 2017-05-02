@@ -101,7 +101,7 @@
 
 - name: Download ACF
   get_url:
-    url: "https://downloads.wordpress.org/plugin/advanced-custom-fields.{{ acf_version }}.zip"
+    url: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
     dest: /tmp/advanced-custom-fields.zip
     force: yes
 
@@ -122,11 +122,6 @@
     src: /tmp/jetpack.zip
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     copy: false
-
-- name: Install acf-repeater
-  unarchive:
-    src: acf-repeater.tar.bz2
-    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
 
 - name: Extract uploads.tar.bz2
   unarchive:
