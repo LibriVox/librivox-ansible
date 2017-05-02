@@ -65,7 +65,7 @@
 
 - name: DocumentRoot
   file:
-    src: /librivox/www/mediawiki-1.27.1
+    src: "/librivox/www/mediawiki-{{ mediawiki_ver_min }}"
     dest: /librivox/www/wiki.librivox.org
     state: link
 
