@@ -36,11 +36,6 @@
     src: config.php
     dest: /librivox/www/forum.librivox.org/config.php
 
-- name: Upload images.tar
-  unarchive:
-    src: images.tar
-    dest: /librivox/www/forum.librivox.org
-
 - name: Apache config file
   template:
     src: forum.librivox.org.conf
