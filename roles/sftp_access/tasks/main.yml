@@ -1,0 +1,44 @@
+---
+- name: User kara
+  user:
+    name: kara
+    password: "{{ kara_password }}"
+    shell: /bin/bash
+    createhome: yes
+  become: true
+
+- name: User mc
+  user:
+    name: mc
+    password: "{{ mc_password }}"
+    shell: /usr/sbin/nologin
+    home: /librivox/shared/uploads
+  become: true
+
+- name: Users ruth and jo
+  user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    shell: /usr/sbin/nologin
+    home: /librivox/shared
+  become: true
+  with_items:
+    - { username: ruth, password: "{{ ruth_password }}" }
+    - { username: jo, password: "{{ jo_password }}" }
+
+- name: sshd_config subsystem sftp
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^Subsystem sftp'
+    line: 'Subsystem sftp internal-sftp'
+  become: true
+
+- name: sshd_config Match paras
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      Match User jo,ruth
+          ChrootDirectory /librivox/shared
+      Match User mc
+          ChrootDirectory /librivox/shared/uploads
+  become: true

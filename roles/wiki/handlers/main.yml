@@ -1,26 +1,9 @@
 ---
-- name: Upload mediawiki database
-  copy:
-    src: librivox_mediawiki.sql.bz2
-    dest: /tmp/librivox_mediawiki.sql.bz2
-
 - name: Import mediawiki database
   mysql_db:
     name: librivox_mediawiki
     state: import
-    target: /tmp/librivox_mediawiki.sql.bz2
-  notify:
-    - Run indexer
-    - Update db schema
-
-- name: Run indexer
-  command: indexer --all --rotate
-  notify: Restart sphinx
-
-- name: Restart sphinx
-  service: name=sphinxsearch state=restarted
-
-- name: Update db schema
-  command: php update.php
-  args:
-    chdir: /librivox/www/wiki.librivox.org/maintenance
+    target: /backup/latest/librivox_mediawiki.sql.bz2
+    login_user: mediawiki
+    login_password: "{{ wiki_db_password }}"
+  async: 86400

@@ -1,6 +1,9 @@
 ---
-- name: Upload forum database
-  copy: src=librivox_forum.sql.bz2 dest=/tmp/librivox_forum.sql.bz2
-
 - name: Import forum database
-  mysql_db: name=librivox_forum state=import target=/tmp/librivox_forum.sql.bz2
+  mysql_db:
+    name: librivox_forum
+    state: import
+    target: /backup/latest/librivox_forum.sql.bz2
+    login_user: librivox_forum
+    login_password: "{{ forum_db_password }}"
+  async: 86400

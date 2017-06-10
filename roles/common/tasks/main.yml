@@ -1,0 +1,159 @@
+---
+# Install packages
+
+- name: Install ca-certificates
+  # This is needed to avoid SSL cert validation errors in the next task
+  apt: name=ca-certificates state=latest update_cache=yes
+  become: true
+
+- name: Ondrej's PPA
+  apt_repository:
+    repo: ppa:ondrej/php
+  become: true
+
+- name: Install packages
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - git
+    - apache2
+    - mariadb-server
+    - python-mysqldb
+    - php5.6-fpm
+    - php5.6-mysql
+    - php5.6-curl
+  become: true
+
+# Apache
+
+- name: Ports configuration
+  template: src=ports.conf dest=/etc/apache2/ports.conf
+  become: true
+  notify: Restart Apache
+
+- name: Apache modules
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - ssl
+    - proxy_fcgi
+  become: true
+  notify: Restart Apache
+
+#- name: SSL cipher suite
+#  lineinfile:
+#    dest: /etc/apache2/mods-enabled/ssl.conf
+#    regexp: '^(\s*)SSLCipherSuite'
+#    line: '\1SSLCipherSuite HIGH'
+#    backrefs: yes
+#  become: true
+#  notify: Restart Apache
+#
+#- name: SSL protocol
+#  lineinfile:
+#    dest: /etc/apache2/mods-enabled/ssl.conf
+#    regexp: '^(\s*)SSLProtocol'
+#    line: '\1SSLProtocol all -SSLv2 -SSLv3'
+#    backrefs: yes
+#  become: true
+#  notify: Restart Apache
+#
+#- name: Allow /librivox/www configuration file
+#  copy:
+#    src: allow-librivox-www.conf
+#    dest: /etc/apache2/conf-available/allow-librivox-www.conf
+#  become: true
+#  notify: Restart Apache
+#
+#- name: Enable allow /librivox/www configuration
+#  file:
+#    src: /etc/apache2/conf-available/allow-librivox-www.conf
+#    dest: /etc/apache2/conf-enabled/allow-librivox-www.conf
+#    state: link
+#  become: true
+#  notify: Restart Apache
+
+# MariaDB
+
+- name: Configuration file
+  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/100-librivox.cnf
+  notify:
+    - Stop MySQL
+    - Remove ib_logfiles
+    - Start MySQL
+  become: true
+
+# php-fpm
+
+- name: Pool configuration file
+  copy: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
+  become: true
+  notify: restart php-fpm
+
+# Shared directories
+
+- name: shared directory
+  file: path=/librivox/shared/uploads state=directory recurse=yes
+  become: true
+
+- name: uploads and librivox-validator-books directories
+  file:
+    path: /librivox/shared/{{ item }}
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0777
+  with_items:
+    - librivox-validator-books
+    - uploads/uploads
+  become: true
+
+- name: Uploads robots.txt file
+  copy:
+    src: robots.txt
+    dest: /librivox/shared/uploads/uploads/robots.txt
+  become: true
+
+# TLS
+
+- name: tls directory
+  file: path=/librivox/tls state=directory
+  become: true
+
+- name: Private key
+  copy:
+    content: '{{ ssl_private_key }}'
+    dest: /librivox/tls/STAR_librivox_org.key
+    owner: root
+    mode: 0600
+  become: true
+
+- name: LV certificate
+  copy:
+    src: STAR_librivox_org.crt
+    dest: /librivox/tls/STAR_librivox_org.crt
+  become: true
+
+- name: CA certificate
+  copy:
+    src: STAR_librivox_org.ca-bundle
+    dest: /librivox/tls/STAR_librivox_org.ca-bundle
+  become: true
+
+# Cronjob
+
+- name: bin directory
+  file: path=/librivox/bin state=directory
+  become: true
+
+- name: Upload daily-cron
+  copy:
+    src: daily-cron
+    dest: /librivox/bin/daily-cron
+    mode: 0755
+  become: true
+
+- name: Enable daily cron
+  cron:
+    name: librivox daily cron
+    special_time: daily
+    job: /librivox/bin/daily-cron
+  become: true

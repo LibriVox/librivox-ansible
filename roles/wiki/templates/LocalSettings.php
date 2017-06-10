@@ -55,7 +55,7 @@ $wgDBtype = "mysql";
 $wgDBserver = "localhost";
 $wgDBname = "librivox_mediawiki";
 $wgDBuser = "mediawiki";
-$wgDBpassword = '{{ mediawiki_db_password.stdout }}';
+$wgDBpassword = '{{ wiki_db_password }}';
 
 # MySQL specific settings
 $wgDBprefix = "";
@@ -92,14 +92,14 @@ $wgShellLocale = "en_US.utf8";
 # Site language code, should be one of the list in ./languages/data/Names.php
 $wgLanguageCode = "en";
 
-$wgSecretKey = "{{ mediawiki_secret_key.stdout }}";
+$wgSecretKey = "{{ wiki_secret_key }}";
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "2c58fc169f591a82";
+$wgUpgradeKey = "{{ wiki_upgrade_key }}";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation

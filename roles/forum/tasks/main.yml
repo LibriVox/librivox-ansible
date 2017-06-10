@@ -1,46 +1,41 @@
 ---
 - name: php-memcache
-  apt: name=php5.6-memcache state=latest become=true
-
-- name: Generate password
-  local_action: command pwgen 32 1
-  register: forum_db_password
+  apt: name=php5.6-memcache state=latest
+  become: true
 
 - name: Create database
-  mysql_db: name=librivox_forum state=present become=true
+  mysql_db: name=librivox_forum state=present
   notify:
-    - Upload forum database
     - Import forum database
+  become: true
 
 - name: Database user
   mysql_user:
     name: librivox_forum
-    password: "{{ forum_db_password.stdout }}"
+    password: "{{ forum_db_password }}"
     priv: librivox_forum.*:ALL
     host: localhost
     state: present
-    become: true
+  become: true
 
 - name: Git checkout
   git:
     repo: https://github.com/LibriVox/librivox-phpbb.git
     dest: /librivox/www/forum.librivox.org
     force: yes
-
-- name: mod_ssl
-  apache2_module: name=ssl state=present
-  notify: Restart Apache
+  become: true
 
 - name: phpBB config file
   template:
     src: config.php
     dest: /librivox/www/forum.librivox.org/config.php
+  become: true
 
 - name: Apache config file
   template:
     src: forum.librivox.org.conf
     dest: /etc/apache2/sites-available/forum.librivox.org.conf
-    become: true
+  become: true
   notify: Restart Apache
 
 - name: Enable site
@@ -48,5 +43,5 @@
     src: /etc/apache2/sites-available/forum.librivox.org.conf
     dest: /etc/apache2/sites-enabled/forum.librivox.org.conf
     state: link
-    become: true
+  become: true
   notify: Restart Apache

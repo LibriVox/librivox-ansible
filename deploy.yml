@@ -1,0 +1,11 @@
+- hosts: server
+  vars_files:
+    - versions.yml
+  roles:
+    - blog+catalog
+    - forum
+    - wiki
+    - { role: sftp_access, when: inventory_file != 'localdev' }
+    - { role: hostsfile_entries, when: inventory_file != 'production' }
+  handlers:
+    - include: handlers.yml

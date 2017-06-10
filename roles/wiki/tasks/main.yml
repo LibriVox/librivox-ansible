@@ -1,15 +1,6 @@
 ---
-- name: Generate DB password
-  local_action: command pwgen 32 1
-  register: mediawiki_db_password
-
-- name: Ondrej's PPA
-  apt_repository:
-    repo: ppa:ondrej/php
-    become: true
-
 - name: Install mediawiki dependencies
-  apt: name={{ item }} state=latest update_cache=yes become=true
+  apt: name={{ item }} state=latest update_cache=yes
   with_items:
     - php5.6-mbstring
     - php5.6-xml
@@ -17,18 +8,19 @@
     - php5.6-apcu
     - imagemagick
     - memcached
+  become: true
 
 - name: Install sphinx
   # The package in the Ubuntu repositories doesn't include sphinxsearch.api
   apt:
     deb: "http://sphinxsearch.com/files/sphinxsearch_{{ sphinx_version }}~xenial_amd64.deb"
-    become: true
+  become: true
 
 - name: Sphinx configuration file
   template:
     src: sphinx.conf
     dest: /etc/sphinxsearch/sphinx.conf
-    become: true
+  become: true
   notify: Run indexer
   # In case the indexer has never run, we need to call it first to build
   # sphinx's database. The indexer task will then notify restart sphinx.
@@ -36,17 +28,17 @@
 - name: Database user
   mysql_user:
     name: mediawiki
-    password: "{{ mediawiki_db_password.stdout }}"
+    password: "{{ wiki_db_password }}"
     priv: librivox_mediawiki.*:ALL
     host: localhost
     state: present
-    become: true
+  become: true
 
 - name: Create database
-  mysql_db: name=librivox_mediawiki state=present become=true
+  mysql_db: name=librivox_mediawiki state=present
   notify:
-    - Upload mediawiki database
     - Import mediawiki database
+  become: true
 
 - name: Download mediawiki
   get_url:
@@ -58,30 +50,32 @@
   unarchive:
     src: /tmp/mediawiki.tar.gz
     dest: /librivox/www
+    owner: root
+    group: root
     copy: false
-  notify: Update db schema
-  # If the extract task changed something, it probably means a new mediawiki
-  # version, so we should run the db schema update script.
+  become: true
 
 - name: DocumentRoot
   file:
     src: "/librivox/www/mediawiki-{{ mediawiki_ver_min }}"
     dest: /librivox/www/wiki.librivox.org
     state: link
+  become: true
 
 - name: Images
   unarchive:
-    src: images.tar
+    src: /backup/latest/wiki-images.tar
     dest: /librivox/www/wiki.librivox.org
-
-- name: Generate secret key
-  local_action: command pwgen 64 1
-  register: mediawiki_secret_key
+    owner: www-data
+    group: www-data
+    remote_src: yes
+  become: true
 
 - name: Local settings config file
   template:
     src: LocalSettings.php
     dest: /librivox/www/wiki.librivox.org/LocalSettings.php
+  become: true
 
 - name: Download sphinxsearch extension
   get_url:
@@ -93,26 +87,30 @@
   unarchive:
     src: /tmp/sphinxsearch-extension.tar.gz
     dest: /librivox/www/wiki.librivox.org/extensions
+    owner: root
+    group: root
     copy: false
+  become: true
 
 - name: Sphinxsearch extension symlink
   file:
     src: /librivox/www/wiki.librivox.org/extensions/mediawiki-extensions-SphinxSearch-master
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
     state: link
+  become: true
 
 - name: sphinxsearch.api symlink
   file:
     src: /usr/share/sphinxsearch/api/sphinxapi.php
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
     state: link
-    become: true
+  become: true
 
 - name: Apache config file
   template:
     src: wiki.librivox.org.conf
     dest: /etc/apache2/sites-available/wiki.librivox.org.conf
-    become: true
+  become: true
   notify: Restart Apache
 
 - name: Enable site
@@ -120,5 +118,5 @@
     src: /etc/apache2/sites-available/wiki.librivox.org.conf
     dest: /etc/apache2/sites-enabled/wiki.librivox.org.conf
     state: link
-    become: true
+  become: true
   notify: Restart Apache
