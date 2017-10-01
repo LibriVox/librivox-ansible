@@ -43,6 +43,18 @@
     - iarchive_uploader
   become: true
 
+- name: Symlinks
+  # Needed by the catalog application, URLs are handled in the Apache config
+  # file
+  file:
+    src: "/librivox/shared/{{ item.src }}"
+    dest: "/librivox/www/librivox.org/catalog/public_html/{{ item.dest }}"
+    state: link
+  with_items:
+    - { src: "librivox-validator-books", dest: "librivox-validator-books" }
+    - { src: "uploads/uploads", dest: "uploads" }
+  become: true
+
 - name: PPA for mp3gain
   apt_repository:
     repo: ppa:flexiondotorg/audio
