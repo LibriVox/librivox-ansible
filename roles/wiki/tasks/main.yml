@@ -21,9 +21,6 @@
     src: sphinx.conf
     dest: /etc/sphinxsearch/sphinx.conf
   become: true
-  notify: Run indexer
-  # In case the indexer has never run, we need to call it first to build
-  # sphinx's database. The indexer task will then notify restart sphinx.
 
 - name: Database user
   mysql_user:
