@@ -3,6 +3,7 @@
 
 - name: DocumentRoot
   file: path=/librivox/www/librivox.org state=directory recurse=true
+  become: true
 
 - name: mod_rewrite
   apache2_module: name=rewrite state=present
