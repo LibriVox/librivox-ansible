@@ -144,7 +144,7 @@
 
 - name: Extract WP uploads
   unarchive:
-    src: /backup/latest/wp-content-uploads.tar.bz2
+    src: /backups/latest/wp-content-uploads.tar.bz2
     dest: /librivox/www/librivox.org/wordpress/wp-content
     remote_src: yes
     owner: www-data

@@ -3,7 +3,7 @@
   mysql_db:
     name: librivox_catalog
     state: import
-    target: /backup/latest/librivox_catalog.sql.bz2
+    target: /backups/latest/librivox_catalog.sql.bz2
     login_user: catalog
     login_password: "{{ catalog_db_password }}"
   async: 86400
@@ -12,7 +12,7 @@
   mysql_db:
     name: librivox_blog
     state: import
-    target: /backup/latest/librivox_blog.sql.bz2
+    target: /backups/latest/librivox_blog.sql.bz2
     login_user: librivox_blog
     login_password: "{{ blog_db_password }}"
   async: 86400

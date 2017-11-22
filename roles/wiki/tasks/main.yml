@@ -64,7 +64,7 @@
 
 - name: Images
   unarchive:
-    src: /backup/latest/wiki-images.tar
+    src: /backups/latest/wiki-images.tar
     dest: /librivox/www/wiki.librivox.org
     owner: www-data
     group: www-data
