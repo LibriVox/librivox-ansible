@@ -143,15 +143,6 @@
     copy: false
   become: true
 
-- name: Extract WP uploads
-  unarchive:
-    src: /backups/latest/wp-content-uploads.tar.bz2
-    dest: /librivox/www/librivox.org/wordpress/wp-content
-    remote_src: yes
-    owner: www-data
-    group: www-data
-  become: true
-
 # Enable both as a single Apache site
 
 - name: librivox.org config file

@@ -62,15 +62,6 @@
     state: link
   become: true
 
-- name: Images
-  unarchive:
-    src: /backups/latest/wiki-images.tar
-    dest: /librivox/www/wiki.librivox.org
-    owner: www-data
-    group: www-data
-    remote_src: yes
-  become: true
-
 - name: Local settings config file
   template:
     src: LocalSettings.php
