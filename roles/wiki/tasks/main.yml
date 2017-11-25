@@ -10,10 +10,13 @@
     - memcached
   become: true
 
+- name: Sphinsearch PPA
+  apt_repository:
+      repo: ppa:builds/sphinxsearch-rel22
+  become: true
+
 - name: Install sphinx
-  # The package in the Ubuntu repositories doesn't include sphinxsearch.api
-  apt:
-    deb: "http://sphinxsearch.com/files/sphinxsearch_{{ sphinx_version }}~xenial_amd64.deb"
+  apt: name=sphinxsearch state=latest update_cache=yes
   become: true
 
 - name: Sphinx configuration file
