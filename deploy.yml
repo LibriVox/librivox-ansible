@@ -5,7 +5,8 @@
     - blog+catalog
     - forum
     - wiki
-    - { role: sftp_access, when: inventory_file != 'localdev' }
-    - { role: hostsfile_entries, when: inventory_file != 'production' }
+    - { role: sftp_access, when: "'localdev' not in inventory_file" }
+    - { role: hostsfile_entries, when: "'production' not in inventory_file" }
+    - { role: mail, when: "'production' in inventory_file" }
   handlers:
     - include: handlers.yml
