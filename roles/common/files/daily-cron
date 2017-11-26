@@ -1,6 +1,6 @@
 #!/bin/sh
 
-INDEX_PHP=/librivox/www/catalog.librivox.org/librivox/public_html/index.php
+INDEX_PHP=/librivox/www/librivox.org/catalog/public_html/index.php
 
 php $INDEX_PHP cron project_status_stats author
 php $INDEX_PHP cron project_status_stats genre
