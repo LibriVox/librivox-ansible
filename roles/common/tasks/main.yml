@@ -33,8 +33,8 @@
 - name: MaxRequestWorkers line
   lineinfile:
     dest: /etc/apache2/mods-enabled/mpm_event.conf
-    regexp: '^MaxRequestWorkers'
-    line: 'MaxRequestWorkers 300'
+    regexp: 'MaxRequestWorkers'
+    line: "\tMaxRequestWorkers\t300"
   become: true
 
 - name: Apache modules
