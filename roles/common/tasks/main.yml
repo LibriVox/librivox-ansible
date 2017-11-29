@@ -48,7 +48,7 @@
 # MariaDB
 
 - name: Configuration file
-  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/100-librivox.cnf
+  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/99-librivox.cnf
   notify:
     - Stop MySQL
     - Remove ib_logfiles
