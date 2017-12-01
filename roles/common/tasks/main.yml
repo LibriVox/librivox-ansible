@@ -6,9 +6,12 @@
   apt: name=ca-certificates state=latest update_cache=yes
   become: true
 
+# https://bz.apache.org/bugzilla/show_bug.cgi?id=53555
 - name: Ondrej's PPA
-  apt_repository:
-    repo: ppa:ondrej/php
+  apt_repository: repo={{ item }}
+  with_items:
+    - ppa:ondrej/php
+    - ppa:ondrej/apache2
   become: true
 
 - name: Install packages
