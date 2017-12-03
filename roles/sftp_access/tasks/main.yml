@@ -1,10 +1,14 @@
 ---
+- name: librivox group
+  group: name=librivox state=present
+
 - name: User kara
   user:
     name: kara
     password: "{{ kara_password }}"
     shell: /bin/bash
     createhome: yes
+    groups: librivox
   become: true
 
 - name: User mc
@@ -13,6 +17,7 @@
     password: "{{ mc_password }}"
     shell: /usr/sbin/nologin
     home: /librivox/shared/uploads
+    groups: librivox
   become: true
 
 - name: Users ruth and jo
@@ -21,6 +26,7 @@
     password: "{{ item.password }}"
     shell: /usr/sbin/nologin
     home: /librivox/shared
+    groups: librivox
   become: true
   with_items:
     - { username: ruth, password: "{{ ruth_password }}" }

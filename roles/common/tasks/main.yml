@@ -76,8 +76,8 @@
     path: /librivox/shared/{{ item }}
     state: directory
     owner: www-data
-    group: www-data
-    mode: 0777
+    group: librivox
+    mode: 0775
   with_items:
     - librivox-validator-books
     - uploads/uploads
