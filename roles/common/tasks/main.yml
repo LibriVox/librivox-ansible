@@ -49,6 +49,13 @@
   become: true
   notify: Restart Apache
 
+- name: Disable access log
+  file:
+    name: /etc/apache2/conf-enabled/other-vhosts-access-log.conf
+    state: absent
+  become: true
+  notify: Restart Apache
+
 # MariaDB
 
 - name: Configuration file
