@@ -131,6 +131,7 @@
 - name: Enable daily cron
   cron:
     name: librivox daily cron
-    special_time: daily
+    minute: 0
+    hour: 4
     job: /librivox/bin/daily-cron
   become: true
