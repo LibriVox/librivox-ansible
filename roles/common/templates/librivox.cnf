@@ -3,7 +3,6 @@
 [mysqld]
 
 skip_name_resolve
-wait_timeout = 60
 max_connections = 200
 query_cache_type = 0
 query_cache_size = 0
