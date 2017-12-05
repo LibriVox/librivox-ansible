@@ -39,6 +39,7 @@
     regexp: 'MaxRequestWorkers'
     line: "\tMaxRequestWorkers\t300"
   become: true
+  notify: Restart Apache
 
 - name: Apache modules
   apache2_module: name={{ item }} state=present
