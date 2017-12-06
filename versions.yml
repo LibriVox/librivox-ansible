@@ -1,5 +1,5 @@
-acf_version: 5.6.5
-jetpack_version: 5.5.1
-wordpress_version: 4.9
+acf_version: 5.6.7
+jetpack_version: 5.6
+wordpress_version: 4.9.1
 mediawiki_ver_maj: 1.29
 mediawiki_ver_min: 1.29.2
