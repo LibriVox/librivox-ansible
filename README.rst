@@ -19,3 +19,5 @@ following folders need to be populated manually:
 - /librivox/www/wiki.librivox.org/images/
 - /librivox/shared/librivox-validator-books/
 - /librivox/shared/uploads/uploads/
+
+Another things that the playbooks don't (and can't) do for production deployments: setup the PTR and SPF records to allow the server to send out emails. This is needed by the forum.
