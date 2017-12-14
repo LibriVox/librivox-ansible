@@ -113,6 +113,21 @@
   apt: name=unzip state=latest
   become: true
 
+- name: Download Google CAPTCHA
+  get_url:
+    url: "https://downloads.wordpress.org/plugin/google-captcha.{{ google_captcha_version }}.zip"
+    dest: /tmp/google-captcha.zip
+    force: yes
+
+- name: Install Google CAPTCHA
+  unarchive:
+    src: /tmp/google-captcha.zip
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    owner: root
+    group: root
+    copy: false
+  become: true
+
 - name: Download ACF
   get_url:
     url: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
