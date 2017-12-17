@@ -8,5 +8,6 @@
     - { role: sftp_access, when: "'localdev' not in inventory_file" }
     - { role: hostsfile_entries, when: "'production' not in inventory_file" }
     - { role: mail, when: "'production' in inventory_file" }
+    - { role: backups, when: "'production' in inventory_file" }
   handlers:
     - include: handlers.yml
