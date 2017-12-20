@@ -1,7 +1,4 @@
 ---
-- name: librivox group
-  group: name=librivox state=present
-
 - name: User kara
   user:
     name: kara

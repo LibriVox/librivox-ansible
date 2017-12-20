@@ -75,6 +75,10 @@
 
 # Shared directories
 
+- name: librivox group
+  group: name=librivox state=present
+  become: true
+
 - name: shared directory
   file: path=/librivox/shared/uploads state=directory recurse=yes
   become: true
