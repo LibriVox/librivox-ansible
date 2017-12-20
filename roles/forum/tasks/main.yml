@@ -22,6 +22,7 @@
   git:
     repo: https://github.com/LibriVox/librivox-phpbb.git
     dest: /librivox/www/forum.librivox.org
+    version: legacy
     force: yes
   become: true
 
