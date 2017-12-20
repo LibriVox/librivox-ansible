@@ -10,19 +10,10 @@
     - memcached
   become: true
 
-- name: Sphinsearch PPA
-  apt_repository:
-      repo: ppa:builds/sphinxsearch-rel22
-  become: true
-
-- name: Install sphinx
-  apt: name=sphinxsearch state=latest update_cache=yes
-  become: true
-
 - name: Sphinx configuration file
   template:
-    src: sphinx.conf
-    dest: /etc/sphinxsearch/sphinx.conf
+    src: wiki.conf
+    dest: /etc/sphinxsearch/wiki.conf
   become: true
 
 - name: Database user

@@ -73,6 +73,26 @@
   become: true
   notify: restart php-fpm
 
+# SphinSearch
+
+- name: Sphinsearch PPA
+  apt_repository:
+      repo: ppa:builds/sphinxsearch-rel22
+  become: true
+
+- name: Install sphinx
+  apt: name=sphinxsearch state=latest update_cache=yes
+  become: true
+
+- name: Sphinx configuration files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/sphinxsearch/{{ item }}"
+  with_items:
+    - common.conf
+    - sphinx.conf
+  become: true
+
 # Shared directories
 
 - name: librivox group
