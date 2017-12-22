@@ -61,7 +61,7 @@
 
 - name: Download sphinxsearch extension
   get_url:
-    url: https://github.com/LibriVox/mediawiki-extensions-SphinxSearch/archive/master.tar.gz
+    url: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch/archive/master.tar.gz
     dest: /tmp/sphinxsearch-extension.tar.gz
     force: yes
 
