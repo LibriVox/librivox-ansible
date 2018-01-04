@@ -22,14 +22,35 @@
   git:
     repo: https://github.com/LibriVox/librivox-phpbb.git
     dest: /librivox/www/forum.librivox.org
-    version: legacy
+    version: master
     force: yes
+  become: true
+
+- name: phpBB dependencies
+  command: php ../composer.phar install
+  args:
+    chdir: /librivox/www/forum.librivox.org/phpBB
   become: true
 
 - name: phpBB config file
   template:
     src: config.php
-    dest: /librivox/www/forum.librivox.org/config.php
+    dest: /librivox/www/forum.librivox.org/phpBB/config.php
+
+  become: true
+
+- name: cache directory Apache-writeable
+  file:
+    path: /librivox/www/forum.librivox.org/phpBB/cache
+    state: directory
+    owner: www-data
+    mode: 0755
+  become: true
+
+- name: Sphinx configuration file
+  template:
+    src: forum.conf
+    dest: /etc/sphinxsearch/forum.conf
   become: true
 
 - name: Apache config file

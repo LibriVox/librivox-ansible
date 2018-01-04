@@ -4,8 +4,7 @@
   roles:
     - blog+catalog
     - wiki
-    - { role: forum, when: "'production' in inventory_file" }
-    - { role: forum_new, when: "'production' not in inventory_file" }
+    - forum
     - { role: sftp_access, when: "'localdev' not in inventory_file" }
     - { role: hostsfile_entries, when: "'production' not in inventory_file" }
     - { role: mail, when: "'production' in inventory_file" }
