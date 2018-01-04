@@ -27,7 +27,7 @@
   become: true
 
 - name: phpBB dependencies
-  command: php ../composer.phar install
+  command: php ../composer.phar install --no-dev
   args:
     chdir: /librivox/www/forum.librivox.org/phpBB
   become: true
