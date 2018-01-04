@@ -2,13 +2,8 @@
 
 d=/backups/`date +%F`
 mkdir $d
-for db in blog catalog mediawiki; do
+for db in blog catalog mediawiki forum; do
     mysqldump librivox_$db | bzip2 -zc > $d/librivox_$db.sql.bz2
 done
-mysqldump librivox_forum \
-    --ignore-table=librivox_forum.ngo_search_results \
-    --ignore-table=librivox_forum.ngo_search_wordlist \
-    --ignore-table=librivox_forum.ngo_search_wordmatch \
-    | bzip2 -zc > $d/librivox_forum.sql.bz2
 rm /backups/latest
 ln -s $d /backups/latest
