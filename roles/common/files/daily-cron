@@ -8,5 +8,3 @@ php $INDEX_PHP cron project_status_stats language
 php $INDEX_PHP cron Search_table_update search_table
 php $INDEX_PHP cron statistics stats
 php $INDEX_PHP cron delete_frozen_files index
-
-indexer --all --rotate

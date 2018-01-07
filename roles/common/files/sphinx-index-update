@@ -1,0 +1,24 @@
+#!/bin/bash
+
+lockfile=/tmp/sphinx-index-update.lock
+
+# Do nothing if we've been started by cron while the previous full index update
+# is still going
+if [ -f $lockfile ]
+then
+	exit
+fi
+
+touch $lockfile
+
+# If it's 04:00 update the full index, otherwise just the delta
+if [ `data +%H:%M` == "04:00" ]
+then
+	indeces="index_phpbb_78ccb38a7ef5117c_main wiki_main"
+else
+	indeces="index_phpbb_78ccb38a7ef5117c_delta wiki_incremental"
+fi
+
+/usr/bin/indexer --rotate $indeces
+
+rm $lockfile

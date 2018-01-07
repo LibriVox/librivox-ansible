@@ -163,7 +163,21 @@
 - name: Enable daily cron
   cron:
     name: librivox daily cron
-    minute: 0
-    hour: 4
+    minute: 45
+    hour: 3
     job: /librivox/bin/daily-cron
+  become: true
+
+- name: Upload sphinx-index-update
+  copy:
+    src: sphinx-index-update
+    dest: /librivox/bin/sphinx-index-update
+    mode: 0755
+  become: true
+
+- name: sphinx-index-update cronjob
+  cron:
+    name: sphinx-index-update
+    minute: "*"
+    job: /librivox/bin/sphinx-index-update
   become: true
