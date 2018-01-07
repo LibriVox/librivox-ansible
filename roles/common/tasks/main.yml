@@ -6,12 +6,13 @@
   apt: name=ca-certificates state=latest update_cache=yes
   become: true
 
-# https://bz.apache.org/bugzilla/show_bug.cgi?id=53555
-- name: Ondrej's PPA
+- name: PPAs
   apt_repository: repo={{ item }}
   with_items:
     - ppa:ondrej/php
+      # For the fix to https://bz.apache.org/bugzilla/show_bug.cgi?id=53555
     - ppa:ondrej/apache2
+    - ppa:certbot/certbot
   become: true
 
 - name: Install packages
@@ -24,6 +25,7 @@
     - php5.6-fpm
     - php5.6-mysql
     - php5.6-curl
+    - python-certbot-apache
   become: true
 
 # Apache
