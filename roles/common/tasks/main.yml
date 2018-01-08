@@ -125,28 +125,15 @@
 
 # TLS
 
-- name: tls directory
-  file: path=/librivox/tls state=directory
+- name: Upload certbot-issue script
+  copy:
+    src: certbot-issue
+    dest: /librivox/bin/certbot-issue
+    mode: 0755
   become: true
 
-- name: Private key
-  copy:
-    content: '{{ ssl_private_key }}'
-    dest: /librivox/tls/STAR_librivox_org.key
-    owner: root
-    mode: 0600
-  become: true
-
-- name: LV certificate
-  copy:
-    src: STAR_librivox_org.crt
-    dest: /librivox/tls/STAR_librivox_org.crt
-  become: true
-
-- name: CA certificate
-  copy:
-    src: STAR_librivox_org.ca-bundle
-    dest: /librivox/tls/STAR_librivox_org.ca-bundle
+- name: Run certbot-issue
+  command: /librivox/bin/certbot-issue
   become: true
 
 # Cronjob
