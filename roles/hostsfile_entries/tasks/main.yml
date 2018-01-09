@@ -1,12 +1,6 @@
 ---
-- name: forum_wiki_uploads hosts entry
+- name: hosts entry
   lineinfile:
     dest: /etc/hosts
-    line: '{{ forum_wiki_ip }} forum.librivox.org wiki.librivox.org'
-  become: true
-
-- name: catalog_blog hosts entry
-  lineinfile:
-    dest: /etc/hosts
-    line: '{{ catalog_blog_ip }} librivox.org'
+    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
   become: true
