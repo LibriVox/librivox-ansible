@@ -11,4 +11,4 @@
     - { role: backups, when: "'production' in inventory_file" }
     - { role: maintenance, when: "'production' in inventory_file" }
   handlers:
-    - include: handlers.yml
+    - import_tasks: handlers.yml
