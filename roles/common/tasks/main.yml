@@ -28,6 +28,27 @@
     - python-certbot-apache
   become: true
 
+# Cronjob
+
+- name: bin directory
+  file: path=/librivox/bin state=directory
+  become: true
+
+- name: Upload daily-cron
+  copy:
+    src: daily-cron
+    dest: /librivox/bin/daily-cron
+    mode: 0755
+  become: true
+
+- name: Enable daily cron
+  cron:
+    name: librivox daily cron
+    minute: 45
+    hour: 3
+    job: /librivox/bin/daily-cron
+  become: true
+
 # Apache
 
 - name: Ports configuration
@@ -75,9 +96,9 @@
   become: true
   notify: restart php-fpm
 
-# SphinSearch
+# SphinxSearch
 
-- name: Sphinsearch PPA
+- name: Sphinx PPA
   apt_repository:
       repo: ppa:builds/sphinxsearch-rel22
   become: true
@@ -93,6 +114,20 @@
   with_items:
     - common.conf
     - sphinx.conf
+  become: true
+
+- name: Upload sphinx-index-update
+  copy:
+    src: sphinx-index-update
+    dest: /librivox/bin/sphinx-index-update
+    mode: 0755
+  become: true
+
+- name: sphinx-index-update cronjob
+  cron:
+    name: sphinx-index-update
+    minute: "*"
+    job: /librivox/bin/sphinx-index-update
   become: true
 
 # Shared directories
@@ -136,37 +171,10 @@
   command: /librivox/bin/certbot-issue
   become: true
 
-# Cronjob
-
-- name: bin directory
-  file: path=/librivox/bin state=directory
+# Staging hosts file entry
+- name: Staging hosts entry
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
   become: true
-
-- name: Upload daily-cron
-  copy:
-    src: daily-cron
-    dest: /librivox/bin/daily-cron
-    mode: 0755
-  become: true
-
-- name: Enable daily cron
-  cron:
-    name: librivox daily cron
-    minute: 45
-    hour: 3
-    job: /librivox/bin/daily-cron
-  become: true
-
-- name: Upload sphinx-index-update
-  copy:
-    src: sphinx-index-update
-    dest: /librivox/bin/sphinx-index-update
-    mode: 0755
-  become: true
-
-- name: sphinx-index-update cronjob
-  cron:
-    name: sphinx-index-update
-    minute: "*"
-    job: /librivox/bin/sphinx-index-update
-  become: true
+  when: "'production' not in inventory_file"
