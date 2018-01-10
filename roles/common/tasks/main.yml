@@ -178,3 +178,22 @@
     line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
   become: true
   when: "'production' not in inventory_file"
+
+# Backups
+
+- name: Upload backup script
+  copy:
+    src: backup
+    dest: /librivox/bin/backup
+    mode: 0755
+  become: true
+  when: "'production' in inventory_file"
+
+- name: Enable backup cronjob
+  cron:
+    name: backup
+    minute: 15
+    hour: 4
+    job: /librivox/bin/backup
+  become: true
+  when: "'production' in inventory_file"
