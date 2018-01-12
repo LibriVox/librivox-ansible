@@ -171,6 +171,13 @@
   command: /librivox/bin/certbot-issue
   become: true
 
+- name: Renew cronjob
+  cron:
+    name: certbot renew
+    special_time: monthly
+    job: /usr/bin/certbot renew
+  become: true
+
 # Staging hosts file entry
 - name: Staging hosts entry
   lineinfile:
