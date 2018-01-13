@@ -159,6 +159,7 @@
   become: true
 
 # TLS
+# We can't run certbot on anything other than production because DNS
 
 - name: Upload certbot-issue script
   copy:
@@ -166,10 +167,12 @@
     dest: /librivox/bin/certbot-issue
     mode: 0755
   become: true
+  when: "'production' in inventory_file"
 
 - name: Run certbot-issue
   command: /librivox/bin/certbot-issue
   become: true
+  when: "'production' in inventory_file"
 
 - name: Renew cronjob
   cron:
@@ -177,6 +180,7 @@
     special_time: monthly
     job: /usr/bin/certbot renew
   become: true
+  when: "'production' in inventory_file"
 
 # Staging hosts file entry
 - name: Staging hosts entry
