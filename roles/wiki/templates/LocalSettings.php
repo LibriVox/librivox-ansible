@@ -29,7 +29,7 @@ $wgMetaNamespace = "Librivox_wiki";
 $wgScriptPath = "";
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = "http://wiki.librivox.org";
+$wgServer = "https://wiki.librivox.org";
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
