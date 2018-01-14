@@ -7,3 +7,9 @@ for db in blog catalog mediawiki forum; do
 done
 rm /backups/latest
 ln -s $d /backups/latest
+
+# We just keep a "rolling snapshot" of user content
+rsync -a /librivox/www/wiki.librivox.org/images \
+         /backups/user-content/wiki/
+rsync -a /librivox/www/librivox.org/wordpress/wp-content/uploads \
+         /backups/user-content/wp-content/
