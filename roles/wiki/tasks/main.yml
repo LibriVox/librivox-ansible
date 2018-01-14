@@ -31,26 +31,12 @@
     - Import mediawiki database
   become: true
 
-- name: Download mediawiki
-  get_url:
-    url: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
-    dest: /tmp/mediawiki.tar.gz
-    force: yes
-
-- name: Extract mediawiki
-  unarchive:
-    src: /tmp/mediawiki.tar.gz
-    dest: /librivox/www
-    owner: root
-    group: root
-    copy: false
-  become: true
-
 - name: DocumentRoot
-  file:
-    src: "/librivox/www/mediawiki-{{ mediawiki_ver_min }}"
+  unarchive:
+    src: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
     dest: /librivox/www/wiki.librivox.org
-    state: link
+    remote_src: true
+    extra_opts: [--strip-components=1]
   become: true
 
 - name: Local settings config file
