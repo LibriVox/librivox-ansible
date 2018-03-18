@@ -8,7 +8,11 @@ do everything else.
 While some considerations were given towards using the playbooks for deploying
 local development versions of LibriVox for dev work, that use case isn't fully
 supported yet, so for now only production and staging environments can be
-deployed on LibriVox's [Internet Archive](https://archive.org) servers.
+deployed on LibriVox's [Internet Archive](https://archive.org) servers. That
+being said, a database schema dump for the `librivox_catalog` database is
+included in the blog+catalog role's `files` directory. It doesn't make for a
+fully turn-key run-this-ansible-command local development environment
+deployment, but it's a start.
 
 The playbooks do handle importing databases from the latest backups if
 necessary, but no other user-generated content is managed. Specifically, the
