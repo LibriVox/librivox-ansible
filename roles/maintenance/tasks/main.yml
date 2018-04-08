@@ -1,16 +1,19 @@
 ---
 - name: DocumentRoot
   file: path=/librivox/www/maintenance state=directory recurse=true
-  become: true
 
-- name: Upload files
+- name: Upload Apache config
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   with_items:
-    - { src: "index.html", dest: "/librivox/www/maintenance" }
     - { src: "000-default.conf", dest: "/etc/apache2/sites-available" }
     - { src: "default-ssl.conf", dest: "/etc/apache2/sites-available" }
   become: true
+
+- name: Upload docroot
+  copy:
+    src: index.html
+    dest: /librivox/www/maintenance
 
 # Sites are intentionally left disabled to allow for manual control.

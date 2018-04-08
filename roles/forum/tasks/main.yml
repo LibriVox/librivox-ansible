@@ -24,20 +24,16 @@
     dest: /librivox/www/forum.librivox.org
     version: master
     force: yes
-  become: true
 
 - name: phpBB dependencies
   command: php ../composer.phar install --no-dev
   args:
     chdir: /librivox/www/forum.librivox.org/phpBB
-  become: true
 
 - name: phpBB config file
   template:
     src: config.php
     dest: /librivox/www/forum.librivox.org/phpBB/config.php
-
-  become: true
 
 - name: cache directory Apache-writeable
   file:

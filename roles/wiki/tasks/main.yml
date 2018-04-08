@@ -32,18 +32,22 @@
   become: true
 
 - name: DocumentRoot
+  # The next task needs this, for some reason
+  file:
+    path: /librivox/www/wiki.librivox.org
+    state: directory
+
+- name: Extract MediaWiki
   unarchive:
     src: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
     dest: /librivox/www/wiki.librivox.org
     remote_src: true
     extra_opts: [--strip-components=1]
-  become: true
 
 - name: Local settings config file
   template:
     src: LocalSettings.php
     dest: /librivox/www/wiki.librivox.org/LocalSettings.php
-  become: true
 
 - name: Download sphinxsearch extension
   get_url:
@@ -55,24 +59,19 @@
   unarchive:
     src: /tmp/sphinxsearch-extension.tar.gz
     dest: /librivox/www/wiki.librivox.org/extensions
-    owner: root
-    group: root
     copy: false
-  become: true
 
 - name: Sphinxsearch extension symlink
   file:
     src: /librivox/www/wiki.librivox.org/extensions/mediawiki-extensions-SphinxSearch-master
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
     state: link
-  become: true
 
 - name: sphinxsearch.api symlink
   file:
     src: /usr/share/sphinxsearch/api/sphinxapi.php
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
     state: link
-  become: true
 
 - name: Apache config file
   template:

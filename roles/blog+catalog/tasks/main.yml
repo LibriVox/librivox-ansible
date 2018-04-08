@@ -2,7 +2,12 @@
 # Common stuff
 
 - name: DocumentRoot
-  file: path=/librivox/www/librivox.org state=directory recurse=true
+  file:
+    path: /librivox/www/librivox.org
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    recurse: true
   become: true
 
 - name: mod_rewrite
@@ -32,7 +37,6 @@
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/librivox.org/catalog
     force: yes
-  become: true
 
 - name: Config files
   template:
@@ -42,7 +46,6 @@
     - config
     - database
     - iarchive_uploader
-  become: true
 
 - name: Symlinks
   # Needed by the catalog application, URLs are handled in the Apache config
@@ -54,7 +57,6 @@
   with_items:
     - { src: "librivox-validator-books", dest: "librivox-validator-books" }
     - { src: "uploads/uploads", dest: "uploads" }
-  become: true
 
 - name: PPA for mp3gain
   apt_repository:
@@ -92,22 +94,17 @@
   unarchive:
     src: /tmp/wordpress.tar.gz
     dest: /librivox/www/librivox.org
-    owner: root
-    group: root
     copy: false
-  become: true
 
 - name: LibriVox theme from git
   git:
     repo: https://github.com/LibriVox/librivox-wordpress-theme.git
     dest: /librivox/www/librivox.org/wordpress/wp-content/themes/librivox
-  become: true
  
 - name: wp-config.php
   template:
     src: wp-config.php
     dest: /librivox/www/librivox.org/wordpress/wp-config.php
-  become: true
 
 - name: Install unzip
   apt: name=unzip state=latest
@@ -123,10 +120,7 @@
   unarchive:
     src: /tmp/google-captcha.zip
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    owner: root
-    group: root
     copy: false
-  become: true
 
 - name: Download ACF
   get_url:
@@ -138,10 +132,7 @@
   unarchive:
     src: /tmp/advanced-custom-fields.zip
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    owner: root
-    group: root
     copy: false
-  become: true
 
 - name: Download Jetpack
   get_url:
@@ -153,10 +144,7 @@
   unarchive:
     src: /tmp/jetpack.zip
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    owner: root
-    group: root
     copy: false
-  become: true
 
 # Enable both as a single Apache site
 
