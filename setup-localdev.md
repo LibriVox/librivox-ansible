@@ -92,27 +92,6 @@ Do not let Git overwrite the local changes when updating:
 
 ## Let the playbook run
 
-Save the not-so-secret password list for local development in `hosts/localdev/group_vars/all/secrets.yml`:
-
-	catalog_db_password: catalog
-	iarchive_uploader_access_key: invalid
-	iarchive_uploader_secret_key: invalid
-	codeigniter_encryption_key: some_random_string
-	blog_db_password: librivox_blog
-	blog_wp_salt: |
-	  define('AUTH_KEY',         'put your unique phrase here');
-	  define('SECURE_AUTH_KEY',  'put your unique phrase here');
-	  define('LOGGED_IN_KEY',    'put your unique phrase here');
-	  define('NONCE_KEY',        'put your unique phrase here');
-	  define('AUTH_SALT',        'put your unique phrase here');
-	  define('SECURE_AUTH_SALT', 'put your unique phrase here');
-	  define('LOGGED_IN_SALT',   'put your unique phrase here');
-	  define('NONCE_SALT',       'put your unique phrase here');
-	wiki_db_password: mediawiki
-	wiki_secret_key: wiki_secret_key
-	wiki_upgrade_key: wiki_upgrade_key
-	forum_db_password: librivox_forum
-
 Change the URL for the Advanced Custom Fields plugin for WordPress,
 since you probably don't have a pro key:
 
