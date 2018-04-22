@@ -123,11 +123,21 @@
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     copy: false
 
-- name: Download ACF
+- name: Download ACF pro
   get_url:
     url: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
     dest: /tmp/advanced-custom-fields.zip
     force: yes
+  when: "'localdev' not in inventory_file"
+
+# Use free ACF for localdev since we can't use our secret pro key. It doesn't
+# have the repeater field we need, but it's better than nothing.
+- name: Download ACF
+  get_url:
+    url: "https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip"
+    dest: /tmp/advanced-custom-fields.zip
+    force: yes
+  when: "'localdev' in inventory_file"
 
 - name: Install ACF
   unarchive:

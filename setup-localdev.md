@@ -92,14 +92,6 @@ Do not let Git overwrite the local changes when updating:
 
 ## Let the playbook run
 
-Change the URL for the Advanced Custom Fields plugin for WordPress,
-since you probably don't have a pro key:
-
-*   Replace `https://connect.advanced`...
-*   With `https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip`
-
-Then:
-
     ansible deploy.yml -i hosts/localdev/hosts
 
 ## Generate a self-signed certificate
