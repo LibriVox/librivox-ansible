@@ -36,6 +36,7 @@
   git:
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/librivox.org/catalog
+    version: master
     force: yes
 
 - name: Config files
