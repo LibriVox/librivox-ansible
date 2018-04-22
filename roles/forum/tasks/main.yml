@@ -1,6 +1,11 @@
 ---
-- name: php-memcache
-  apt: name=php5.6-memcache state=latest
+- name: PHP extensions
+  apt:
+    name: "php5.6-{{ item }}"
+    state: latest
+  with_items:
+    - memcache
+    - mbstring
   become: true
 
 - name: Create database
