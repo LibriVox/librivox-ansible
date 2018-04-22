@@ -182,6 +182,39 @@
   become: true
   when: "'production' in inventory_file"
 
+- name: Install python-openssl for self-signed cert
+  apt: name=python-openssl state=latest update_cache=yes
+  become: true
+  when: "'localdev' in inventory_file"
+
+- name: certs directory
+  file: path=/etc/letsencrypt/live/librivox.org state=directory recurse=true
+  become: true
+  when: "'localdev' in inventory_file"
+
+- name: localdev privkey
+  openssl_privatekey:
+    path: /etc/letsencrypt/live/librivox.org/privkey.pem
+  become: true
+  when: "'localdev' in inventory_file"
+
+- name: localdev csr
+  openssl_csr:
+    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
+    path: /etc/letsencrypt/live/librivox.org/localdev.csr
+    subject_alt_name: "DNS:librivox.org,DNS:forum.librivox.org,DNS:wiki.librivox.org"
+  become: true
+  when: "'localdev' in inventory_file"
+
+- name: localdev self-signed cert
+  openssl_certificate:
+    path: /etc/letsencrypt/live/librivox.org/cert.pem
+    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
+    csr_path: /etc/letsencrypt/live/librivox.org/localdev.csr
+    provider: selfsigned
+  become: true
+  when: "'localdev' in inventory_file"
+
 # Staging hosts file entry
 - name: Staging hosts entry
   lineinfile:

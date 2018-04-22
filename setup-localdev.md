@@ -94,31 +94,6 @@ Do not let Git overwrite the local changes when updating:
 
     ansible deploy.yml -i hosts/localdev/hosts
 
-## Generate a self-signed certificate
-
-https://stackoverflow.com/a/21494483
-
-    [ alternate_names ]
-    DNS.1 =         librivox.org
-    DNS.2 =     dev.librivox.org
-    DNS.3 =   forum.librivox.org
-    DNS.4 =    wiki.librivox.org
-    DNS.5 =     www.librivox.org
-
-Install it in:
-
-    SSLCertificateFile /etc/letsencrypt/live/librivox.org/cert.pem
-    SSLCertificateKeyFile /etc/letsencrypt/live/librivox.org/privkey.pem
-    SSLCACertificateFile /etc/letsencrypt/live/librivox.org/chain.pem
-
-Also in:
-
-    SSLCertificateFile /librivox/tls/STAR_librivox_org.crt
-    SSLCertificateKeyFile /librivox/tls/STAR_librivox_org.key
-    SSLCACertificateFile /librivox/tls/STAR_librivox_org.ca-bundle
-
-On the host, register this certificate as a root certificate.
-
 ## Access LibriVox from the host system
 
 In `/etc/hosts` or `C:\Windows\System32\drivers\etc\hosts`, add:
