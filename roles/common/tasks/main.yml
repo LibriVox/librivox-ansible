@@ -178,7 +178,7 @@
   cron:
     name: certbot renew
     special_time: monthly
-    job: /usr/bin/certbot renew
+    job: "/usr/bin/certbot renew --post-hook 'systemctl reload apache2'"
   become: true
   when: "'production' in inventory_file"
 
