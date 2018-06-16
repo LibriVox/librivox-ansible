@@ -35,6 +35,8 @@ def scrub_catalog():
     password = bcrypt.hashpw(b'librivox', salt)
 
     with conn.cursor() as cursor:
+        cursor.execute('TRUNCATE TABLE ci_sessions')
+        cursor.execute('TRUNCATE TABLE login_attempts')
         cursor.execute('SELECT * FROM users')
         # NOTE(artom) We could be smarter about this, but we only have ~13000
         # users.
