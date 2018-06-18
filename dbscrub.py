@@ -42,9 +42,13 @@ def scrub_catalog():
         # users.
         users = cursor.fetchall()
         for user in users:
+            if user['username'] == 'administrator':
+                username = 'administrator'
+            else:
+                username = 'librivoxer_%d' % user['id']
             user.update({
                 'ip_address': 0,
-                'username': 'librivoxer_%d' % user['id'],
+                'username': username,
                 'password': password,
                 'salt': salt,
                 'email': 'librivoxer_%d@example.com' % user['id'],
