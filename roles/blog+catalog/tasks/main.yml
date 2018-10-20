@@ -36,8 +36,17 @@
   git:
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/librivox.org/catalog
+    version: legacy
+    force: yes
+  when: "'production' in inventory_file"
+
+- name: Git checkout
+  git:
+    repo: https://github.com/LibriVox/librivox-catalog.git
+    dest: /librivox/www/librivox.org/catalog
     version: master
     force: yes
+  when: "'production' not in inventory_file"
 
 - name: Config files
   template:
