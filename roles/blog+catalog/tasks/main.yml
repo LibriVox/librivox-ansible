@@ -60,12 +60,23 @@
     dest: "/librivox/www/librivox.org/catalog/application/config/config.php"
   when: "'production' not in inventory_file"
 
+- name: Database config file (CI2)
+  template:
+    src: "database.php.ci2"
+    dest: "/librivox/www/librivox.org/catalog/application/config/database.php"
+  when: "'production' in inventory_file"
+
+- name: Database config file (CI3)
+  template:
+    src: "database.php.ci3"
+    dest: "/librivox/www/librivox.org/catalog/application/config/database.php"
+  when: "'production' not in inventory_file"
+
 - name: Other config files
   template:
     src: "{{ item }}.php"
     dest: "/librivox/www/librivox.org/catalog/application/config/{{ item }}.php"
   with_items:
-    - database
     - iarchive_uploader
 
 - name: Symlinks
