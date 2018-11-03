@@ -14,7 +14,8 @@ pm.max_requests = 50
 
 security.limit_extensions = .php .xml .atom
  
-env[ENVIRONMENT] = production
+env[ENVIRONMENT] = development
+env[CI_ENV] = development
 
 php_admin_value[default_charset] = utf-8
 php_admin_value[upload_max_filesize] = 100M
