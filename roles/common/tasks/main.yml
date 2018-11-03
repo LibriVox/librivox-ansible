@@ -86,7 +86,7 @@
 # php-fpm
 
 - name: Pool configuration file
-  copy: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
+  template: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
   become: true
   notify: restart php-fpm
 
