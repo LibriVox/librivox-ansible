@@ -92,9 +92,16 @@
 # php-fpm
 
 - name: Pool configuration file
-  copy: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
+  copy: src=www.conf.prod dest=/etc/php/5.6/fpm/pool.d/www.conf
   become: true
   notify: restart php-fpm
+  when: "'production' in inventory_file"
+
+- name: Pool configuration file
+  copy: src=www.conf.dev dest=/etc/php/5.6/fpm/pool.d/www.conf
+  become: true
+  notify: restart php-fpm
+  when: "'production' not in inventory_file"
 
 # SphinxSearch
 
