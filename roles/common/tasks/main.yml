@@ -16,16 +16,10 @@
   become: true
 
 - name: Install packages
-  apt: name={{ item }} state=latest update_cache=yes
-  with_items:
-    - git
-    - apache2
-    - mariadb-server
-    - python-mysqldb
-    - php5.6-fpm
-    - php5.6-mysql
-    - php5.6-curl
-    - python-certbot-apache
+  apt:
+    name: ['git', 'apache2', 'mariadb-server', 'python-mysqldb', 'php5.6-fpm', 'php5.6-mysql', 'php5.6-curl', 'python-certbot-apache']
+    state: latest
+    update_cache: yes
   become: true
 
 # Cronjob

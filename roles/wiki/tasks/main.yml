@@ -1,13 +1,9 @@
 ---
 - name: Install mediawiki dependencies
-  apt: name={{ item }} state=latest update_cache=yes
-  with_items:
-    - php5.6-mbstring
-    - php5.6-xml
-    - php5.6-intl
-    - php5.6-apcu
-    - imagemagick
-    - memcached
+  apt:
+    name: ['php5.6-mbstring', 'php5.6-xml', 'php5.6-intl', 'php5.6-apcu', 'imagemagick', 'memcached']
+    state: latest
+    update_cache: yes
   become: true
 
 - name: Sphinx configuration file
