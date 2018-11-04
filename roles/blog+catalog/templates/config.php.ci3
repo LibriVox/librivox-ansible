@@ -387,6 +387,7 @@ $config['proxy_ips'] = '';
 if ((php_sapi_name() != 'cli') or !defined('STDIN'))
 {
 
+  define('EXT', '.php');
   function __autoload($class)
   {
       /* don't autoload CI_ prefixed classes or those using the config subclass_prefix */
