@@ -20,6 +20,10 @@
 
 # Catalog stuff
 
+- name: install php5.6-memcached
+  apt: name=php5.6-memcached state=latest update_cache=yes
+  become: true
+
 - name: Create catalog database
   mysql_db: name=librivox_catalog state=present
   become: true
