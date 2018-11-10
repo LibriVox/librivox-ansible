@@ -45,23 +45,11 @@
     src: LocalSettings.php
     dest: /librivox/www/wiki.librivox.org/LocalSettings.php
 
-- name: Download sphinxsearch extension
-  get_url:
-    url: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch/archive/master.tar.gz
-    dest: /tmp/sphinxsearch-extension.tar.gz
-    force: yes
-
-- name: Extract sphinxsearch extension
-  unarchive:
-    src: /tmp/sphinxsearch-extension.tar.gz
-    dest: /librivox/www/wiki.librivox.org/extensions
-    copy: false
-
-- name: Sphinxsearch extension symlink
-  file:
-    src: /librivox/www/wiki.librivox.org/extensions/mediawiki-extensions-SphinxSearch-master
+- name: SphinxSearch extension git checkout
+  git:
+    repo: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch.git
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
-    state: link
+    force: yes
 
 - name: sphinxsearch.api symlink
   file:
