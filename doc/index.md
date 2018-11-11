@@ -3,7 +3,9 @@
 ## Database
 
 On staging and production, creating a database calls a handler that imports
-said database from the latest backups.
+said database from the latest backups. On localdev, the catalog database is
+imported from a scrubbed (all personal information removed) database snapshot.
+The other databases are left empty.
 
 ## Other notes
 
