@@ -2,8 +2,9 @@
 
 import argparse
 import bcrypt
-import re
 import pymysql.cursors
+import re
+import sys
 
 
 def get_catalog_db_creds():
@@ -25,10 +26,11 @@ def get_catalog_db_creds():
     return username, password, database
 
 
-def scrub_catalog():
-    username, password, database = get_catalog_db_creds()
-    conn = pymysql.connect(user=username, password=password,
-                           database=database,
+def scrub_catalog(mysql_user=None, mysql_pass=None, mysql_db=None):
+    if not mysql_user and not mysql_pass and not mysql_db:
+        mysql_user, mysql_pass, mysql_db = get_catalog_db_creds()
+    conn = pymysql.connect(user=mysql_user, password=mysql_pass,
+                           database=mysql_db,
                            cursorclass=pymysql.cursors.DictCursor)
 
     salt = bcrypt.gensalt()
@@ -83,9 +85,13 @@ def scrub_catalog():
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-u', dest='mysql_user')
+parser.add_argument('-p', dest='mysql_pass')
+parser.add_argument('-d', dest='mysql_db')
 parser.add_argument('database', choices=['catalog'],
                     help='The database to scrub.')
 args = parser.parse_args()
+print(args)
 
 if args.database == 'catalog':
-    scrub_catalog()
+    scrub_catalog(args.mysql_user, args.mysql_pass, args.mysql_db)
