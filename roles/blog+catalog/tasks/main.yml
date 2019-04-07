@@ -85,17 +85,11 @@
     state: present
   become: true
 
-- name: Download WordPress
-  get_url:
-    url: "https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz"
-    dest: /tmp/wordpress.tar.gz
-    force: yes
-
 - name: Extract WordPress
   unarchive:
-    src: /tmp/wordpress.tar.gz
+    src: "https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz"
     dest: /librivox/www/librivox.org
-    copy: false
+    remote_src: yes
 
 - name: LibriVox theme from git
   git:
@@ -111,51 +105,33 @@
   apt: name=unzip state=latest
   become: true
 
-- name: Download Google CAPTCHA
-  get_url:
-    url: "https://downloads.wordpress.org/plugin/google-captcha.{{ google_captcha_version }}.zip"
-    dest: /tmp/google-captcha.zip
-    force: yes
-
 - name: Install Google CAPTCHA
   unarchive:
-    src: /tmp/google-captcha.zip
+    src: "https://downloads.wordpress.org/plugin/google-captcha.{{ google_captcha_version }}.zip"
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    copy: false
+    remote_src: yes
 
-- name: Download ACF pro
-  get_url:
-    url: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
-    dest: /tmp/advanced-custom-fields.zip
-    force: yes
+- name: Install ACF pro
+  unarchive:
+    src: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    remote_src: yes
   when: "'localdev' not in inventory_file"
 
 # Use free ACF for localdev since we can't use our secret pro key. It doesn't
 # have the repeater field we need, but it's better than nothing.
-- name: Download ACF
-  get_url:
-    url: "https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip"
-    dest: /tmp/advanced-custom-fields.zip
-    force: yes
-  when: "'localdev' in inventory_file"
-
-- name: Install ACF
+- name: Install ACF free
   unarchive:
-    src: /tmp/advanced-custom-fields.zip
+    src: "https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip"
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    copy: false
-
-- name: Download Jetpack
-  get_url:
-    url: "https://downloads.wordpress.org/plugin/jetpack.{{ jetpack_version }}.zip"
-    dest: /tmp/jetpack.zip
-    force: yes
+    remote_src: yes
+  when: "'localdev' in inventory_file"
 
 - name: Install Jetpack
   unarchive:
-    src: /tmp/jetpack.zip
+    src: "https://downloads.wordpress.org/plugin/jetpack.{{ jetpack_version }}.zip"
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    copy: false
+    remote_src: yes
 
 # Enable both as a single Apache site
 
