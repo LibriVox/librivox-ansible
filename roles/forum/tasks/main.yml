@@ -41,8 +41,9 @@
   file:
     path: /librivox/www/forum.librivox.org/phpBB/cache
     state: directory
-    owner: www-data
-    mode: 0755
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: www-data
+    mode: 0775
   become: true
 
 - name: Sphinx configuration file
