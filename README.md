@@ -18,4 +18,4 @@ These playbooks were written with production and staging deployments in mind.
 That being said, some considerations were given towards using them for
 deploying local development versions of LibriVox. That use case isn't fully
 supported (yet?), but with some elbow grease it can be done. A guide is
-[available](localdev.md).
+[available](doc/localdev.md).
