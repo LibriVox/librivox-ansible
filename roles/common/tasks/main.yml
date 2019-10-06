@@ -38,8 +38,8 @@
 - name: Enable daily cron
   cron:
     name: librivox daily cron
-    minute: 45
-    hour: 3
+    minute: '45'
+    hour: '3'
     job: /librivox/bin/daily-cron
   become: true
 
