@@ -8,6 +8,9 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
     recurse: true
+    # Don't follow symlinks to avoid clobbering the shared directory symlinks
+    # to root:root.
+    follow: no
   become: true
 
 - name: mod_rewrite
