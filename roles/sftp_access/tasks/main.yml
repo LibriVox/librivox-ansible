@@ -1,12 +1,15 @@
 ---
-- name: User kara
+- name: Users kara and jo
   user:
-    name: kara
-    password: "{{ kara_password }}"
+    name: '{{ item.username }}'
+    password: "{{ item.password }}"
     shell: /bin/bash
     createhome: yes
     groups: librivox
   become: true
+  with_items:
+    - { username: kara, password: '{{ kara_password }}' }
+    - { username: jo, password: '{{ jo_password }}' }
 
 - name: User mc
   user:
@@ -16,18 +19,6 @@
     home: /librivox/shared/uploads
     groups: librivox
   become: true
-
-- name: Users ruth and jo
-  user:
-    name: "{{ item.username }}"
-    password: "{{ item.password }}"
-    shell: /usr/sbin/nologin
-    home: /librivox/shared
-    groups: librivox
-  become: true
-  with_items:
-    - { username: ruth, password: "{{ ruth_password }}" }
-    - { username: jo, password: "{{ jo_password }}" }
 
 - name: sshd_config subsystem sftp
   lineinfile:
@@ -40,8 +31,6 @@
   blockinfile:
     dest: /etc/ssh/sshd_config
     block: |
-      Match User jo,ruth
-          ChrootDirectory /librivox/shared
       Match User mc
           ChrootDirectory /librivox/shared/uploads
   become: true
