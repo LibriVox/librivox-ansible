@@ -2,11 +2,11 @@
   vars_files:
     - versions.yml
   roles:
-    - blog+catalog
-    - wiki
-    - forum
-    - { role: sftp_access, when: "'localdev' not in inventory_file" }
-    - { role: mail, when: "'production' in inventory_file" }
-    - { role: maintenance, when: "'production' in inventory_file" }
+    - { role: blog+catalog, tags: 'blog+catalog' }
+    - { role: wiki, tags: 'wiki' }
+    - { role: forum, tags: 'forum' }
+    - { role: sftp_access, tags: 'sftp_access', when: "'localdev' not in inventory_file" }
+    - { role: mail, tags: 'mail', when: "'production' in inventory_file" }
+    - { role: maintenance, tags: 'maintenance', when: "'production' in inventory_file" }
   handlers:
     - import_tasks: handlers.yml
