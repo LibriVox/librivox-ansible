@@ -48,6 +48,10 @@
 - name: SphinxSearch extension git checkout
   git:
     repo: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch.git
+    # NOTE(artom) Starting with commit f8d0556, the extension effectively
+    # depends on a newer version of MediaWiki, so we need to pin to the commit
+    # right before that one.
+    version: 6a4bb7cdb8c43180a5578e7031f819f2572181f9
     dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
     force: yes
 
