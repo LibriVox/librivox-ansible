@@ -46,6 +46,14 @@
     version: master
     force: yes
 
+- name: CodeIgniter sessions directory
+  file:
+    path: /tmp/php-sessions
+    state: directory
+    owner: www-data
+    group: librivox
+    mode: 0700
+
 - name: Config files
   template:
     src: "{{ item }}.php"
