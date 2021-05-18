@@ -12,7 +12,7 @@ fi
 touch $lockfile
 
 # If it's 04:00 update the full index, otherwise just the delta
-if [ `data +%H:%M` == "04:00" ]
+if [ `date +%H:%M` = "04:00" ]
 then
 	indeces="index_phpbb_78ccb38a7ef5117c_main wiki_main"
 else
