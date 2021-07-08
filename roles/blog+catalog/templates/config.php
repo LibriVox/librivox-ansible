@@ -268,8 +268,8 @@ $config['encryption_key'] = '{{ codeigniter_encryption_key }}';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_driver']          = 'memcached';
-$config['sess_save_path']       = 'localhost:11211';
+$config['sess_driver']          = 'files';
+$config['sess_save_path']       = '/tmp/php-sessions';
 
 /*
 |--------------------------------------------------------------------------

@@ -18,6 +18,13 @@
   become: true
   notify: Restart Apache
 
+- name: Bandaid to cleanup empty CodeIgniter session files
+  cron:
+    name: Bandaid to cleanup empty CodeIgniter session files
+    special_time: hourly
+    job: '/usr/bin/find /tmp/php-sessions -size 0 -delete'
+
+
 # Catalog stuff
 
 - name: install php5.6-memcached
