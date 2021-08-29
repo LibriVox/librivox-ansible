@@ -1,23 +1,9 @@
 ---
 # Install packages
 
-- name: Install ca-certificates
-  # This is needed to avoid SSL cert validation errors in the next task
-  apt: name=ca-certificates state=latest update_cache=yes
-  become: true
-
-- name: PPAs
-  apt_repository: repo={{ item }}
-  with_items:
-    - ppa:ondrej/php
-      # For the fix to https://bz.apache.org/bugzilla/show_bug.cgi?id=53555
-    - ppa:ondrej/apache2
-    - ppa:certbot/certbot
-  become: true
-
 - name: Install packages
   apt:
-    name: ['git', 'apache2', 'mariadb-server', 'python-mysqldb', 'php5.6-fpm', 'php5.6-mysql', 'php5.6-curl', 'python-certbot-apache']
+    name: ['git', 'apache2', 'mariadb-server', 'php7.4-fpm', 'php7.4-mysql', 'php7.4-curl', 'python3-certbot-apache', 'sphinxsearch']
     state: latest
     update_cache: yes
   become: true
@@ -45,51 +31,39 @@
 
 # Apache
 
-- name: Ports configuration
-  template: src=ports.conf dest=/etc/apache2/ports.conf
+- name: Enable proxy_fcgi
+  apache2_module:
+    name: proxy_fcgi
+    state: present
   become: true
   notify: Restart Apache
 
-- name: MaxRequestWorkers line
-  lineinfile:
-    dest: /etc/apache2/mods-enabled/mpm_event.conf
-    regexp: 'MaxRequestWorkers'
-    line: "\tMaxRequestWorkers\t300"
+- name: Disable other-vhosts-access-log conf
+  ansible.builtin.command:
+    argv:
+      - a2disconf
+      - other-vhosts-access-log
   become: true
   notify: Restart Apache
 
-- name: Apache modules
-  apache2_module: name={{ item }} state=present
-  with_items:
-    - ssl
-    - proxy_fcgi
+- name: Enable php7.4-fpm conf
+  ansible.builtin.command:
+    argv:
+      - a2enconf
+      - php7.4-fpm
   become: true
   notify: Restart Apache
 
-- name: Disable access log
-  file:
-    name: /etc/apache2/conf-enabled/other-vhosts-access-log.conf
-    state: absent
-  become: true
-  notify: Restart Apache
-
-# php-fpm
+# PHP FPM
 
 - name: Pool configuration file
-  template: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
+  template: 
+    src: www.conf
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
   become: true
-  notify: restart php-fpm
+  notify: Restart PHP FPM
 
 # SphinxSearch
-
-- name: Sphinx PPA
-  apt_repository:
-      repo: ppa:builds/sphinxsearch-rel22
-  become: true
-
-- name: Install sphinx
-  apt: name=sphinxsearch state=latest update_cache=yes
-  become: true
 
 - name: Sphinx configuration files
   copy:
@@ -126,11 +100,16 @@
 # Shared directories
 
 - name: librivox group
-  group: name=librivox state=present
+  group:
+    name: librivox
+    state: present
   become: true
 
 - name: shared directory
-  file: path=/librivox/shared/uploads state=directory recurse=yes
+  file:
+    path: /librivox/shared/uploads
+    state: directory
+    recurse: yes
   become: true
 
 - name: uploads and librivox-validator-books directories
@@ -175,13 +154,19 @@
   become: true
   when: "'production' in inventory_file"
 
-- name: Install python-openssl for self-signed cert
-  apt: name=python-openssl state=latest update_cache=yes
+- name: Install python3-openssl for self-signed cert
+  apt:
+    name: python3-openssl
+    state: latest
+    update_cache: yes
   become: true
   when: "'localdev' in inventory_file"
 
 - name: certs directory
-  file: path=/etc/letsencrypt/live/librivox.org state=directory recurse=true
+  file:
+    path: /etc/letsencrypt/live/librivox.org
+    state: directory
+    recurse: true
   become: true
   when: "'localdev' in inventory_file"
 
