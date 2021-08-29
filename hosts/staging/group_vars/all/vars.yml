@@ -1,3 +1,2 @@
-innodb_buffer_pool_size: 6G
 ci_env: development
 ci_log_threshold: 4

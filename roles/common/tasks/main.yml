@@ -73,16 +73,6 @@
   become: true
   notify: Restart Apache
 
-# MariaDB
-
-- name: Configuration file
-  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/99-librivox.cnf
-  notify:
-    - Stop MySQL
-    - Remove ib_logfiles
-    - Start MySQL
-  become: true
-
 # php-fpm
 
 - name: Pool configuration file
