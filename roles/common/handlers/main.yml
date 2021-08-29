@@ -1,19 +1,4 @@
 ---
-- name: Stop MySQL
-  service: name=mysql state=stopped
-  become: true
-
-- name: Remove ib_logfiles
-  file: path=/var/lib/mysql/{{ item }} state=absent
-  with_items:
-    - ib_logfile0
-    - ib_logfile1
-  become: true
-
-- name: Start MySQL
-  service: name=mysql state=started
-  become: true
-
 - name: restart php-fpm
   service: name=php5.6-fpm state=restarted
   become: true
