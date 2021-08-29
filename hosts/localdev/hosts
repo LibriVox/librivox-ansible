@@ -1,2 +1,2 @@
 [server]
-192.168.100.134
+192.168.122.18 ansible_ssh_user=ubuntu
