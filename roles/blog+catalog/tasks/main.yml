@@ -54,6 +54,13 @@
     group: librivox
     mode: 0700
 
+- name: CodeIgniter sessions cleanup cron
+  cron:
+    name: CodeIgniter sessions cleanup
+    special_time: daily
+    job: 'find /tmp/php-sessions -atime +5 -delete'
+  become: true
+
 - name: Config files
   template:
     src: "{{ item }}.php"
