@@ -124,6 +124,15 @@
     job: /librivox/bin/sphinx-index-update
   become: true
 
+# SSH port
+
+- name: sshd_config port
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^Port '
+    line: 'Port 58568'
+  become: true
+
 # Shared directories
 
 - name: librivox group
