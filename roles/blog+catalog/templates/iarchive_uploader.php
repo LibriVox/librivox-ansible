@@ -10,4 +10,4 @@ $config['iarchive_uploader']['secret_key'] = '{{ iarchive_uploader_secret_key }}
 $config['iarchive_uploader']['amazon_endpoint'] = 'http://s3.us.archive.org';
 
 // iarchive project page
-$config['iarchive_uploader']['iarchive_project_page'] = 'http://archive.org/details';
+$config['iarchive_uploader']['iarchive_project_page'] = 'https://archive.org/details';
