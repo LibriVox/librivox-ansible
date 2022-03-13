@@ -149,12 +149,6 @@
     remote_src: yes
   when: "'localdev' in inventory_file"
 
-- name: Install Jetpack
-  unarchive:
-    src: "https://downloads.wordpress.org/plugin/jetpack.{{ jetpack_version }}.zip"
-    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    remote_src: yes
-
 # Enable both as a single Apache site
 
 - name: librivox.org config file
