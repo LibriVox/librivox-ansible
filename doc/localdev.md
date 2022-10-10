@@ -115,8 +115,9 @@ To browse the LibriVox databases from the IDE, add a MySQL user:
 
 ### Initialize the catalog database
 
+    bunzip2 -k roles/blog+catalog/files/librivox_catalog_scrubbed.sql.bz2 > /tmp/librivox_catalog_scrubbed.sql
     mysql -ulibrivox -plibrivox -e 'CREATE DATABASE librivox_catalog'
-    mysql -ulibrivox -plibrivox librivox_catalog < roles/blog+catalog/files/librivox_catalog.schema.sql
+    mysql -ulibrivox -plibrivox librivox_catalog < /tmp/librivox_catalog_scrubbed.sql
 
 ### Share folders
 
