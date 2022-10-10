@@ -92,7 +92,7 @@ Do not let Git overwrite the local changes when updating:
 
 ## Let the playbook run
 
-    ansible deploy.yml -i hosts/localdev/hosts
+    ansible-playbook deploy.yml -i hosts/localdev/hosts
 
 ## Access LibriVox from the host system
 
