@@ -30,7 +30,7 @@ Download and install VirtualBox 5.2.8.
     * 50 GB dynamic disk space
     * Bridged networking
 * Install Ubuntu in that VM
-    * Select all feature sets
+    * Select OpenSSH server package set, along with 'standard system utilities'
 
 ## Easy root privileges
 
