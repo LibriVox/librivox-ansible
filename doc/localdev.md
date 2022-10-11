@@ -80,7 +80,7 @@ Therefore, install Ansible from source.
     git clone https://github.com/librivox/librivox-ansible
     cd librivox-ansible
 
-    ipaddr=$(hostname -I)
+    ipaddr=$(hostname -I | cut -d' ' -f1)
     printf '[server]\n%s\n' "$ipaddr" > hosts/localdev/hosts
 
 Do not let Git overwrite the local changes when updating:
