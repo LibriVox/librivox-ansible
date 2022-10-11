@@ -39,7 +39,7 @@ To make this easy, give your user complete root permissions without password.
 After all, this is just in a virtual machine in a private environment,
 so convenience is more important than security.
 
-    echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$USER"
+    echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee "/etc/sudoers.d/$USER"
 
 ## Disable IPv6
 
