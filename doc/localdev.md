@@ -63,15 +63,12 @@ But if you get a network timeout, disable IPv6 networking:
 
 ## Ansible
 
-LibriVox requires Ansible >= 2.4, while Ubuntu comes with 2.0.
-Therefore, install Ansible from source.
+LibriVox requires Ansible >= 2.4, while Ubuntu 16.04 comes with 2.0.
+Therefore, install Ansible from PPA.
 
-    mkdir git
-    cd git
-    git clone https://github.com/ansible/ansible
-    cd ansible
-    python setup.py build
-    python setup.py install --user
+    sudo apt-add-repository ppa:ansible/ansible
+    sudo apt update
+    sudo apt install ansible
     ansible --version
 
 ## Adjust LibriVox playbook for local development
