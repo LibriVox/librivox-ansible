@@ -2,6 +2,7 @@
   vars_files:
     - versions.yml
   roles:
+    - { role: common, tags: 'common' }
     - { role: blog+catalog, tags: 'blog+catalog' }
     - { role: wiki, tags: 'wiki' }
     - { role: forum, tags: 'forum' }

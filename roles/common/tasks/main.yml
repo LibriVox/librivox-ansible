@@ -1,54 +1,54 @@
 ---
 # Install packages
 
-- name: Install ca-certificates
-  # This is needed to avoid SSL cert validation errors in the next task
-  apt: name=ca-certificates state=latest update_cache=yes
-  become: true
-
-- name: PPAs
-  apt_repository: repo={{ item }}
-  with_items:
-    - ppa:ondrej/php
-      # For the fix to https://bz.apache.org/bugzilla/show_bug.cgi?id=53555
-    - ppa:ondrej/apache2
-    - ppa:certbot/certbot
-  become: true
-
 - name: Install packages
   apt:
-    name: ['git', 'apache2', 'mariadb-server', 'python-mysqldb', 'php5.6-fpm', 'php5.6-mysql', 'php5.6-curl', 'python-certbot-apache']
+    name: ['git', 'apache2', 'mariadb-server', 'php8.1-fpm', 'php8.1-mysql',
+           'php8.1-curl', 'python3-certbot-apache', 'python3-mysqldb',
+           'sphinxsearch']
     state: latest
     update_cache: yes
   become: true
 
-# Cronjob
+# librivox group and /librivox directory
 
-- name: bin directory
-  file: path=/librivox/bin state=directory
+- name: librivox group
+  group:
+    name: librivox
+    state: present
   become: true
+
+- name: /librivox directory
+  file:
+    path: /librivox
+    state: directory
+    group: librivox
+    mode: 0775
+    # The assumption here is that the user running the Ansible playbook is a
+    # member of the librivox group.
+  become: true
+
+- name: /librivox/bin directory
+  file:
+    path: /librivox/bin
+    state: directory
+
+# Cronjob
 
 - name: Upload daily-cron
   copy:
     src: daily-cron
     dest: /librivox/bin/daily-cron
     mode: 0755
-  become: true
 
-- name: Enable daily cron
+- name: daily-cron cronjob
   cron:
-    name: librivox daily cron
+    name: daily-cron
     minute: '45'
     hour: '3'
     job: /librivox/bin/daily-cron
-  become: true
 
 # Apache
-
-- name: Ports configuration
-  template: src=ports.conf dest=/etc/apache2/ports.conf
-  become: true
-  notify: Restart Apache
 
 - name: MaxRequestWorkers line
   lineinfile:
@@ -59,47 +59,43 @@
   notify: Restart Apache
 
 - name: Apache modules
-  apache2_module: name={{ item }} state=present
+  apache2_module:
+    name: '{{ item }}'
+    state: present
   with_items:
     - ssl
     - proxy_fcgi
   become: true
   notify: Restart Apache
 
-- name: Disable access log
-  file:
-    name: /etc/apache2/conf-enabled/other-vhosts-access-log.conf
-    state: absent
+# PHP
+
+- name: PHP pool configuration file
+  template:
+    src: www.conf
+    dest: /etc/php/8.1/fpm/pool.d/www.conf
   become: true
-  notify: Restart Apache
-
-# MariaDB
-
-- name: Configuration file
-  template: src=librivox.cnf dest=/etc/mysql/mariadb.conf.d/99-librivox.cnf
-  notify:
-    - Stop MySQL
-    - Remove ib_logfiles
-    - Start MySQL
-  become: true
-
-# php-fpm
-
-- name: Pool configuration file
-  template: src=www.conf dest=/etc/php/5.6/fpm/pool.d/www.conf
-  become: true
-  notify: restart php-fpm
+  notify: Restart PHP
 
 # SphinxSearch
 
-- name: Sphinx PPA
-  apt_repository:
-      repo: ppa:builds/sphinxsearch-rel22
+- name: /librivox/sphinxsearch/data directory
+  file:
+    path: /librivox/sphinxsearch/data
+    state: directory
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: sphinxsearch
+    mode: 0775
+    recurse: true
   become: true
 
-- name: Install sphinx
-  apt: name=sphinxsearch state=latest update_cache=yes
+- name: Enable sphinx
+  lineinfile:
+    dest: /etc/default/sphinxsearch
+    regexp: 'START=no'
+    line: 'START=yes'
   become: true
+  notify: Restart Sphinx
 
 - name: Sphinx configuration files
   copy:
@@ -115,14 +111,12 @@
     src: sphinx-index-update
     dest: /librivox/bin/sphinx-index-update
     mode: 0755
-  become: true
 
 - name: sphinx-index-update cronjob
   cron:
     name: sphinx-index-update
     minute: "*"
     job: /librivox/bin/sphinx-index-update
-  become: true
 
 # SSH port
 
@@ -135,12 +129,15 @@
 
 # Shared directories
 
-- name: librivox group
-  group: name=librivox state=present
-  become: true
-
-- name: shared directory
-  file: path=/librivox/shared/uploads state=directory recurse=yes
+- name: /librivox/shared/uploads directory
+  # This serves as the home directory for the `mc` user, which is only allowed
+  # SFTP. For obscure reasons, this needs to be owned root:root, and the *real*
+  # uploads directory, /librivox/shared/uploads/uploads (yes, twice) is owned
+  # www-data:librivox 0775.
+  file:
+    path: /librivox/shared/uploads
+    state: directory
+    recurse: yes
   become: true
 
 - name: uploads and librivox-validator-books directories
@@ -155,7 +152,7 @@
     - uploads/uploads
   become: true
 
-- name: Uploads robots.txt file
+- name: Uploads robots.txt
   copy:
     src: robots.txt
     dest: /librivox/shared/uploads/uploads/robots.txt
@@ -164,34 +161,37 @@
 # TLS
 # We can't run certbot on anything other than production because DNS
 
-- name: Upload certbot-issue script
+- name: Upload certbot-issue
   copy:
     src: certbot-issue
     dest: /librivox/bin/certbot-issue
     mode: 0755
-  become: true
   when: "'production' in inventory_file"
 
 - name: Run certbot-issue
   command: /librivox/bin/certbot-issue
-  become: true
   when: "'production' in inventory_file"
 
-- name: Renew cronjob
+- name: certbot renew cronjob
   cron:
     name: certbot renew
     special_time: monthly
     job: "/usr/bin/certbot renew --post-hook 'systemctl restart apache2'"
-  become: true
   when: "'production' in inventory_file"
 
-- name: Install python-openssl for self-signed cert
-  apt: name=python-openssl state=latest update_cache=yes
+- name: Install python3-openssl for self-signed cert
+  apt:
+    name: python3-openssl
+    state: latest
+    update_cache: yes
   become: true
   when: "'localdev' in inventory_file"
 
 - name: certs directory
-  file: path=/etc/letsencrypt/live/librivox.org state=directory recurse=true
+  file:
+    path: /etc/letsencrypt/live/librivox.org
+    state: directory
+    recurse: true
   become: true
   when: "'localdev' in inventory_file"
 
@@ -218,8 +218,18 @@
   become: true
   when: "'localdev' in inventory_file"
 
+- name: fullchain symlink
+  # In prod certbot generates a fullchain.pem for us, in localdev we fake it
+  # with a symlink to our self signed cert.
+  file:
+    path: /etc/letsencrypt/live/librivox.org/fullchain.pem
+    state: link
+    src: /etc/letsencrypt/live/librivox.org/cert.pem
+  become: true
+
 # Staging hosts file entry
-- name: Staging hosts entry
+#
+- name: hosts entry
   lineinfile:
     dest: /etc/hosts
     line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
@@ -228,21 +238,19 @@
 
 # Backups
 
-- name: Upload backup script
+- name: Upload backup
   copy:
     src: backup
     dest: /librivox/bin/backup
     mode: 0755
-  become: true
   when: "'production' in inventory_file"
 
-- name: Enable backup cronjob
+- name: backup cronjob
   cron:
     name: backup
     minute: 15
     hour: 4
     job: /librivox/bin/backup
-  become: true
   when: "'production' in inventory_file"
 
 # Google verification
