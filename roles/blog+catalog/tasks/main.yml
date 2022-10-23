@@ -5,30 +5,23 @@
   file:
     path: /librivox/www/librivox.org
     state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
     recurse: true
-    # Don't follow symlinks to avoid clobbering the shared directory symlinks
-    # to root:root.
-    follow: no
-  become: true
 
 - name: mod_rewrite
-  apache2_module: name=rewrite state=present
+  apache2_module:
+    name: rewrite
+    state: present
   become: true
   notify: Restart Apache
 
 # Catalog stuff
 
-- name: install php5.6-memcached
-  apt: name=php5.6-memcached state=latest update_cache=yes
-  become: true
-
 - name: Create catalog database
-  mysql_db: name=librivox_catalog state=present
+  # We let the database be imported manually if necessary
+  mysql_db:
+    name: librivox_catalog
+    state: present
   become: true
-  notify:
-    - Import catalog database
 
 - name: Catalog database user
   mysql_user:
@@ -53,8 +46,9 @@
     owner: www-data
     group: librivox
     mode: 0700
+  become: true
 
-- name: CodeIgniter sessions cleanup cron
+- name: CodeIgniter sessions cleanup cronjob
   cron:
     name: CodeIgniter sessions cleanup
     special_time: daily
@@ -74,29 +68,21 @@
   # Needed by the catalog application, URLs are handled in the Apache config
   # file
   file:
-    src: "/librivox/shared/{{ item.src }}"
-    dest: "/librivox/www/librivox.org/catalog/public_html/{{ item.dest }}"
+    path: "/librivox/www/librivox.org/catalog/public_html/{{ item.dest }}"
     state: link
+    src: "/librivox/shared/{{ item.src }}"
   with_items:
     - { src: "librivox-validator-books", dest: "librivox-validator-books" }
     - { src: "uploads/uploads", dest: "uploads" }
 
-- name: PPA for mp3gain
-  apt_repository:
-    repo: ppa:flexiondotorg/audio
-  become: true
-
-- name: install mp3gain
-  apt: name=mp3gain state=latest update_cache=yes
-  become: true
-
 # WordPress stuff
 
 - name: Create blog database
-  mysql_db: name=librivox_blog state=present
+  # We let the database be imported manually if necessary
+  mysql_db:
+    name: librivox_blog
+    state: present
   become: true
-  notify:
-    - Import blog database
 
 - name: WordPress database user
   mysql_user:
@@ -123,10 +109,6 @@
     src: wp-config.php
     dest: /librivox/www/librivox.org/wordpress/wp-config.php
 
-- name: Install unzip
-  apt: name=unzip state=latest
-  become: true
-
 - name: Install Google CAPTCHA
   unarchive:
     src: "https://downloads.wordpress.org/plugin/google-captcha.{{ google_captcha_version }}.zip"
@@ -144,7 +126,7 @@
 # have the repeater field we need, but it's better than nothing.
 - name: Install ACF free
   unarchive:
-    src: "https://downloads.wordpress.org/plugin/advanced-custom-fields.4.4.12.zip"
+    src: "https://downloads.wordpress.org/plugin/advanced-custom-fields.{{ acf_version }}.zip"
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     remote_src: yes
   when: "'localdev' in inventory_file"
@@ -160,8 +142,8 @@
 
 - name: Enable site
   file:
-    src: /etc/apache2/sites-available/librivox.org.conf
-    dest: /etc/apache2/sites-enabled/librivox.org.conf
+    path: /etc/apache2/sites-enabled/librivox.org.conf
     state: link
+    src: /etc/apache2/sites-available/librivox.org.conf
   become: true
   notify: Restart Apache
