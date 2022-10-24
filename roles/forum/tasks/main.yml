@@ -1,14 +1,8 @@
 ---
-- name: PHP extensions
-  apt:
-    name: ['php5.6-memcache', 'php5.6-mbstring']
-    state: latest
-  become: true
-
 - name: Create database
-  mysql_db: name=librivox_forum state=present
-  notify:
-    - Import forum database
+  mysql_db:
+    name: librivox_forum
+    state: present
   become: true
 
 - name: Database user
@@ -42,7 +36,7 @@
     path: /librivox/www/forum.librivox.org/phpBB/cache
     state: directory
     owner: "{{ ansible_facts['user_id'] }}"
-    group: www-data
+    group: librivox
     mode: 0775
   become: true
 
@@ -61,8 +55,8 @@
 
 - name: Enable site
   file:
-    src: /etc/apache2/sites-available/forum.librivox.org.conf
-    dest: /etc/apache2/sites-enabled/forum.librivox.org.conf
+    path: /etc/apache2/sites-enabled/forum.librivox.org.conf
     state: link
+    src: /etc/apache2/sites-available/forum.librivox.org.conf
   become: true
   notify: Restart Apache

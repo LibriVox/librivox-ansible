@@ -1,17 +1,12 @@
 <?php
-// phpBB 3.0.x auto-generated configuration file
-// Do not change anything in this file!
-$dbms = 'mysqli';
+$dbms = 'phpbb\\db\\driver\\mysqli';
 $dbhost = 'localhost';
 $dbport = '';
 $dbname = 'librivox_forum';
 $dbuser = 'librivox_forum';
 $dbpasswd = '{{ forum_db_password }}';
 $table_prefix = 'ngo_';
-$acm_type = 'memcache';
-$load_extensions = '';
-
+$phpbb_adm_relative_path = 'adm/';
+$acm_type = 'phpbb\\cache\\driver\\memcached';
 @define('PHPBB_INSTALLED', true);
-// @define('DEBUG', true);
-// @define('DEBUG_EXTRA', true);
 ?>
