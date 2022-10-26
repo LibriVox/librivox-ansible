@@ -1,5 +1,5 @@
 acf_version: '6.0.3'
 wordpress_version: '6.0.3'
 google_captcha_version: '1.68'
-mediawiki_ver_maj: '1.30'
-mediawiki_ver_min: '1.30.0'
+mediawiki_ver_maj: '1.38'
+mediawiki_ver_min: '1.38.4'

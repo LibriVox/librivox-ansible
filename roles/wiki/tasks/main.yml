@@ -1,17 +1,4 @@
 ---
-- name: Install mediawiki dependencies
-  apt:
-    name: ['php5.6-mbstring', 'php5.6-xml', 'php5.6-intl', 'php5.6-apcu', 'imagemagick', 'memcached']
-    state: latest
-    update_cache: yes
-  become: true
-
-- name: Sphinx configuration file
-  template:
-    src: wiki.conf
-    dest: /etc/sphinxsearch/wiki.conf
-  become: true
-
 - name: Database user
   mysql_user:
     name: mediawiki
@@ -22,9 +9,9 @@
   become: true
 
 - name: Create database
-  mysql_db: name=librivox_mediawiki state=present
-  notify:
-    - Import mediawiki database
+  mysql_db:
+    name: librivox_mediawiki
+    state: present
   become: true
 
 - name: DocumentRoot
@@ -45,22 +32,6 @@
     src: LocalSettings.php
     dest: /librivox/www/wiki.librivox.org/LocalSettings.php
 
-- name: SphinxSearch extension git checkout
-  git:
-    repo: https://github.com/wikimedia/mediawiki-extensions-SphinxSearch.git
-    # NOTE(artom) Starting with commit f8d0556, the extension effectively
-    # depends on a newer version of MediaWiki, so we need to pin to the commit
-    # right before that one.
-    version: 6a4bb7cdb8c43180a5578e7031f819f2572181f9
-    dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch
-    force: yes
-
-- name: sphinxsearch.api symlink
-  file:
-    src: /usr/share/sphinxsearch/api/sphinxapi.php
-    dest: /librivox/www/wiki.librivox.org/extensions/SphinxSearch/sphinxapi.php
-    state: link
-
 - name: Apache config file
   template:
     src: wiki.librivox.org.conf
@@ -70,8 +41,8 @@
 
 - name: Enable site
   file:
-    src: /etc/apache2/sites-available/wiki.librivox.org.conf
-    dest: /etc/apache2/sites-enabled/wiki.librivox.org.conf
+    path: /etc/apache2/sites-enabled/wiki.librivox.org.conf
     state: link
+    src: /etc/apache2/sites-available/wiki.librivox.org.conf
   become: true
   notify: Restart Apache
