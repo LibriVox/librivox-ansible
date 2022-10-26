@@ -14,9 +14,9 @@ touch $lockfile
 # If it's 04:00 update the full index, otherwise just the delta
 if [ `date +%H:%M` = "04:00" ]
 then
-	indeces="index_phpbb_78ccb38a7ef5117c_main wiki_main"
+	indeces="index_phpbb_78ccb38a7ef5117c_main"
 else
-	indeces="index_phpbb_78ccb38a7ef5117c_delta wiki_incremental"
+	indeces="index_phpbb_78ccb38a7ef5117c_delta"
 fi
 
 /usr/bin/indexer --rotate $indeces

@@ -1,9 +1,0 @@
----
-- name: Import mediawiki database
-  mysql_db:
-    name: librivox_mediawiki
-    state: import
-    target: /backups/latest/librivox_mediawiki.sql.bz2
-    login_user: mediawiki
-    login_password: "{{ wiki_db_password }}"
-  async: 86400
