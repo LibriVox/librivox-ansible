@@ -2,10 +2,28 @@
 
 ## Database
 
-On staging and production, creating a database calls a handler that imports
-said database from the latest backups. On localdev, the catalog database is
+While the databases are created by the Ansible playbooks, they must be imported
+manually. On localdev, the catalog database can be
 imported from a scrubbed (all personal information removed) database snapshot.
 The other databases are left empty.
+
+## Upgrades and databases
+
+WordPress, phpBB and MediaWiki may need to update their DB schemas following a
+version update. For WordPress, this is done in the web console when accessing
+the `wp-admin/` URL. For phpBB and MediaWiki, it is done via the CLI.
+
+```
+$ pwd
+/librivox/www/forum.librivox.org/phpBB/bin
+$ ./phpbbcli.php db:migrate
+```
+
+```
+$ pwd
+/librivox/www/wiki.librivox.org/maintenance
+$ php update.php
+```
 
 ## Other notes
 
