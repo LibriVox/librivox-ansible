@@ -16,3 +16,9 @@
     name: sphinxsearch
     state: restarted
   become: true
+
+- name: Restart SSH
+  service:
+    name: sshd
+    state: restarted
+  become: true

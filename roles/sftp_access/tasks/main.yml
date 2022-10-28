@@ -1,17 +1,14 @@
 ---
-- name: Users kara and jo
+- name: User `jo`
   user:
-    name: '{{ item.username }}'
-    password: "{{ item.password }}"
+    name: jo
+    password: "{{ jo_password }}"
     shell: /bin/bash
     createhome: yes
     groups: librivox
   become: true
-  with_items:
-    - { username: kara, password: '{{ kara_password }}' }
-    - { username: jo, password: '{{ jo_password }}' }
 
-- name: User mc
+- name: User `mc`
   user:
     name: mc
     password: "{{ mc_password }}"
@@ -26,6 +23,7 @@
     regexp: '^Subsystem sftp'
     line: 'Subsystem sftp internal-sftp'
   become: true
+  notify: Restart SSH
 
 - name: sshd_config Match paras
   blockinfile:
@@ -34,3 +32,4 @@
       Match User mc
           ChrootDirectory /librivox/shared/uploads
   become: true
+  notify: Restart SSH
