@@ -220,6 +220,10 @@
   become: true
   when: "'localdev' in inventory_file"
 
+# NOTE(artom) On staging we just manually copy over
+# /etc/letsencrypt/live/librivox.org from produciton.
+# TODO(artom) Can we run certbot for the same domain name on multiple hosts?
+
 - name: fullchain symlink
   # In prod certbot generates a fullchain.pem for us, in localdev we fake it
   # with a symlink to our self signed cert.
@@ -228,6 +232,7 @@
     state: link
     src: /etc/letsencrypt/live/librivox.org/cert.pem
   become: true
+  when: "'localdev' in inventory_file"
 
 # Staging hosts file entry
 #

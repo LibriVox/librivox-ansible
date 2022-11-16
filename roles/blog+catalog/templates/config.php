@@ -388,7 +388,7 @@ if ((php_sapi_name() != 'cli') or !defined('STDIN'))
 {
 
   define('EXT', '.php');
-  function __autoload($class)
+  function autoload($class)
   {
       /* don't autoload CI_ prefixed classes or those using the config subclass_prefix */
       if (strstr($class, 'CI_') OR strstr($class, config_item('subclass_prefix'))) return;
@@ -407,6 +407,7 @@ if ((php_sapi_name() != 'cli') or !defined('STDIN'))
          return;
       }
    }
+   spl_autoload_register('autoload');
 
 
 }
