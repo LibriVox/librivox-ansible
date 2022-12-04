@@ -5,6 +5,9 @@
     state: restarted
   become: true
 
+#- name: Restart Apache
+#  meta: noop
+
 - name: Restart PHP
   service:
     name: php8.1-fpm
