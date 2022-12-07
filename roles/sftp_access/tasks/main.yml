@@ -19,8 +19,8 @@
 
 - name: sshd_config subsystem sftp
   lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: '^Subsystem sftp'
+    path: /etc/ssh/sshd_config
+    regexp: '^Subsystem\s*sftp.*'
     line: 'Subsystem sftp internal-sftp'
   become: true
   notify: Restart SSH
