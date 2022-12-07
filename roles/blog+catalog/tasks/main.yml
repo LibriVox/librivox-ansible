@@ -48,11 +48,18 @@
     mode: 0700
   become: true
 
-- name: CodeIgniter sessions cleanup cronjob
+- name: CodeIgniter sessions cleanup cronjob (daily)
   cron:
-    name: CodeIgniter sessions cleanup
+    name: CodeIgniter sessions cleanup (daily)
     special_time: daily
     job: 'find /tmp/php-sessions -atime +5 -delete'
+  become: true
+
+- name: CodeIgniter sessions cleanup cronjob (hourly)
+  cron:
+    name: CodeIgniter sessions cleanup (hourly)
+    special_time: hourly
+    job: 'find /tmp/php-sessions -size 0 -delete'
   become: true
 
 - name: Config files
