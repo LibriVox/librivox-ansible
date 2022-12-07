@@ -21,19 +21,24 @@
   become: true
 
 - name: /librivox directory
+  # This needs to be root:root 0755 because it's part of the `mc` user chroot
+  # path (/librivox/shared/uploads) as per the sshd_config man page for the
+  # ChrootDirectory directive.
   file:
     path: /librivox
+    owner: root
+    group: root
+    mode: 0755
     state: directory
-    group: librivox
-    mode: 0775
-    # The assumption here is that the user running the Ansible playbook is a
-    # member of the librivox group.
   become: true
 
 - name: /librivox/bin directory
   file:
     path: /librivox/bin
     state: directory
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: "{{ ansible_facts['user_id'] }}"
+  become: true
 
 # Cronjob
 
