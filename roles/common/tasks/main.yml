@@ -119,6 +119,9 @@
     name: sphinx-index-update
     minute: "*"
     job: /librivox/bin/sphinx-index-update
+  # We need to be root to be able to SIGHUP sphinxsearch. The index files are
+  # mode 0644, sphinxsearch can still read them even if thye're created by root.
+  become: true
 
 # SSH port
 
