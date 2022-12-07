@@ -248,8 +248,22 @@
 
 # Backups
 
+- name: Backups directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: artom
+    group: artom
+    recurse: true
+  with_items:
+    - /backups/database
+    - /backups/user-content/wiki/images
+    - /backups/user-content/wp-content/uploads
+
+  become: true
+
 - name: Upload backup
-  copy:
+  template:
     src: backup
     dest: /librivox/bin/backup
     mode: 0755
