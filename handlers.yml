@@ -1,27 +1,16 @@
 ---
 - name: Restart Apache
-  service:
-    name: apache2
-    state: restarted
-  become: true
-
-#- name: Restart Apache
-#  meta: noop
+  debug:
+    msg: "Don't forget to restart Apache!"
 
 - name: Restart PHP
-  service:
-    name: php8.1-fpm
-    state: restarted
-  become: true
+  debug:
+    msg: "Don't forget to restart PHP!"
 
 - name: Restart Sphinx
-  service:
-    name: sphinxsearch
-    state: restarted
-  become: true
+  debug:
+    msg: "Don't forget to restart Sphinx!"
 
 - name: Restart SSH
-  service:
-    name: sshd
-    state: restarted
-  become: true
+  debug:
+    msg: "Don't forget to restart SSH!"
