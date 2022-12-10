@@ -169,25 +169,23 @@
   become: true
 
 # TLS
-# We can't run certbot on anything other than production because DNS
 
-- name: Upload certbot-issue
-  copy:
-    src: certbot-issue
-    dest: /librivox/bin/certbot-issue
-    mode: 0755
-  when: "'production' in inventory_file"
-
-- name: Run certbot-issue
-  command: /librivox/bin/certbot-issue
-  when: "'production' in inventory_file"
-
-- name: certbot renew cronjob
-  cron:
-    name: certbot renew
-    special_time: monthly
-    job: "/usr/bin/certbot renew --post-hook 'systemctl restart apache2'"
-  when: "'production' in inventory_file"
+# For simplicity, we run certbot with the --standalone option. Apache needs to
+# be stopped so that certbot can bind port 80. Certbot will also install a
+# renewal systemd timer.
+#
+# On staging, we can use:
+# $ sudo certbot --test-cert --agree-tos -n -m notartom@gmail.com \
+#     certonly --standalone -d staging.librivox.org \
+#     --post-hook 'systemctl reload apache2.service'
+#
+# On production, we can use:
+# $ sudo certbot --agree-tos -n -m notartom@gmail.com \
+#     certonly --standalone -d librivox.org,forum.librivox.org,wiki.librivox.org \
+#     --post-hook 'systemctl reload apache2.service'
+#
+# If we need to clean up, we can run:
+# $ sudo find /etc/letsencrypt -name '*librivox.org*' -exec rm -r '{}' \;
 
 - name: Install python3-openssl for self-signed cert
   apt:
