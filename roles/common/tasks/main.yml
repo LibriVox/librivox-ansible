@@ -12,6 +12,17 @@
     update_cache: yes
   become: true
 
+# MariaDB variables
+
+- name: innodb_buffer_pool_size
+  lineinfile:
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: '^#*innodb_buffer_pool_size\s*=.*$'
+    line: 'innodb_buffer_pool_size = 5G'
+  become: true
+  notify: Restart MariaDB
+  tags: foobar
+
 # librivox group and /librivox directory
 
 - name: librivox group

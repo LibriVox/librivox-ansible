@@ -14,3 +14,7 @@
 - name: Restart SSH
   debug:
     msg: "Don't forget to restart SSH!"
+
+- name: Restart MariaDB
+  debug:
+    msg: "Don't forget to restart MariaDB!"
