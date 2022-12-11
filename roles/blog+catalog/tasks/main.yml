@@ -119,11 +119,14 @@
     src: wp-config.php
     dest: /librivox/www/librivox.org/wordpress/wp-config.php
 
-- name: Install Google CAPTCHA
-  unarchive:
-    src: "https://downloads.wordpress.org/plugin/google-captcha.{{ google_captcha_version }}.zip"
-    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
-    remote_src: yes
+- name: Install simple-cloudflare-turnstile
+  git:
+    repo: https://github.com/elliotvs/simple-cloudflare-turnstile.git
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins/simple-cloudflare-turnstile
+    # For some reason the WordPress downloads URL 404s if we use the versioned
+    # URL with the latest released version.
+    version: bd5378f46af7fc622409bc29a45355fe8f64fcda
+    force: yes
 
 - name: Install ACF pro
   unarchive:
