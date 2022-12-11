@@ -21,7 +21,6 @@
     line: 'innodb_buffer_pool_size = 5G'
   become: true
   notify: Restart MariaDB
-  tags: foobar
 
 # librivox group and /librivox directory
 
