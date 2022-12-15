@@ -73,6 +73,7 @@
     - config
     - database
     - iarchive_uploader
+    - email
 
 - name: Symlinks
   # Needed by the catalog application, URLs are handled in the Apache config
