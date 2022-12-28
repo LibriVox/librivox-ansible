@@ -2,7 +2,7 @@
 
 These are the Ansible playbooks used to deploy
 [LibriVox](https://librivox.org/). They are designed for and tested on an
-Ubuntu Xenial target with networking and SSH already configured. The playbooks
+Ubuntu Jammy target with networking and SSH already configured. The playbooks
 do everything else.
 
 ## Scrubbed catalog database
