@@ -49,10 +49,9 @@ def scrub_catalog(mysql_user=None, mysql_pass=None, mysql_db=None):
             else:
                 username = 'librivoxer_%d' % user['id']
             user.update({
-                'ip_address': 0,
+                'ip_address': '127.0.0.1',
                 'username': username,
                 'password': password,
-                'salt': salt,
                 'email': 'librivoxer_%d@example.com' % user['id'],
                 'activation_code': None,
                 'forgotten_password_code': None,
