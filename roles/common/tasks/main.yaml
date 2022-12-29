@@ -206,8 +206,8 @@
   file:
     path: '{{ item }}'
     state: directory
-    owner: artom
-    group: artom
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: "{{ ansible_facts['user_id'] }}"
     recurse: true
   with_items:
     - /backups/database
