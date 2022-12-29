@@ -289,14 +289,3 @@
     hour: 4
     job: /librivox/bin/backup
   when: "'production' in inventory_file"
-
-# Google verification
-
-- name: Verification file
-  lineinfile:
-    path: "/librivox/www/librivox.org/wordpress/{{ google_verification_filename }}"
-    regexp: "google-site-verification"
-    line: "{{ google_verification_contents }}"
-    state: present
-    create: yes
-  when: "'production' in inventory_file"
