@@ -1,0 +1,20 @@
+localdev:
+  hosts:
+    192.168.100.212:
+      ansible_port: 58568
+      ci_env: development
+      ci_log_threshold: 4
+
+staging:
+  hosts:
+    208.70.31.68:
+      ansible_port: 58568
+      ci_env: development
+      ci_log_threshold: 4
+
+production:
+  hosts:
+    librivox.org:
+      ansible_port: 58568
+      ci_env: production
+      ci_log_threshold: 0

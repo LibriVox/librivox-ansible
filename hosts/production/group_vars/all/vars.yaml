@@ -1,3 +1,0 @@
-innodb_buffer_pool_size: 6G
-ci_env: production
-ci_log_threshold: 0

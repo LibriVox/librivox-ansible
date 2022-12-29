@@ -1,0 +1,7 @@
+# Use free ACF for localdev since we can't use our secret pro key. It doesn't
+# have the repeater field we need, but it's better than nothing.
+- name: Install ACF free
+  unarchive:
+    src: "https://downloads.wordpress.org/plugin/advanced-custom-fields.{{ acf_version }}.zip"
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    remote_src: yes

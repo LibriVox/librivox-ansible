@@ -1,0 +1,5 @@
+- name: hosts entry
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
+  become: true

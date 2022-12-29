@@ -1,0 +1,46 @@
+- hosts: production
+  vars_files:
+    - versions.yaml
+    - production.enc
+  roles:
+    - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
+    - { 'role': 'acf_pro', 'tags': 'acf_pro' }
+    - { 'role': 'wiki', 'tags': 'wiki' }
+    - { 'role': 'forum', 'tags': 'forum' }
+    - { 'role': 'backup', 'tags': 'backup' }
+    - { 'role': 'sftp_access', 'tags': 'sftp_access' }
+    - { 'role': 'maintenance', 'tags': 'maintenance' }
+  handlers:
+    - import_tasks: handlers.yaml
+
+- hosts: staging
+  vars_files:
+    - versions.yaml
+    - staging.enc
+  roles:
+    - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
+    - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
+    - { 'role': 'acf_pro', 'tags': 'acf_pro' }
+    - { 'role': 'wiki', 'tags': 'wiki' }
+    - { 'role': 'forum', 'tags': 'forum' }
+    - { 'role': 'sftp_access', 'tags': 'sftp_access' }
+    - { 'role': 'maintenance', 'tags': 'maintenance' }
+  handlers:
+    - import_tasks: handlers.yaml
+
+- hosts: localdev
+  vars_files:
+    - versions.yaml
+    - localdev.yaml
+  roles:
+    - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'self-signed_cert', 'tags': 'self-signed_cert' }
+    - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
+    - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
+    - { 'role': 'acf_free', 'tags': 'acf_free' }
+    - { 'role': 'wiki', 'tags': 'wiki' }
+    - { 'role': 'forum', 'tags': 'forum' }
+  handlers:
+    - import_tasks: handlers.yaml

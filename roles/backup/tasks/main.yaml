@@ -1,0 +1,12 @@
+- name: Upload backup
+  template:
+    src: backup
+    dest: /librivox/bin/backup
+    mode: 0755
+
+- name: backup cronjob
+  cron:
+    name: backup
+    minute: 15
+    hour: 4
+    job: /librivox/bin/backup

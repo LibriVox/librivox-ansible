@@ -1,0 +1,42 @@
+- name: Install python3-openssl
+  apt:
+    name: python3-openssl
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: certs directory
+  file:
+    path: /etc/letsencrypt/live/librivox.org
+    state: directory
+    recurse: true
+  become: true
+
+- name: privkey
+  openssl_privatekey:
+    path: /etc/letsencrypt/live/librivox.org/privkey.pem
+  become: true
+
+- name: csr
+  openssl_csr:
+    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
+    path: /etc/letsencrypt/live/librivox.org/localdev.csr
+    subject_alt_name: "DNS:librivox.org,DNS:forum.librivox.org,DNS:wiki.librivox.org"
+  become: true
+
+- name: self-signed cert
+  openssl_certificate:
+    path: /etc/letsencrypt/live/librivox.org/cert.pem
+    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
+    csr_path: /etc/letsencrypt/live/librivox.org/localdev.csr
+    provider: selfsigned
+  become: true
+
+- name: fullchain symlink
+  # In prod certbot generates a fullchain.pem for us, in localdev we fake it
+  # with a symlink to our self signed cert.
+  file:
+    path: /etc/letsencrypt/live/librivox.org/fullchain.pem
+    state: link
+    src: /etc/letsencrypt/live/librivox.org/cert.pem
+  become: true

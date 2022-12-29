@@ -197,67 +197,8 @@
 # If we need to clean up, we can run:
 # $ sudo find /etc/letsencrypt -name '*librivox.org*' -exec rm -r '{}' \;
 
-- name: Install python3-openssl for self-signed cert
-  apt:
-    name: python3-openssl
-    state: latest
-    update_cache: yes
-  become: true
-  when: "'localdev' in inventory_file"
-
-- name: certs directory
-  file:
-    path: /etc/letsencrypt/live/librivox.org
-    state: directory
-    recurse: true
-  become: true
-  when: "'localdev' in inventory_file"
-
-- name: localdev privkey
-  openssl_privatekey:
-    path: /etc/letsencrypt/live/librivox.org/privkey.pem
-  become: true
-  when: "'localdev' in inventory_file"
-
-- name: localdev csr
-  openssl_csr:
-    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
-    path: /etc/letsencrypt/live/librivox.org/localdev.csr
-    subject_alt_name: "DNS:librivox.org,DNS:forum.librivox.org,DNS:wiki.librivox.org"
-  become: true
-  when: "'localdev' in inventory_file"
-
-- name: localdev self-signed cert
-  openssl_certificate:
-    path: /etc/letsencrypt/live/librivox.org/cert.pem
-    privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
-    csr_path: /etc/letsencrypt/live/librivox.org/localdev.csr
-    provider: selfsigned
-  become: true
-  when: "'localdev' in inventory_file"
-
 # NOTE(artom) On staging we just manually copy over
 # /etc/letsencrypt/live/librivox.org from produciton.
-# TODO(artom) Can we run certbot for the same domain name on multiple hosts?
-
-- name: fullchain symlink
-  # In prod certbot generates a fullchain.pem for us, in localdev we fake it
-  # with a symlink to our self signed cert.
-  file:
-    path: /etc/letsencrypt/live/librivox.org/fullchain.pem
-    state: link
-    src: /etc/letsencrypt/live/librivox.org/cert.pem
-  become: true
-  when: "'localdev' in inventory_file"
-
-# Staging hosts file entry
-#
-- name: hosts entry
-  lineinfile:
-    dest: /etc/hosts
-    line: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} librivox.org forum.librivox.org wiki.librivox.org"
-  become: true
-  when: "'production' not in inventory_file"
 
 # Backups
 
@@ -272,20 +213,4 @@
     - /backups/database
     - /backups/user-content/wiki/images
     - /backups/user-content/wp-content/uploads
-
   become: true
-
-- name: Upload backup
-  template:
-    src: backup
-    dest: /librivox/bin/backup
-    mode: 0755
-  when: "'production' in inventory_file"
-
-- name: backup cronjob
-  cron:
-    name: backup
-    minute: 15
-    hour: 4
-    job: /librivox/bin/backup
-  when: "'production' in inventory_file"
