@@ -126,7 +126,7 @@
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins/simple-cloudflare-turnstile
     # For some reason the WordPress downloads URL 404s if we use the versioned
     # URL with the latest released version.
-    version: bd5378f46af7fc622409bc29a45355fe8f64fcda
+    version: '{{ turnstile_commit }}'
     force: yes
 
 # Enable both as a single Apache site
