@@ -15,12 +15,20 @@
   become: true
 
 - name: DocumentRoot
-  # The next task needs this, for some reason
   file:
     path: /librivox/www/wiki.librivox.org
     state: directory
     owner: "{{ ansible_facts['user_id'] }}"
     group: "{{ ansible_facts['user_id'] }}"
+  become: true
+
+- name: images
+  file:
+    path: /librivox/www/wiki.librivox.org/images
+    state: directory
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: www-data
+    mode: 0775
   become: true
 
 - name: Extract MediaWiki
