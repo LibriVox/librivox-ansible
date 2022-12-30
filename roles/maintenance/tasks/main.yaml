@@ -1,4 +1,47 @@
 ---
+- name: Install lighttpd
+  # Instead of having a separate maintenance site in Apache, we use
+  # lighttpd as the maintenance web server. When we want to put LV into
+  # maintenance, we just stop Apache and start lighttpd.
+  apt:
+    name: lighttpd
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Disable lighttpd
+  systemd:
+    name: lighttpd
+    enabled: false
+  become: true
+
+- name: ssl.pemfile
+  lineinfile:
+    path: /etc/lighttpd/conf-available/10-ssl.conf
+    regexp: '^ssl\.pemfile.*$'
+    line: 'ssl.pemfile = "/etc/letsencrypt/live/librivox.org/fullchain.pem"'
+  become: true
+
+- name: ssl.privkey
+  lineinfile:
+    path: /etc/lighttpd/conf-available/10-ssl.conf
+    line: 'ssl.privkey = "/etc/letsencrypt/live/librivox.org/privkey.pem"'
+  become: true
+
+- name: server.document-root
+  lineinfile:
+    path: /etc/lighttpd/lighttpd.conf
+    regexp: '^server.document-root.*$'
+    line: 'server.document-root = "/librivox/www/maintenance"'
+  become: true
+
+- name: 10-ssl.conf symlink
+  file:
+    path: /etc/lighttpd/conf-enabled/10-ssl.conf
+    state: link
+    src: /etc/lighttpd/conf-available/10-ssl.conf
+  become: true
+
 - name: DocumentRoot
   file:
     path: /librivox/www/maintenance
@@ -8,18 +51,7 @@
     recurse: true
   become: true
 
-- name: Upload Apache config
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  with_items:
-    - { src: "default.conf", dest: "/etc/apache2/sites-available" }
-    - { src: "default-ssl.conf", dest: "/etc/apache2/sites-available" }
-  become: true
-
 - name: Upload index.html
   copy:
     src: index.html
     dest: /librivox/www/maintenance
-
-# Sites are intentionally left disabled to allow for manual control.
