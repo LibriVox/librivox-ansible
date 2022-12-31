@@ -103,7 +103,6 @@
     owner: "{{ ansible_facts['user_id'] }}"
     group: sphinxsearch
     mode: 0775
-    recurse: true
   become: true
 
 - name: Enable sphinx
@@ -157,7 +156,6 @@
   file:
     path: /librivox/shared/uploads
     state: directory
-    recurse: yes
   become: true
 
 - name: uploads and librivox-validator-books directories
@@ -208,7 +206,6 @@
     state: directory
     owner: "{{ ansible_facts['user_id'] }}"
     group: "{{ ansible_facts['user_id'] }}"
-    recurse: true
   with_items:
     - /backups/database
     - /backups/user-content/wiki/images

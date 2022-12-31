@@ -7,7 +7,6 @@
     state: directory
     owner: "{{ ansible_facts['user_id'] }}"
     group: "{{ ansible_facts['user_id'] }}"
-    recurse: true
   become: true
 
 - name: mod_rewrite
