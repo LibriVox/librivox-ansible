@@ -197,17 +197,3 @@
 
 # NOTE(artom) On staging we just manually copy over
 # /etc/letsencrypt/live/librivox.org from produciton.
-
-# Backups
-
-- name: Backups directories
-  file:
-    path: '{{ item }}'
-    state: directory
-    owner: "{{ ansible_facts['user_id'] }}"
-    group: "{{ ansible_facts['user_id'] }}"
-  with_items:
-    - /backups/database
-    - /backups/user-content/wiki/images
-    - /backups/user-content/wp-content/uploads
-  become: true
