@@ -40,10 +40,43 @@
     mode: 0775
   become: true
 
+- name: /librivox/sphinxsearch/data directory
+  file:
+    path: /librivox/sphinxsearch/data
+    state: directory
+    owner: "{{ ansible_facts['user_id'] }}"
+    group: sphinxsearch
+    mode: 0775
+  become: true
+
+- name: Enable sphinx
+  lineinfile:
+    dest: /etc/default/sphinxsearch
+    regexp: 'START=no'
+    line: 'START=yes'
+  become: true
+  notify: Restart Sphinx
+
 - name: Sphinx configuration file
   template:
-    src: forum.conf
-    dest: /etc/sphinxsearch/forum.conf
+    src: sphinx.conf
+    dest: /etc/sphinxsearch/sphinx.conf
+  become: true
+  notify: Restart Sphinx
+
+- name: Upload sphinx-index-update
+  copy:
+    src: sphinx-index-update
+    dest: /librivox/bin/sphinx-index-update
+    mode: 0755
+
+- name: sphinx-index-update cronjob
+  cron:
+    name: sphinx-index-update
+    minute: "*"
+    job: /librivox/bin/sphinx-index-update
+  # We need to be root to be able to SIGHUP sphinxsearch. The index files are
+  # mode 0644, sphinxsearch can still read them even if thye're created by root.
   become: true
 
 - name: Apache config file
