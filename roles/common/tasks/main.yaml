@@ -132,25 +132,3 @@
     src: robots.txt
     dest: /librivox/shared/uploads/uploads/robots.txt
   become: true
-
-# TLS
-
-# For simplicity, we run certbot with the --standalone option. Apache needs to
-# be stopped so that certbot can bind port 80. Certbot will also install a
-# renewal systemd timer.
-#
-# On staging, we can use:
-# $ sudo certbot --test-cert --agree-tos -n -m notartom@gmail.com \
-#     certonly --standalone -d staging.librivox.org \
-#     --post-hook 'systemctl reload apache2.service'
-#
-# On production, we can use:
-# $ sudo certbot --agree-tos -n -m notartom@gmail.com \
-#     certonly --standalone -d librivox.org,forum.librivox.org,wiki.librivox.org \
-#     --post-hook 'systemctl reload apache2.service'
-#
-# If we need to clean up, we can run:
-# $ sudo find /etc/letsencrypt -name '*librivox.org*' -exec rm -r '{}' \;
-
-# NOTE(artom) On staging we just manually copy over
-# /etc/letsencrypt/live/librivox.org from produciton.
