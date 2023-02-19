@@ -133,3 +133,12 @@ wfLoadSkin( 'MonoBook' );
 # End of automatically generated settings.
 # Add more configuration options below.
 
+$wgSMTP = [
+    'host'      => 'mail.smtp2go.com',
+    'IDHost'    => 'wiki.librivox.org',
+    'localhost' => 'wiki.librivox.org',
+    'port'      => 2525,
+    'auth'      => true,
+    'username'  => 'mediawiki@librivox.org',
+    'password'  => '{{ wiki_smtp_password }}',
+];
