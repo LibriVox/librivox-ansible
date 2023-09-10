@@ -10,7 +10,7 @@ forum_db_password: librivox_forum
 wiki_db_password: mediawiki
 wiki_secret_key: wiki_secret_key
 wiki_upgrade_key: wiki_upgrade_key
-wiki_smtp_password: wiki_smtp_password
+mediawiki_smtp_password: mediawiki_smtp_password
 blog_wp_salt: |
   define('AUTH_KEY',         'put your unique phrase here');
   define('SECURE_AUTH_KEY',  'put your unique phrase here');
