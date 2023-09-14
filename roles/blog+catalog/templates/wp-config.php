@@ -72,6 +72,18 @@ define('WPLANG', '');
  */
 define('WP_DEBUG', false);
 
+/**
+ * SMTP settings used by custom SMTP mailer in our theme's functions.php.
+ */
+define('SMTP_HOST', 'mail.smtp2go.com');
+define('SMTP_AUTH', true);
+define('SMTP_PORT', 2525);
+define('SMTP_USERNAME', '{{ wordpress_smtp_username }}');
+define('SMTP_PASSWORD', '{{ wordpress_smtp_password }}');
+define('SMTP_SECURE', 'tls');
+define('SMTP_FROM_EMAIL', 'noreply@librivox.org');
+define('SMTP_FROM_NAME', 'LibriVox');
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
