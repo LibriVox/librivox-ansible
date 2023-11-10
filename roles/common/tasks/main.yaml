@@ -6,7 +6,7 @@
     name: ['git', 'apache2', 'mariadb-server', 'php8.1-fpm', 'php8.1-mysql',
            'php8.1-curl', 'php8.1-memcache', 'php8.1-memcached', 'php8.1-intl',
            'php8.1-mbstring', 'php8.1-xml', 'php8.1-zip', 'php8.1-apcu',
-           'php8.1-gd', 'php8.1-imagick'.  'python3-certbot-apache',
+           'php8.1-gd', 'php8.1-imagick',  'python3-certbot-apache',
            'python3-mysqldb', 'sphinxsearch', 'mp3gain', 'unzip', 'memcached',
            'imagemagick']
     state: latest
