@@ -8,7 +8,7 @@ do everything else.
 ## Scrubbed catalog database
 
 A scrubbed (all personal information removed) catalog database snapshot is
-[available](roles/blog+catalog/files/librivox_catalog_scrubbed.sql.bz2). It can
+[available](resources/librivox_catalog_scrubbed.sql.bz2). It can
 be used as part of a local LibriVox development environment (see next section)
 or on its own by anyone interested.
 
