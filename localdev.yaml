@@ -1,4 +1,6 @@
 ---
+ci_env: development
+ci_log_threshold: 4
 iarchive_uploader_access_key: invalid
 iarchive_uploader_secret_key: invalid
 codeigniter_encryption_key: some_random_string
@@ -11,6 +13,8 @@ wiki_db_password: mediawiki
 wiki_secret_key: wiki_secret_key
 wiki_upgrade_key: wiki_upgrade_key
 mediawiki_smtp_password: mediawiki_smtp_password
+wordpress_smtp_username: librivox
+wordpress_smtp_password: librivox
 blog_wp_salt: |
   define('AUTH_KEY',         'put your unique phrase here');
   define('SECURE_AUTH_KEY',  'put your unique phrase here');
