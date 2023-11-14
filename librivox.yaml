@@ -29,18 +29,3 @@
     - { 'role': 'maintenance', 'tags': 'maintenance' }
   handlers:
     - import_tasks: handlers.yaml
-
-- hosts: localdev
-  vars_files:
-    - versions.yaml
-    - localdev.yaml
-  roles:
-    - { 'role': 'common', 'tags': 'common' }
-    - { 'role': 'self-signed_cert', 'tags': 'self-signed_cert' }
-    - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
-    - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
-    - { 'role': 'acf_free', 'tags': 'acf_free' }
-    - { 'role': 'wiki', 'tags': 'wiki' }
-    - { 'role': 'forum', 'tags': 'forum' }
-  handlers:
-    - import_tasks: handlers.yaml
