@@ -3,11 +3,11 @@
 
 - name: Install packages
   apt:
-    name: ['git', 'apache2', 'mariadb-server', 'php7.0-fpm', 'php7.0-mysql',
-           'php7.0-curl', 'php-memcache', 'php-memcached', 'php7.0-intl',
-           'php7.0-mbstring', 'php7.0-xml', 'php7.0-zip', 'php-apcu',
-           'php7.0-gd', 'php-imagick',  'python-certbot-apache',
-           'python-mysqldb', 'sphinxsearch', 'unzip', 'memcached',
+    name: ['git', 'apache2', 'mariadb-server', 'php8.1-fpm', 'php8.1-mysql',
+           'php8.1-curl', 'php8.1-memcache', 'php8.1-memcached', 'php8.1-intl',
+           'php8.1-mbstring', 'php8.1-xml', 'php8.1-zip', 'php8.1-apcu',
+           'php8.1-gd', 'php8.1-imagick',  'python3-certbot-apache',
+           'python3-mysqldb', 'sphinxsearch', 'mp3gain', 'unzip', 'memcached',
            'imagemagick']
     state: latest
     update_cache: yes
@@ -91,7 +91,7 @@
 - name: PHP pool configuration file
   template:
     src: www.conf
-    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    dest: /etc/php/8.1/fpm/pool.d/www.conf
   become: true
   notify: Restart PHP
 

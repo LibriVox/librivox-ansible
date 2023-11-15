@@ -43,6 +43,8 @@ of `/home/user1/workspace` create a directory called `librivox`:
     * Bridged networking (change the network type in the settings,
       before the VM is started)
 * Install Ubuntu in the VM
+    * Choose to install the guest additions
+    * Choose to install the OpenSSH server
     * Select all the default feature sets
 
 #### Shared Folders
@@ -69,52 +71,27 @@ the name of the shared folder.
 > inside the guest machine:
 > 1. Network type is set to bridge
 > 2. Shared folder is created
-> 3. You have set the flag on the shared folder for creation of symlinks
-
-#### Disable IPv6
-
-From inside the VM, run:
-
-    ping6 www.google.com
-
-If that fails, you can skip to the next section. Otherwise, you need
-to disable
-IPv6:
-
-    echo 'net.ipv6.conf.all.disable_ipv6 = 1' > /etc/sysctl.d/01-disable-ipv6.conf
-    reboot
 
 #### Clone the repository
 
-Switch to the root user, install Git and exit to the normal user:
+Install Git and clone the `librivox-ansible` repository:
 
-    sudo su
-    apt install git
-    exit
-
-Inside your home directory clone the `librivox-ansible` repository:
-
+    sudo apt install git
     git clone https://github.com/librivox/librivox
 
-#### Run the scripts
+#### Run the installation script
 
-Switch to the `librivox-ansible/dev` directory and run the scripts one by one in
-the numbered order. These scripts will prepare the environment so Ansible can be
-installed. After which, the scripts will run the Ansible playbook that
-will install LibroVox on the guest machine.
+Run the `install-dev.sh` file to install LibriVox on the guest machine. Some of
+the commands need `sudo` to run so you will be asked for your password. The
+script will install LibriVox inside the guest machine using SSH (i.e., by
+accessing localhost using SSH). So, you will be asked to trust the remote (i.e.,
+localhost) server.
 
-Some of the scripts have the name `root` in them. These need to be run by the
-root user (`su root`). For the other scripts, you need to exit root and run the
-script as the normal user.
+    cd librivox-ansible
+    ./install-dev.sh
 
-    cd librivox-ansible/dev
-    ./1-[script-name].sh
-    ./2-[script-name].sh
-    ./3-[script-name].sh
-    ./4-[script-name].sh
-
-You shouldn't see any errors while running the scripts. A few warnings might be
-about old libraries which is OK.
+The script will prepare the environment for installing LibriVox and make it
+accessible to the host system.
 
 #### Access LibriVox from the host system
 
@@ -129,6 +106,8 @@ or `C:\Windows\System32\drivers\etc\hosts` and add:
 
 Replace `192.168.178.87` with the IP of the LibriVox VM (see `ipaddr`
 above).
+
+The database will also be accessible at port 3306 using the same `ipaddr`.
 
 ### Summary
 
