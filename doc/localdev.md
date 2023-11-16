@@ -9,11 +9,6 @@ Some parts of the LibriVox installation (files, databases) are made
 accessible to the host system using shared folders, to allow the development to
 happen on the host machine.
 
-After you have successfully set up the development environment, once you reboot
-the VM, the only part of this guide you need to repeat is mount the shared
-folders. There is no need to run any of the other steps since the code is
-already served by Apache inside the VM.
-
 The installation uses the original host names, which will be
 overridden in the `/etc/hosts` file on your host system. This means that on
 your host system, by entering `https://librivox.org` in the browser, the
@@ -47,7 +42,7 @@ of `/home/user1/workspace` create a directory called `librivox`:
     * Choose to install the OpenSSH server
     * Select all the default feature sets
 
-#### Shared Folders
+### Shared Folders
 
 To access the LibriVox files (blog, catalog, forum, wiki) from your
 IDE, you need to configure some shared folders in the VirtualBox
@@ -55,7 +50,7 @@ machine settings:
 
 | Folder Path                    | Folder Name | Mount Point | Auto-mount | Make Permanent |
 |--------------------------------|-------------|-------------|------------|----------------|
-| /home/user1/workspace/librivox | librivox    | `<empty>`   | true       | true           |
+| /home/user1/workspace/librivox | librivox    | `<empty>`   | false      | true           |
 
 Shutdown the VM and run the following to enable creation of symbolic links
 inside the shared folders:
@@ -72,14 +67,14 @@ the name of the shared folder.
 > 1. Network type is set to bridge
 > 2. Shared folder is created
 
-#### Clone the repository
+### Clone the repository
 
 Install Git and clone the `librivox-ansible` repository:
 
     sudo apt install git
     git clone https://github.com/librivox/librivox
 
-#### Run the installation script
+### Run the installation script
 
 Run the `install-dev.sh` file to install LibriVox on the guest machine. Some of
 the commands need `sudo` to run so you will be asked for your password. The
@@ -93,7 +88,7 @@ localhost) server.
 The script will prepare the environment for installing LibriVox and make it
 accessible to the host system.
 
-#### Access LibriVox from the host system
+### Access LibriVox from the host system
 
 On your host system, edit `/etc/hosts`
 or `C:\Windows\System32\drivers\etc\hosts` and add:

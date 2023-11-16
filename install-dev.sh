@@ -49,6 +49,30 @@ echo ""
 echo "running Ansible playbook"
 ansible-playbook -i hosts dev.yaml
 
+wuid=$(id -u www-data)
+wgid=$(id -g www-data)
+
+sudo sh -c "cat > /etc/systemd/system/librivox.mount" << EOF
+[Unit]
+Description=Mount LibriVox Shared Folder
+After=apache2.service
+
+[Mount]
+What=librivox
+Where=/librivox
+Type=vboxsf
+Options=rw,exec,uid=$wuid,gid=$wgid,dmode=755,fmode=644
+LazyUnmount=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+echo "[DONE] created systemd file to mount shared folder on boot"
+sudo systemctl -q enable librivox.mount
+sudo umount /librivox
+sudo mount -t vboxsf -o rw,exec,uid=$wuid,gid=$wgid,dmode=755,fmode=644 librivox /librivox
+
 echo "[DONE] LibriVox is now installed and should be accessible from https://librivox.org"
 
 echo "populating database"
