@@ -47,7 +47,7 @@ cd "$rootdir" || exit
 
 echo ""
 echo "running Ansible playbook"
-ansible-playbook -i hosts localdev.yaml
+ansible-playbook -i hosts dev.yaml
 
 echo "[DONE] LibriVox is now installed and should be accessible from https://librivox.org"
 

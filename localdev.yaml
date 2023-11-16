@@ -1,14 +1,26 @@
-- hosts: localdev
-  vars_files:
-    - versions.yaml
-    - localdev-vars.yaml
-  roles:
-    - { 'role': 'common', 'tags': 'common' }
-    - { 'role': 'self-signed_cert', 'tags': 'self-signed_cert' }
-    - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
-    - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
-    - { 'role': 'acf_free', 'tags': 'acf_free' }
-    - { 'role': 'wiki', 'tags': 'wiki' }
-    - { 'role': 'forum', 'tags': 'forum' }
-  handlers:
-    - import_tasks: handlers.yaml
+---
+ci_env: development
+ci_log_threshold: 4
+iarchive_uploader_access_key: invalid
+iarchive_uploader_secret_key: invalid
+codeigniter_encryption_key: some_random_string
+codeigniter_smtp_user: invalid_user
+codeigniter_smtp_password: invalid_password
+catalog_db_password: catalog
+blog_db_password: librivox_blog
+forum_db_password: librivox_forum
+wiki_db_password: mediawiki
+wiki_secret_key: wiki_secret_key
+wiki_upgrade_key: wiki_upgrade_key
+mediawiki_smtp_password: mediawiki_smtp_password
+wordpress_smtp_username: librivox
+wordpress_smtp_password: librivox
+blog_wp_salt: |
+  define('AUTH_KEY',         'put your unique phrase here');
+  define('SECURE_AUTH_KEY',  'put your unique phrase here');
+  define('LOGGED_IN_KEY',    'put your unique phrase here');
+  define('NONCE_KEY',        'put your unique phrase here');
+  define('AUTH_SALT',        'put your unique phrase here');
+  define('SECURE_AUTH_SALT', 'put your unique phrase here');
+  define('LOGGED_IN_SALT',   'put your unique phrase here');
+  define('NONCE_SALT',       'put your unique phrase here');

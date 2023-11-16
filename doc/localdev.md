@@ -36,7 +36,7 @@ of `/home/user1/workspace` create a directory called `librivox`:
 ### Create the VM
 
 * Download and install VirtualBox.
-* Download Ubuntu Xenial, server edition
+* Download Ubuntu Jetty, server edition
 * Create a new VM inside VirtualBox with:
     * 1 GB RAM
     * 50 GB dynamic disk space
