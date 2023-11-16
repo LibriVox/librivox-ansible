@@ -7,7 +7,7 @@ inside a VirtualBox VM using the `librivox-ansible` GitHub project.
 
 Some parts of the LibriVox installation (files, databases) are made
 accessible to the host system using shared folders, to allow the development to
-happen on the host machine.
+happen on the host system.
 
 The installation uses the original host names, which will be
 overridden in the `/etc/hosts` file on your host system. This means that on
@@ -19,7 +19,7 @@ requests will be forwarded to your VirtualBox VM.
 > want to improve this document, just edit it and create a pull
 > request.
 
-## On the host machine
+## On the host system
 
 Requirements: VirtualBox, Git and an IDE.
 
@@ -72,21 +72,15 @@ the name of the shared folder.
 Install Git and clone the `librivox-ansible` repository:
 
     sudo apt install git
-    git clone https://github.com/librivox/librivox
+    git clone https://github.com/LibriVox/librivox-ansible.git
 
 ### Run the installation script
 
-Run the `install-dev.sh` file to install LibriVox on the guest machine. Some of
-the commands need `sudo` to run so you will be asked for your password. The
-script will install LibriVox inside the guest machine using SSH (i.e., by
-accessing localhost using SSH). So, you will be asked to trust the remote (i.e.,
-localhost) server.
+Run the `install-dev.sh` script which will prepare the environment for installing LibriVox and will make it accessible
+to the host system. Some of the commands need `sudo` to run, so you will be asked for your password.
 
     cd librivox-ansible
     ./install-dev.sh
-
-The script will prepare the environment for installing LibriVox and make it
-accessible to the host system.
 
 ### Access LibriVox from the host system
 
@@ -100,9 +94,7 @@ or `C:\Windows\System32\drivers\etc\hosts` and add:
     192.168.178.87     www.librivox.org
 
 Replace `192.168.178.87` with the IP of the LibriVox VM (see `ipaddr`
-above).
-
-The database will also be accessible at port 3306 using the same `ipaddr`.
+above). The database will also be accessible at port 3306 using the same `ipaddr`.
 
 ### Summary
 
