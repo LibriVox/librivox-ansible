@@ -40,9 +40,7 @@ echo "generating SSH key"
 if [[ ! -e "$HOME/.ssh/id_rsa.pub" ]]; then
   ssh-keygen -N '' -f "$HOME"/.ssh/id_rsa
 fi 
-if [[ ! -e "$HOME/.ssh/known_hosts" ]]; then
-  ssh-keygen "$ipaddr" >> "$HOME/.ssh/known_hosts"
-fi 
+ssh-keyscan "$ipaddr" >> "$HOME/.ssh/known_hosts"
 cp "$HOME"/.ssh/{id_rsa.pub,authorized_keys}
 
 cd "$rootdir" || exit
