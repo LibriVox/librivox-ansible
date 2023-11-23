@@ -6,6 +6,7 @@
     group: "{{ ansible_facts['user_id'] }}"
   with_items:
     - /backups/database
+    - /backups/validator
     - /backups/user-content/wiki/images
     - /backups/user-content/wp-content/uploads
   become: true

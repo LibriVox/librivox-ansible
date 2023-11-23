@@ -1,26 +1,40 @@
 #!/bin/sh
 
+find /backups/database -type d -mtime +30 | xargs rm -r
+
 d=/backups/database/`date +%F`
 mkdir $d
 
 mysqldump --single-transaction \
           -u librivox_blog -p{{ blog_db_password }} librivox_blog \
-          | bzip2 -zc > $d/librivox_blog.sql.bz2
+          | bzip2 -zc \
+          | gpg --batch --passphrase {{ backups_gpg_passphrase }} --symmetric \
+          > $d/librivox_blog.sql.bz2.gpg
 
 mysqldump --single-transaction \
           -u catalog -p{{ catalog_db_password }} librivox_catalog \
-          | bzip2 -zc > $d/librivox_catalog.sql.bz2
+          | bzip2 -zc \
+          | gpg --batch --passphrase {{ backups_gpg_passphrase }} --symmetric \
+          > $d/librivox_catalog.sql.bz2.gpg
 
 mysqldump --single-transaction \
           -u mediawiki -p{{ wiki_db_password }} librivox_mediawiki \
-          | bzip2 -zc > $d/librivox_mediawiki.sql.bz2
+          | bzip2 -zc \
+          | gpg --batch --passphrase {{ backups_gpg_passphrase }} --symmetric \
+          > $d/librivox_mediawiki.sql.bz2.gpg
 
 mysqldump --single-transaction \
           -u librivox_forum -p{{ forum_db_password }} librivox_forum \
-          | bzip2 -zc > $d/librivox_forum.sql.bz2
+          | bzip2 -zc \
+          | gpg --batch --passphrase {{ backups_gpg_passphrase }} --symmetric \
+          > $d/librivox_forum.sql.bz2.gpg
 
-# We just keep a "rolling snapshot" of user content
+# We just keep a "rolling snapshot" of the validator and user content
+rsync -r --delete /librivox/shared/librivox-validator-books/ \
+                  /backups/validator
 rsync -r --delete /librivox/www/wiki.librivox.org/images/ \
                   /backups/user-content/wiki/images
 rsync -r --delete /librivox/www/librivox.org/wordpress/wp-content/uploads/ \
                   /backups/user-content/wp-content/uploads
+
+rsync -r --checksum --delete --exclude=lost+found /backups {{ rsync_net_url }}:
