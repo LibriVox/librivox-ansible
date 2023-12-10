@@ -1,7 +1,7 @@
 localdev:
   hosts:
-    192.168.100.212:
-      ansible_port: 58568
+    192.168.122.12:
+      ansible_port: 22
       ci_env: development
       ci_log_threshold: 4
 
