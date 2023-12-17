@@ -22,7 +22,7 @@
     force: yes
 
 - name: phpBB dependencies
-  command: php ../composer.phar install --no-dev
+  command: php ../composer.phar install --no-dev --no-interaction
   args:
     chdir: /librivox/www/forum.librivox.org/phpBB
 
