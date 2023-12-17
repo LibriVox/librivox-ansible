@@ -10,6 +10,7 @@ forum_db_password: librivox_forum
 wiki_db_password: mediawiki
 wiki_secret_key: wiki_secret_key
 wiki_upgrade_key: wiki_upgrade_key
+mediawiki_smtp_username: mediawiki_smtp_username
 mediawiki_smtp_password: mediawiki_smtp_password
 wordpress_smtp_username: wordpress_smtp_username
 wordpress_smtp_password: wordpress_smtp_password
