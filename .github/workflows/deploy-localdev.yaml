@@ -1,0 +1,29 @@
+name: Deploy LibriVox local development environment
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  deploy-localdev:
+    runs-on: 'ubuntu-22.04'
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create LXC container
+        uses: lkiesow/setup-lxc-container@v1
+        id: lxc
+        with:
+          dist: ubuntu
+          release: 22.04
+          name: librivox-localdev
+
+      - name: Run localdev.yaml playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: localdev.yaml
+          inventory: |
+            [localdev]
+            '{{ steps.lxc.outputs.ip }}'
+          options:
+            -l localdev
