@@ -24,6 +24,6 @@ jobs:
           playbook: localdev.yaml
           inventory: |
             [localdev]
-            ${{ steps.lxc.outputs.ip }}
+            ${{ steps.lxc.outputs.ip }} ansible_user=root
           options:
             -l localdev
