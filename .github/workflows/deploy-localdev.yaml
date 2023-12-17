@@ -15,7 +15,7 @@ jobs:
         id: lxc
         with:
           dist: ubuntu
-          release: 22.04
+          release: jammy
           name: librivox-localdev
 
       - name: Run localdev.yaml playbook
