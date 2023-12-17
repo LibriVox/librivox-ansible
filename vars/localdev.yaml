@@ -2,7 +2,7 @@
 iarchive_uploader_access_key: invalid
 iarchive_uploader_secret_key: invalid
 codeigniter_encryption_key: some_random_string
-codeigniter_smtp_user: invalid_user
+codeigniter_smtp_username: invalid_user
 codeigniter_smtp_password: invalid_password
 catalog_db_password: catalog
 blog_db_password: librivox_blog

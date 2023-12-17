@@ -73,6 +73,7 @@
     - database
     - iarchive_uploader
     - email
+  tags: passwords
 
 - name: Symlinks
   # Needed by the catalog application, URLs are handled in the Apache config
@@ -118,6 +119,7 @@
   template:
     src: wp-config.php
     dest: /librivox/www/librivox.org/wordpress/wp-config.php
+  tags: passwords
 
 - name: Install simple-cloudflare-turnstile
   git:

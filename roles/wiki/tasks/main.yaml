@@ -42,6 +42,7 @@
   template:
     src: LocalSettings.php
     dest: /librivox/www/wiki.librivox.org/LocalSettings.php
+  tags: passwords
 
 - name: Apache config file
   template:

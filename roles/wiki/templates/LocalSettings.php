@@ -139,6 +139,6 @@ $wgSMTP = [
     'localhost' => 'wiki.librivox.org',
     'port'      => 2525,
     'auth'      => true,
-    'username'  => 'mediawiki@librivox.org',
+    'username'  => '{{ mediawiki_smtp_username }}',
     'password'  => '{{ mediawiki_smtp_password }}',
 ];
