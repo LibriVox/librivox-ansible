@@ -1,0 +1,13 @@
+---
+- name: Uploads scrubbed database dump
+  copy:
+    src: librivox_catalog_scrubbed.sql.bz2
+    dest: /tmp
+
+- name: Import scrubbed database dump
+  community.mysql.mysql_db:
+    name: librivox_catalog
+    state: import
+    target: /tmp/librivox_catalog_scrubbed.sql.bz2
+    login_user: catalog
+    login_password: '{{ catalog_db_password }}'

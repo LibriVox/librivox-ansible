@@ -10,5 +10,6 @@
     - { 'role': 'acf_free', 'tags': 'acf_free' }
     - { 'role': 'wiki', 'tags': 'wiki' }
     - { 'role': 'forum', 'tags': 'forum' }
+    - { 'role': 'db_import', 'tags': 'db_import' }
   handlers:
     - import_tasks: handlers.yaml
