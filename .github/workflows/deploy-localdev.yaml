@@ -17,7 +17,7 @@ jobs:
         with:
           dist: ubuntu
           release: jammy
-          name: librivox-localdev
+          name: librivox.org
 
       - name: Run localdev.yaml playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -28,3 +28,12 @@ jobs:
             ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4
           options:
             -l localdev
+
+      - name: Ensure resulting website health
+        # This relies on the LXC container creation step having added an
+        # /etc/hosts for librivox.org pointing to the container.
+        uses: notartom/website-healthcheck@v6
+        with:
+          web-url: "https://librivox.org/dust-of-the-desert-by-robert-welles-ritchie/"
+          scan-for-text: "BENICIA"
+          insecure: true
