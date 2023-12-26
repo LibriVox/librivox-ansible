@@ -1,0 +1,10 @@
+---
+- name: Restart services
+  service:
+    name: '{{ item }}'
+    state: restarted
+  with_items:
+    - mariadb
+    - php8.1-fpm
+    - apache2
+  become: true
