@@ -4,6 +4,7 @@
     - vars/production.enc
   roles:
     - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'ssh_port', 'tags': 'ssh_port' }
     - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
     - { 'role': 'acf_pro', 'tags': 'acf_pro' }
     - { 'role': 'wiki', 'tags': 'wiki' }
@@ -20,6 +21,7 @@
     - vars/staging.enc
   roles:
     - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'ssh_port', 'tags': 'ssh_port' }
     - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
     - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
     - { 'role': 'acf_pro', 'tags': 'acf_pro' }
