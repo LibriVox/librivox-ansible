@@ -79,7 +79,7 @@ Replace `192.168.122.12` with the IP address of the Ansible target.
     * [Search](https://librivox.org/search)
     * Individual books (ex:
       https://librivox.org/dust-of-the-desert-by-robert-welles-ritchie/)
-    * [The workflow](https://librivox.org/workflow)
+    * [The workflow](https://librivox.org/workflow) - all users including 'administrator' have password 'librivox'.
 * Does not work:
     * [The home page](https://librivox.org) redirects to the WordPress
       initialization page.
