@@ -1,4 +1,5 @@
 ---
+catalog_git_branch: master
 iarchive_uploader_access_key: invalid
 iarchive_uploader_secret_key: invalid
 codeigniter_encryption_key: some_random_string

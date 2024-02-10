@@ -1,9 +1,12 @@
-name: Deploy LibriVox local development environment
+name: Deploy localdev (reusable)
 on:
-  pull_request:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      catalog_git_branch:
+        required: true
+        type: string
 jobs:
-  deploy-localdev:
+  deploy-localdev-reusable:
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 15
     steps:
@@ -25,7 +28,7 @@ jobs:
           playbook: localdev.yaml
           inventory: |
             [localdev]
-            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4
+            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_branch=${{ catalog_git_branch }}
           options:
             -l localdev
 
@@ -37,3 +40,7 @@ jobs:
           web-url: "https://librivox.org/dust-of-the-desert-by-robert-welles-ritchie/"
           scan-for-text: "BENICIA"
           insecure: true
+
+      - name: Run unit tests
+        run: |
+          ssh librivox.org 'cd /librivox/www/librivox.org/catalog && XDEBUG_MODE=coverage vendor/bin/phpunit -c application/tests'
