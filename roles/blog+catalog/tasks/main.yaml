@@ -38,13 +38,8 @@
   git:
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/librivox.org/catalog
-    version: {{ catalog_git_branch }}
+    version: '{{ catalog_git_branch }}'
     force: yes
-
-- name: Catalog unit tests dependecies
-  command: php composer.phar require --dev kenjis/ci-phpunit-test:^3.0
-  args:
-    chdir: /librivox/www/librivox.org/catalog
 
 - name: CodeIgniter sessions directory
   file:

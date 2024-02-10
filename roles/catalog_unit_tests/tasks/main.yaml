@@ -1,0 +1,5 @@
+---
+- name: Catalog unit tests dependencies
+  command: php composer.phar install --no-interaction
+  args:
+    chdir: /librivox/www/librivox.org/catalog
