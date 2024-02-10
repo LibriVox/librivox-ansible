@@ -7,6 +7,7 @@
     - { 'role': 'self-signed_cert', 'tags': 'self-signed_cert' }
     - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
     - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
+    - { 'role': 'catalog_unit_tests', 'tags': 'catalog_unit_tests' }
     - { 'role': 'acf_free', 'tags': 'acf_free' }
     - { 'role': 'wiki', 'tags': 'wiki' }
     - { 'role': 'forum', 'tags': 'forum' }

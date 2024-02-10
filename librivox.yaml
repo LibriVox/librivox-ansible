@@ -24,6 +24,7 @@
     - { 'role': 'ssh_port', 'tags': 'ssh_port' }
     - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
     - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
+    - { 'role': 'catalog_unit_tests', 'tags': 'catalog_unit_tests' }
     - { 'role': 'acf_pro', 'tags': 'acf_pro' }
     - { 'role': 'wiki', 'tags': 'wiki' }
     - { 'role': 'forum', 'tags': 'forum' }
