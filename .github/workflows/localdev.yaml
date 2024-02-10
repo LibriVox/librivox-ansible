@@ -5,6 +5,13 @@ on:
       catalog_git_branch:
         required: true
         type: string
+      playbooks_repo:
+        required: true
+        type: string
+      playbooks_repo_ref:
+        required: true
+        type: string
+
 jobs:
   deploy-localdev-reusable:
     runs-on: 'ubuntu-22.04'
@@ -13,6 +20,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.playbooks_repo }}
+          ref: ${{ inputs.playbooks_repo_ref }}
 
       - name: Create LXC container
         uses: lkiesow/setup-lxc-container@v1

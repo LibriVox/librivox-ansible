@@ -7,3 +7,5 @@ jobs:
     uses: LibriVox/librivox-ansible/.github/workflows/localdev.yaml@master
     with:
       catalog_git_branch: master
+      playbooks_repo: ${{ github.repository }}
+      playbooks_repo_ref: ${{ github.ref }}
