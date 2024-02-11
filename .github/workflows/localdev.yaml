@@ -42,9 +42,9 @@ jobs:
           inventory: |
             [localdev]
             ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4
-          options:
+          # Set these on the CLI options to make sure they take precedence
+          options: |
             --verbose
-            # Set these on the CLI options to make sure they take precedence
             -e "catalog_git_refspec=${{ inputs.catalog_git_refspec }}"
             -e "catalog_git_version=${{ inputs.catalog_git_version }}"
 
