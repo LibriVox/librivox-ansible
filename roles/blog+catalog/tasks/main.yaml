@@ -38,7 +38,8 @@
   git:
     repo: https://github.com/LibriVox/librivox-catalog.git
     dest: /librivox/www/librivox.org/catalog
-    version: '{{ catalog_git_branch }}'
+    refspec: '{{ catalog_git_refspec }}'
+    version: '{{ catalog_git_version }}'
     force: yes
 
 - name: CodeIgniter sessions directory

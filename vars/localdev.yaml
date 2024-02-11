@@ -1,5 +1,6 @@
 ---
-catalog_git_branch: master
+catalog_git_refspec: master
+catalog_git_version: HEAD
 iarchive_uploader_access_key: invalid
 iarchive_uploader_secret_key: invalid
 codeigniter_encryption_key: some_random_string
