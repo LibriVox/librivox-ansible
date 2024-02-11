@@ -6,6 +6,7 @@ jobs:
   deploy-localdev:
     uses: LibriVox/librivox-ansible/.github/workflows/localdev.yaml@master
     with:
-      catalog_git_branch: master
+      catalog_git_refspec: master
+      catalog_git_version: HEAD
       playbooks_repo: ${{ github.repository }}
       playbooks_repo_ref: ${{ github.ref }}

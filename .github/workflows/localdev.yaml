@@ -2,7 +2,10 @@ name: Deploy localdev (reusable)
 on:
   workflow_call:
     inputs:
-      catalog_git_branch:
+      catalog_git_refspec:
+        required: true
+        type: string
+      catalog_git_version:
         required: true
         type: string
       playbooks_repo:
@@ -38,7 +41,7 @@ jobs:
           playbook: localdev.yaml
           inventory: |
             [localdev]
-            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_branch=${{ inputs.catalog_git_branch }}
+            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_refspec=${{ inputs.catalog_git_refspec }} catalog_git_version=${{ intputs.catalog_git_version }}
           options:
             -l localdev
 
