@@ -41,7 +41,7 @@ jobs:
           playbook: localdev.yaml
           inventory: |
             [localdev]
-            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_refspec=${{ inputs.catalog_git_refspec }} catalog_git_version=${{ intputs.catalog_git_version }}
+            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_refspec=${{ inputs.catalog_git_refspec }} catalog_git_version=${{ inputs.catalog_git_version }}
           options:
             -l localdev
 
