@@ -41,9 +41,12 @@ jobs:
           playbook: localdev.yaml
           inventory: |
             [localdev]
-            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4 catalog_git_refspec=${{ inputs.catalog_git_refspec }} catalog_git_version=${{ inputs.catalog_git_version }}
+            ${{ steps.lxc.outputs.ip }} ansible_user=root ci_env=development ci_log_threshold=4
           options:
             --verbose
+            # Set these on the CLI options to make sure they take precedence
+            -e "catalog_git_refspec=${{ inputs.catalog_git_refspec }}"
+            -e "catalog_git_version=${{ inputs.catalog_git_version }}"
 
       - name: Ensure resulting website health
         # This relies on the LXC container creation step having added an
