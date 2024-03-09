@@ -66,8 +66,8 @@ $ ./phpbbcli.php db:migrate
 
 ```
 $ pwd
-/librivox/www/wiki.librivox.org/maintenance
-$ php update.php
+/librivox/www/wiki.librivox.org
+$ php maintenance/run.php update
 ```
 
 ## Other notes
