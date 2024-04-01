@@ -11,3 +11,6 @@
     target: /tmp/librivox_catalog_scrubbed.sql.bz2
     login_user: catalog
     login_password: '{{ catalog_db_password }}'
+
+- name: Migrate database
+  command: php /librivox/www/librivox.org/catalog/public_html/index.php migrate migrate
