@@ -1,5 +1,5 @@
 - name: Install ACF pro
   unarchive:
-    src: "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k={{ acf_pro_key }}&t={{ acf_version }}"
+    src: "https://connect.advancedcustomfields.com/v2/plugins/download?p=pro&k={{ acf_pro_key }}&t={{ acf_version }}"
     dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
     remote_src: yes

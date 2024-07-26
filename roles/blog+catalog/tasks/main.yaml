@@ -123,13 +123,10 @@
   tags: passwords
 
 - name: Install simple-cloudflare-turnstile
-  git:
-    repo: https://github.com/elliotvs/simple-cloudflare-turnstile.git
-    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins/simple-cloudflare-turnstile
-    # For some reason the WordPress downloads URL 404s if we use the versioned
-    # URL with the latest released version.
-    version: '{{ turnstile_commit }}'
-    force: yes
+  unarchive:
+    src: 'https://downloads.wordpress.org/plugin/simple-cloudflare-turnstile.{{ turnstile_version }}.zip'
+    dest: /librivox/www/librivox.org/wordpress/wp-content/plugins
+    remote_src: yes
 
 # Enable both as a single Apache site
 
