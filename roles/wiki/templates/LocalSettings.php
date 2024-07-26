@@ -142,3 +142,5 @@ $wgSMTP = [
     'username'  => '{{ mediawiki_smtp_username }}',
     'password'  => '{{ mediawiki_smtp_password }}',
 ];
+
+$wgDiffEngine = 'wikidiff2';
