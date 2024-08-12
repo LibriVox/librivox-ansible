@@ -20,7 +20,7 @@
   openssl_csr:
     privatekey_path: /etc/letsencrypt/live/librivox.org/privkey.pem
     path: /etc/letsencrypt/live/librivox.org/localdev.csr
-    subject_alt_name: "DNS:librivox.org,DNS:forum.librivox.org,DNS:wiki.librivox.org"
+    subject_alt_name: "DNS:librivox.org,DNS:forum.librivox.org,DNS:wiki.librivox.org,DNS:www.librivox.org"
   become: true
 
 - name: self-signed cert
