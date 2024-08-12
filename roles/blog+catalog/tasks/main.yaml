@@ -144,3 +144,20 @@
     src: /etc/apache2/sites-available/librivox.org.conf
   become: true
   notify: Restart Apache
+
+# Redirect 'www' to librivox.org
+
+- name: librivox.org config file
+  template:
+    src: www.librivox.org.conf
+    dest: /etc/apache2/sites-available/www.librivox.org.conf
+  become: true
+  notify: Restart Apache
+
+- name: Enable site
+  file:
+    path: /etc/apache2/sites-enabled/www.librivox.org.conf
+    state: link
+    src: /etc/apache2/sites-available/www.librivox.org.conf
+  become: true
+  notify: Restart Apache
