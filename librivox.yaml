@@ -21,6 +21,7 @@
     - vars/staging.enc
   roles:
     - { 'role': 'common', 'tags': 'common' }
+    - { 'role': 'self-signed_cert', 'tags': 'self-signed_cert' }
     - { 'role': 'ssh_port', 'tags': 'ssh_port' }
     - { 'role': 'hosts_entry', 'tags': 'hosts_entry' }
     - { 'role': 'blog+catalog', 'tags': 'blog+catalog' }
