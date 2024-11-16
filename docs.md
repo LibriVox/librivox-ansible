@@ -54,9 +54,10 @@ from production.
 
 ## Upgrades and databases
 
-WordPress, phpBB and MediaWiki may need to update their DB schemas following a
-version update. For WordPress, this is done in the web console when accessing
-the `wp-admin/` URL. For phpBB and MediaWiki, it is done via the CLI.
+WordPress, phpBB, MediaWiki and the catalog (CodeIgniter) may need to update
+their DB schemas following a version update. For WordPress, this is done in the
+web console when accessing the `wp-admin/` URL. For everything else, it is
+done via the CLI.
 
 ```
 $ pwd
@@ -68,6 +69,10 @@ $ ./phpbbcli.php db:migrate
 $ pwd
 /librivox/www/wiki.librivox.org
 $ php maintenance/run.php update
+```
+
+```
+$ php /librivox/www/librivox.org/catalog/public_html/index.php migrate migrate
 ```
 
 ## Other notes
