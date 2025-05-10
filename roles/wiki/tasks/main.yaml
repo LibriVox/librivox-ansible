@@ -33,7 +33,7 @@
 
 - name: Extract MediaWiki
   unarchive:
-    src: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min}}.tar.gz"
+    src: "https://releases.wikimedia.org/mediawiki/{{ mediawiki_ver_maj }}/mediawiki-{{ mediawiki_ver_min }}.tar.gz"
     dest: /librivox/www/wiki.librivox.org
     remote_src: true
     extra_opts: [--strip-components=1]
