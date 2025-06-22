@@ -24,7 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: ${{ inputs.playbooks_repo }}
           ref: ${{ inputs.playbooks_repo_ref }}
 
       - name: Create LXC container
@@ -60,3 +59,9 @@ jobs:
       - name: Run unit tests
         run: |
           ssh librivox.org 'cd /librivox/www/librivox.org/catalog && XDEBUG_MODE=coverage vendor/bin/phpunit -c application/tests'
+
+      - name: Upload phpunit logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: phpunit
+          path: /librivox/www/librivox.org/catalog/tests/build
