@@ -95,6 +95,14 @@
   become: true
   notify: Restart Apache
 
+- name: Log format config
+  lineinfile:
+   dest: /etc/apache2/apache2.conf
+   regexp: '^LogFormat.*vhost_combined$'
+   line: 'LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %D" vhost_combined'
+  become: true
+  notify: Restart Apache
+
 # PHP
 
 - name: PHP pool configuration file
