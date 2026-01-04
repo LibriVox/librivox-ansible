@@ -85,6 +85,7 @@
     - ssl
     - proxy_fcgi
     - qos
+    - remoteip
   become: true
   notify: Restart Apache
 
@@ -102,6 +103,20 @@
    line: 'LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %D" vhost_combined'
   become: true
   notify: Restart Apache
+
+- name: mod_remoteip config
+  copy:
+    src: remoteip.conf
+    dest: /etc/apache2/mods-available/remoteip.conf
+  become: true
+  notify: Restart Apache
+
+- name: mod_remoteip config symlink
+  file:
+    path: /etc/apache2/mods-enabled/remoteip.conf
+    state: link
+    src: /etc/apache2/mods-available/remoteip.conf
+  become: true
 
 # PHP
 
