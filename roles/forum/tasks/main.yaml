@@ -21,6 +21,13 @@
     version: master
     force: yes
 
+- name: phpBB bot mod
+  git:
+    repo: https://github.com/redrun45/phpbb-pacifist.git
+    dest: /librivox/www/forum.librivox.org/phpBB/ext/redrun45/pacifist
+    version: main
+    force: yes
+
 - name: phpBB dependencies
   command: php ../composer.phar install --no-dev --no-interaction
   args:
