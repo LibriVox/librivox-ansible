@@ -1,5 +1,8 @@
-acf_version: '6.4.1'
-turnstile_version: '1.30.0'
-wordpress_version: '6.8.1'
+acf_version: '6.8.10'
+turnstile_version: '1.43.2'
+wordpress_version: '7.1.2'
+# Use LTS version because latest at time of this writing, 1.46,
+# needs PHP >= 8.3.0, which we don't have because we're still on
+# Ubuntu Jammy :(
 mediawiki_ver_maj: '1.43'
-mediawiki_ver_min: '1.43.1'
+mediawiki_ver_min: '1.43.9'
