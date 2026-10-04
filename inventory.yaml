@@ -14,7 +14,7 @@ staging:
 
 production:
   hosts:
-    librivox.org:
+    ssh.librivox.org:
       ansible_port: 58568
       ci_env: production
       ci_log_threshold: 0
